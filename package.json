@@ -1,0 +1,27 @@
+{
+  "name": "comics-time",
+  "version": "0.0.1",
+  "description": "TODO",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damienmauchamp/comics-time.git"
+  },
+  "keywords": [
+    "comics"
+  ],
+  "author": "Damien Mauchamp <damienmauchamp@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/damienmauchamp/comics-time/issues"
+  },
+  "homepage": "https://github.com/damienmauchamp/comics-time#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1"
+  }
+}
