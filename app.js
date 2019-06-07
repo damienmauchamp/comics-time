@@ -42,7 +42,7 @@ API.prototype.set_options = function(path, id, query_params) {
 	if (!query_params.format) {
 		query_params.format = this.format;
 	}
-	if (!query_params.limit) {
+	if (!query_params.limit && path.replace('/', '') === 'search') {
 		query_params.limit = this.limit;
 	}
 
