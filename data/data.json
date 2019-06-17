@@ -1,0 +1,68 @@
+[
+    {
+        "_id": 1,
+        "id": 110496,
+        "name": "Avengers",
+        "nb_issues": 19,
+        "issues": [
+            {
+                "id": 668770,
+                "name": "The Final Host",
+                "issue_number": "1",
+                "image": "https://comicvine.gamespot.com/api/image/{{code}}/6406863-01.jpg",
+                "store_date": "2018-05-02",
+                "read": false
+            },
+            {
+                "id": 670106,
+                "name": "Still Avenging After All These Years",
+                "issue_number": "2",
+                "image": "https://comicvine.gamespot.com/api/image/{{code}}/6429749-02.jpg",
+                "store_date": "2018-05-16",
+                "read": false
+            }
+        ],
+        "image": "https://comicvine.gamespot.com/api/image/{{code}}/6406863-01.jpg",
+        "publisher": {
+            "id": 31,
+            "name": "Marvel"
+        },
+        "start_year": 2018,
+        "added": "Mon Jun 17 2019 21:33:03 GMT+0200 (CEST)",
+        "updated": "Mon Jun 17 2019 21:34:53 GMT+0200 (CEST)",
+        "active": true
+    },
+    {
+        "_id": 2,
+        "id": 110770,
+        "name": "Venom",
+        "nb_issues": 15,
+        "issues": [
+            {
+                "id": 669464,
+                "name": null,
+                "issue_number": "1",
+                "image": "https://comicvine.gamespot.com/api/image/{{code}}/6418939-01.jpg",
+                "store_date": "2018-05-09",
+                "read": false
+            },
+            {
+                "id": 673039,
+                "name": null,
+                "issue_number": "2",
+                "image": "https://comicvine.gamespot.com/api/image/{{code}}/673039-02.jpg",
+                "store_date": "2018-06-13",
+                "read": false
+            }
+        ],
+        "image": "https://comicvine.gamespot.com/api/image/{{code}}/6418939-01.jpg",
+        "publisher": {
+            "id": 31,
+            "name": "Marvel"
+        },
+        "start_year": 2018,
+        "added": "Mon Jun 17 2019 21:33:03 GMT+0200 (CEST)",
+        "updated": "Mon Jun 17 2019 21:34:53 GMT+0200 (CEST)",
+        "active": true
+    }
+]

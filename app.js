@@ -18,11 +18,11 @@ var API = function(config) {
 API.prototype.get_prefixe = function (path) {
 	switch(path.replace('/', '')) {
 		case 'issue':
-			return 4000;
+		return 4000;
 		case 'volume':
-			return 4050;
+		return 4050;
 		default:
-			return '';
+		return '';
 	}
 	return;
 }
@@ -52,12 +52,12 @@ API.prototype.set_options = function(path, id, query_params) {
 			+ ((id && prefixe) ? (prefixe + '-' + id + '/') : '') // {prefixe}-{id}
 			+ '?api_key=' + this.api_key
 			+ this.serialize(query_params, false),
-		headers: {
-			'User-Agent': 'Mozilla/5.0'
-		}
-	};
-	return;
-}
+			headers: {
+				'User-Agent': 'Mozilla/5.0'
+			}
+		};
+		return;
+	}
 
 // requests
 API.prototype.get = function (path, params, callback) {
@@ -97,7 +97,7 @@ var api = new API(config);
 
 
 // search
-var search = {
+/*var search = {
 	query: 'Avengers',
 	resources: 'volume'
 }
@@ -110,7 +110,7 @@ api.get('search/', search, function(data) {
 	// {image->thumb_url}
 	// img : https://static.comicvine.com/uploads/square_mini/6/67663/6406863-01.jpg
 	console.log(data);
-})
+})*/
 /*
 // issue
 api.get('issue/', 668770, function(data) {
@@ -124,14 +124,51 @@ api.get('volume/', 110496, function(data) {
 
 */
 
-/*
+
 var express = require("express");
 var app = express();
+var fs = require('fs');
+
+// INIT
+/*
+var file_content;
+var stats = fs.statSync("data.json");
+if (!stats.isFile()) {
+	console.log("nonono");
+
+	var test = {
+		test: 'ok',
+		aaah: 'kkakaka',
+		h: 'afeknle'
+	};
+
+	fs.writeFile('data.json', JSON.stringify(test), function (err) {
+		if (err) throw err;
+		console.log('File is created successfully.');
+	});
+}*/
+
+
 
 app.get('/', function(req, res) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.send('Accueil');
+	res.setHeader('Content-Type', 'text/plain');
+	res.send('Accueil');
+
+	var test = {
+		test: 'ok',
+		aaah: 'kkakaka',
+		h: 'afeknle'
+	};
+	console.log(
+		test,
+		JSON.stringify(test),
+		JSON.parse(JSON.stringify(test)));
+});
+
+app.get('/search', function(req, res) {
+	res.setHeader('Content-Type', 'application/json');
+    res.render('test.ejs', {test: req.params.test});
+	res.send('test');
 });
 
 app.listen(3000);
-*/
