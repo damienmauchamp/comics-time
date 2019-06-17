@@ -30,9 +30,26 @@ API.prototype.get_prefixe = function (path) {
 API.prototype.serialize = function (array, first = true) {
 	var str = '';
 	Object.keys(array).forEach(function(key) {
+		// first param
 		str += first ? '?' : '&';
 		first = false;
-		str += (key + "=" + array[key]);
+
+		// filters
+		if (typeof array[key] === "object") {
+			str += (key + '=');
+			var filters = array[key];
+			var first_filter = true;
+			Object.keys(filters).forEach(function(filters_key) {
+				if (!first_filter) {
+					str += ',';
+				}
+				str += (filters_key + ':' + filters[filters_key]);
+				first_filter = false;
+			});
+			str += str;
+		} else {
+			str += (key + '=' + array[key]);
+		}
 	});
 	return str;
 }
@@ -74,7 +91,10 @@ API.prototype.request = function (method, path, params, callback) {
 		callback = params
 		params = {}
 	}
+
+	// setting options
 	this.set_options(path, id, params);
+
 
 	const https = require('https');
 	var data = '';
@@ -95,9 +115,9 @@ API.prototype.request = function (method, path, params, callback) {
 
 var api = new API(config);
 
-
-// search
-/*var search = {
+/*
+// search (looking for an entity, here a volume)
+var search = {
 	query: 'Avengers',
 	resources: 'volume'
 }
@@ -110,7 +130,23 @@ api.get('search/', search, function(data) {
 	// {image->thumb_url}
 	// img : https://static.comicvine.com/uploads/square_mini/6/67663/6406863-01.jpg
 	console.log(data);
-})*/
+})
+*/
+
+
+// issues (looking for all the issues of a volume)
+// todo: if there're 100+ issues, need pagination
+var issues = {
+	filter: {
+		voume: 110496/*,
+		issue_number: 5*/
+	}
+}
+api.get('issues/', issues, function(data) {
+	console.log(data);
+})
+
+
 /*
 // issue
 api.get('issue/', 668770, function(data) {
@@ -121,6 +157,8 @@ api.get('issue/', 668770, function(data) {
 api.get('volume/', 110496, function(data) {
 	console.log(data);
 })
+
+//https://comicvine.gamespot.com/api/issues/?api_key=XXXXXX&filter=volume:110496&format=json
 
 */
 
@@ -149,7 +187,7 @@ if (!stats.isFile()) {
 }*/
 
 
-
+/*
 app.get('/', function(req, res) {
 	res.setHeader('Content-Type', 'text/plain');
 	res.send('Accueil');
@@ -172,3 +210,4 @@ app.get('/search', function(req, res) {
 });
 
 app.listen(3000);
+*/
