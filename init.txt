@@ -1,0 +1,1 @@
+mkdir helpers && cd helpers && touch helper.js && touch middlewares.js && cd ../ && mkdir models && cd models && touch comic.model.js && cd ../ && mkdir routes && cd routes && touch index.routes.js && touch comic.routes.js && cd ../ && mkdir data && cd data && touch comics.json && cd ../
