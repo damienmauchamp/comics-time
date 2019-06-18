@@ -1,0 +1,20 @@
+<ul>
+<% comics.forEach( comic => { %>
+	<li>
+		<a href="comics/<%= comic.id %>"><%= comic.name %></a>
+		<ul>
+			<li><%= comic.id %></li>
+			<li><%= comic._id %></li>
+			<li><%= comic.name %></li>
+			<li><%= comic.nb_issues %></li>
+			<li><%= comic.issues.length %></li>
+			<li><%= comic.image %></li>
+			<li><%= comic.publisher.name %></li>
+			<li><%= comic.start_year %></li>
+			<li><%= comic.added %></li>
+			<li><%= comic.updated %></li>
+		</ul>
+		<!--% include('_includes/comic.ejs', card) %-->
+    </li>
+<% }) %>
+</ul>

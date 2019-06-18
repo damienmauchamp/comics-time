@@ -12,9 +12,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use(require('./routes/index.routes'))
 
 // First route
-app.get('/', (req, res) => {
-    res.json({ message: 'Hello world' })
-})
+/*app.get('/', function(req, res) {
+	console.log(res);
+	res.json({ message: 'Hello world' })
+})*/
 
 // Starting server
 app.listen('1337')

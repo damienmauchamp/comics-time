@@ -2,6 +2,29 @@ let posts = require('../data/comics.json')
 const filename = './data/comics.json'
 const helper = require('../helpers/helper.js')
 
+function getAllComics() {
+    return new Promise((resolve, reject) => {
+        if (posts.length === 0) {
+            reject({
+                message: 'no posts available',
+                status: 202
+            })
+        }
+
+        resolve(posts)
+    })
+}
+
+function getComics(id) {
+    return new Promise((resolve, reject) => {
+        helper.mustBeInArray(posts, id)
+        .then(post => resolve(post))
+        .catch(err => reject(err))
+    })
+}
+
+// olds
+
 function getPosts() {
     return new Promise((resolve, reject) => {
         if (posts.length === 0) {
@@ -68,8 +91,11 @@ function deletePost(id) {
 }
 
 module.exports = {
+    getAllComics,
+    getComics,
+
     insertPost,
-    getPosts,
+    //getPosts,
     getPost, 
     updatePost,
     deletePost

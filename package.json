@@ -23,6 +23,7 @@
   "homepage": "https://github.com/damienmauchamp/comics-time#readme",
   "dependencies": {
     "dotenv": "^8.0.0",
+    "ejs": "^2.6.2",
     "express": "^4.17.1"
   },
   "devDependencies": {
