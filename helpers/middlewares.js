@@ -3,7 +3,9 @@ function mustBeInteger(req, res, next) {
     const id = req.params.id
 
     if (!Number.isInteger(parseInt(id))) {
-        res.status(400).json({ message: 'ID must be an integer' })
+        console.error('ID must be an integer');
+        res.status(400).redirect('/')
+        //res.status(400).json({ message: 'ID must be an integer' })
     } else {
         next()
     }
@@ -17,7 +19,9 @@ function checkFieldsPost(req, res, next) {
     if (id & name & nb_issues & issues & image & publisher & start_year & added & updated & active) {
         next()
     } else {
-        res.status(400).json({ message: 'fields are not good' })
+        console.error('fields are not good');
+        res.status(400).redirect('/')
+        //res.status(400).json({ message: 'fields are not good' })
     }
 }
 

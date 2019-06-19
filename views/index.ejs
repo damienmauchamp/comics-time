@@ -1,0 +1,5 @@
+<% comics.forEach( comic => { %>
+	<ul>
+		<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
+    </ul>
+<% }) %>

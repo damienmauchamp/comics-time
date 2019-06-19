@@ -6,22 +6,12 @@ const m = require('../helpers/middlewares')
 // homepage
 // all comics
 router.get('/', async (req, res) => {
+    const page = 'homepage';
+
     await post.getAllComics()
     .then(function(comics) {
-        res.render('tests.ejs', {comics: comics})
+        res.render('index.ejs', {comics: comics, page: page})
     })
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
-})
-
-router.get('/tests', async (req, res) => {
-    await post.getAllComics()
-    .then(posts => res.json(posts))
     .catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })
@@ -34,9 +24,27 @@ router.get('/tests', async (req, res) => {
 // get a comic
 router.get('/comics/:id', m.mustBeInteger, async (req, res) => {
     const id = req.params.id
+    const page = 'comics';
 
     await post.getComics(id)
-    .then(post => res.json(post))
+    //.then(post => res.json(post))
+    .then(function(comics) {
+        res.render('includes/comic.ejs', {comic: comics, page: page})
+    })
+    .catch(err => {
+        if (err.status) {
+            res.status(err.status).redirect('/');
+            //res.status(err.status).json({ message: err.message })
+        } else {
+            res.status(500).redirect('/');
+            //res.status(500).json({ message: err.message })
+        }
+    })
+})
+
+router.get('/tests', async (req, res) => {
+    await post.getAllComics()
+    .then(posts => res.json(posts))
     .catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })
