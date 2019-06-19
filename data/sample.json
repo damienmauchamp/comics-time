@@ -20,6 +20,14 @@
                 "image": "https://comicvine.gamespot.com/api/image/{{code}}/6429749-02.jpg",
                 "store_date": "2018-05-16",
                 "read": false
+            },
+            {
+                "id": 674123,
+                "name": "Where Space Gods Go To Die",
+                "issue_number": "3",
+                "image": "https://comicvine.gamespot.com/api/image/{{code}}/6479066-03.jpg",
+                "store_date": "2018-06-20",
+                "read": false
             }
         ],
         "image": "https://comicvine.gamespot.com/api/image/{{code}}/6406863-01.jpg",

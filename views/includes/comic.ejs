@@ -1,6 +1,6 @@
 <%
 	const isHomepage = typeof page === 'undefined' || page === 'homepage';
-	comic.link = isHomepage ? ('comics/' + comic.id) : (page === 'issue' ? '../' : '');
+	comic.link = isHomepage ? ('comics/' + comic.id) : (page === 'issue' ? '../' : './' + comic.id);
 	comic.image_code = isHomepage ? 'scale_avatar' : (page === 'comics' ? 'scale_small' : 'scale_avatar');
 	comic.full_name = comic.name + ' (' + comic.start_year + ')';
 %>
@@ -12,6 +12,9 @@
 <a href="<%= comic.link %>">
 	<img src="<%= comic.image.replace('{{code}}', comic.image_code) %>" />
 </a><br/>
+
+<li>Link: <%= comic.link %></li>
+
 <li><a href="<%= comic.link %>"><%= comic.full_name %></a></li>
 <li>Name: <%= comic.name %></li>
 <li>Number of issues: <%= comic.nb_issues %></li>
@@ -21,16 +24,20 @@
 <li>Updated: <%= comic.updated %></li>
 
 <% if (page === 'comics') { %>
+
 	<% comic.issues.forEach( issue => { %>
 		<%- include('issue.ejs', {comic: comic, issue: issue}) %>
 	<% })
-} else if (page === 'issue') {
-	const issue = comic.issues.filter(i => i.issue_number == issue_number, issue_number) %>
-	<%- include('issue.ejs', {comic: comic, issue: issue[0]}) %>
-<% } else { %>
-	<li><a href="<%= comic.link %>">See all issues</a></li>
-<% } %>
 
-<% if (!isHomepage) { %>
-	<br/><a href="../">Retour</a>
+} else if (page === 'issue') {
+
+	const issue = comic.issues.filter(i => i.issue_number == issue_number, issue_number)
+
+	%>
+	<%- include('issue.ejs', {comic: comic, issue: issue[0]}) %>
+
+<% } else { %>
+
+	<li><a href="<%= comic.link %>">See all issues</a></li>
+
 <% } %>

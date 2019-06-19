@@ -1,6 +1,27 @@
 <%
-	issue.link = page === 'issue' ? '' : (comic.link + '/issue/' + issue.issue_number);
-	issue.image_code = page === 'issue' ? 'scale_small' : 'scale_avatar';
+	const page_issue = page === 'issue';
+	issue.link = page_issue ? '' : (comic.link + '/issue/' + issue.issue_number);
+	issue.image_code = page_issue ? 'scale_small' : 'scale_avatar';
+
+	if (page === 'issue') {
+		const get_prev_next = (issues, issue_number, way, nb_issues) => { 
+			console.log(issues, issue_number, way, nb_issues);
+
+			if (way === 'next') {
+				return issues.filter(i => (issue_number + 1) <= parseInt(nb_issues) && parseInt(i.issue_number) === (issue_number + 1), issue_number)
+			} else if (way === 'prev') {
+				return issues.filter(i => (issue_number - 1) > 0 && parseInt(i.issue_number) === (issue_number - 1), issue_number)
+			}
+		}
+		const prev = get_prev_next(comic.issues, issue_number, 'prev', comic.nb_issues)
+		const next = get_prev_next(comic.issues, parseInt(issue_number), 'next', comic.nb_issues)
+
+		issue.prev = prev ? prev[0] : false;
+		issue.next = next ? next[0] : false;
+		console.log(next, prev);
+	} else {
+		console.log(page, issue.prev, issue.next);
+	}
 %>
 
 <a href="<%= issue.link %>">
@@ -13,4 +34,12 @@
 	<li>Name: <%= issue.name %></li>
 	<li>Store date: <%= issue.store_date %></li>
 	<li><%= issue.read ? ('Lu le ' + issue.read) : 'Non-lu' %></li>
+
+	<% if (page_issue && issue.prev) { %>
+		<a href="../../<%= issue.prev.link %>">Prev</a>
+	<% } %>
+
+	<% if (page_issue && issue.next) { %>
+		<a href="../../<%= issue.next.link %>">Next</a>
+	<% } %>
 </ul>
