@@ -96,7 +96,6 @@ API.prototype.request = function (method, path, params, callback) {
 	this.set_options(path, id, params);
 
 
-	const https = require('https');
 	var data = '';
 	https.get(this.options, function(res) {
 		res.on('data', function(chunk) {
@@ -136,14 +135,34 @@ api.get('search/', search, function(data) {
 
 // issues (looking for all the issues of a volume)
 // todo: if there're 100+ issues, need pagination
-var issues = {
+// maj example
+var params = {
 	filter: {
-		voume: 110496/*,
-		issue_number: 5*/
+		volume: 110496
 	}
 }
-api.get('issues/', issues, function(data) {
-	console.log(data);
+api.get('issues/', params, function(issues) {
+
+	// get issues in file
+	const volume = params.filter.volume;
+	console.log(params)
+
+	issues.forEach(issue => {
+		// if aleady in the file
+			// check differences => changes + update
+		// else
+			// add to the volume entity
+		console.log({
+			id: issue.id,
+			name: issue.name,
+			issue_number: issue.issue_number,
+			image: issue.image.original_url,
+			store_date: issue.store_date,
+			added: false,
+			updated: false,
+			read: false
+		});
+	})
 })
 
 
