@@ -42,25 +42,33 @@ router.get('/comics/:id', m.mustBeInteger, async (req, res) => {
     })
 })
 
-router.get('/tests', async (req, res) => {
-    await post.getAllComics()
-    .then(posts => res.json(posts))
+// get an issue
+//router.get('/comics/:id/issue/:id_issue', m.mustBeInteger, async (req, res) => {
+router.get('/comics/:id/issue/:n', m.mustBeInteger, async (req, res) => {
+    const id_comics = req.params.id
+    //const id_issue = req.params.id_issue
+    const n = req.params.n
+    const page = 'issue';
+
+    await post.getComics(id_comics)
+    //.then(post => res.json(post))
+    .then(function(comics) {
+        res.render('includes/comic.ejs', {comic: comics, issue_number: n, page: page})
+    })
     .catch(err => {
         if (err.status) {
-            res.status(err.status).json({ message: err.message })
+            res.status(err.status).redirect('/comics/' + id_comics);
+            //res.status(err.status).json({ message: err.message })
         } else {
-            res.status(500).json({ message: err.message })
+            res.status(500).redirect('/comics/' + id_comics);
+            //res.status(500).json({ message: err.message })
         }
     })
 })
 
-// get an issue
-router.get('/comics/:id/issue/:id_issue', m.mustBeInteger, async (req, res) => {
-    const id_comics = req.params.id
-    const id_issue = req.params.id_issue
-
-    await post.getComics(id_comics)
-    .then(post => res.json(post))
+router.get('/tests', async (req, res) => {
+    await post.getAllComics()
+    .then(posts => res.json(posts))
     .catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })
@@ -74,7 +82,7 @@ router.get('/comics/:id/issue/:id_issue', m.mustBeInteger, async (req, res) => {
 
 // olds
 
-/* A post by id */
+/* A post by id 
 router.get('/:id', m.mustBeInteger, async (req, res) => {
     const id = req.params.id
 
@@ -87,7 +95,7 @@ router.get('/:id', m.mustBeInteger, async (req, res) => {
             res.status(500).json({ message: err.message })
         }
     })
-})
+})*/
 
 /* Insert a new post */
 router.post('/', m.checkFieldsPost, async (req, res) => {

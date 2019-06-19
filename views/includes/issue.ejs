@@ -1,0 +1,16 @@
+<%
+	issue.link = page === 'issue' ? '' : (comic.link + '/issue/' + issue.issue_number);
+	issue.image_code = page === 'issue' ? 'scale_small' : 'scale_avatar';
+%>
+
+<a href="<%= issue.link %>">
+	<img src="<%= issue.image.replace('{{code}}', issue.image_code) %>" />
+</a><br/>
+<ul>
+	<li>#<%= issue.issue_number %></li>
+	<li><a href="<%= issue.link %>"><%= comic.full_name + " #" + issue.issue_number %></a></li>
+	<li><%= issue.id %></li>
+	<li>Name: <%= issue.name %></li>
+	<li>Store date: <%= issue.store_date %></li>
+	<li><%= issue.read ? ('Lu le ' + issue.read) : 'Non-lu' %></li>
+</ul>
