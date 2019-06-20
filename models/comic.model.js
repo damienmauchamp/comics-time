@@ -6,7 +6,7 @@ function getAllComics() {
     return new Promise((resolve, reject) => {
         if (posts.length === 0) {
             reject({
-                message: 'no posts available',
+                message: 'no comics available',
                 status: 202
             })
         }

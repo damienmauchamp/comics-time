@@ -78,6 +78,21 @@ router.get('/tests', async (req, res) => {
     })
 })
 
+/*router.get('/tests/search', async (req, res) => {
+
+    const tests = post.tests;
+
+    await tests.search()
+    .then(results => res.json(results))
+    .catch(err => {
+        if (err.status) {
+            res.status(err.status).json({ message: err.message })
+        } else {
+            res.status(500).json({ message: err.message })
+        }
+    })
+})*/
+
 
 
 // olds

@@ -1,7 +1,7 @@
-var config = require('./config.js');
+const config = require('./config.js');
 const https = require('https');
 
-var API = function(config) {
+const API = function(config) {
 	if (!(this instanceof API)) {
 		return new API(config);
 	}
@@ -112,80 +112,131 @@ API.prototype.request = function (method, path, params, callback) {
 }
 
 
-var api = new API(config);
+/////////////
 
-/*
-// search (looking for an entity, here a volume)
-var search = {
-	query: 'Avengers',
-	resources: 'volume'
+const API_tests = function() {
+
+	const api = new API(config)
+
+	// function
+	this.search = function() {
+
+		// params
+		var params = {
+			query: 'Avengers',
+			resources: 'volume'
+		}
+
+		//
+		console.log("TEST: search()", 'search/', params)
+
+		// search
+		api.get('search/', params, function(data) {
+			// DISPLAY
+			// {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
+			// Avengers Volume 2018 (19 issues) (Marvel)
+
+			// {image->thumb_url}
+			// img : https://static.comicvine.com/uploads/square_mini/6/67663/6406863-01.jpg
+
+
+
+			console.log(data);
+		})
+		return true;
+	}
+
+	this.issues = function() {
+
+		// params
+		var params = {
+			filter: {
+				volume: 110496
+			}
+		}
+
+		//
+		console.log("TEST: issues()", 'issues/', params)
+
+		api.get('issues/', params, function(issues) {
+
+			// get issues in file
+			const volume = params.filter.volume;
+
+			issues.forEach(issue => {
+				// if aleady in the file
+					// check differences => changes + update
+				// else
+					// add to the volume entity
+				console.log({
+					id: issue.id,
+					name: issue.name,
+					issue_number: issue.issue_number,
+					image: issue.image.original_url,
+					store_date: issue.store_date,
+					added: false,
+					updated: false,
+					read: false
+				});
+			})
+		})
+	}
+
+	this.issue = function() {
+
+		// params
+		var issue = 668770
+
+		//
+		console.log("TEST: issue()", 'issue/', issue)
+
+		api.get('issue/', issue, function(data) {
+			console.log(data);
+		})
+	}
+
+	this.volume = function() {
+
+		// params
+		var volume = 110496
+
+		//
+		console.log("TEST: volume()", 'volume/', volume)
+		
+		api.get('volume/', volume, function(data) {
+			console.log(data);
+		})
+	}
 }
-api.get('search/', search, function(data) {
 
-	// DISPLAY
-	// {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
-	// Avengers Volume 2018 (19 issues) (Marvel)
+////////////
 
-	// {image->thumb_url}
-	// img : https://static.comicvine.com/uploads/square_mini/6/67663/6406863-01.jpg
-	console.log(data);
-})
-*/
+module.exports = {
+	api: new API(config),
+	tests: new API_tests(config)
+}
+//var api = new API(config);
+
+
+
 
 
 // issues (looking for all the issues of a volume)
 // todo: if there're 100+ issues, need pagination
 // maj example
-var params = {
-	filter: {
-		volume: 110496
-	}
-}
-api.get('issues/', params, function(issues) {
-
-	// get issues in file
-	const volume = params.filter.volume;
-	console.log(params)
-
-	issues.forEach(issue => {
-		// if aleady in the file
-			// check differences => changes + update
-		// else
-			// add to the volume entity
-		console.log({
-			id: issue.id,
-			name: issue.name,
-			issue_number: issue.issue_number,
-			image: issue.image.original_url,
-			store_date: issue.store_date,
-			added: false,
-			updated: false,
-			read: false
-		});
-	})
-})
 
 
 /*
-// issue
-api.get('issue/', 668770, function(data) {
-	console.log(data);
-})
-
-// volume
-api.get('volume/', 110496, function(data) {
-	console.log(data);
-})
 
 //https://comicvine.gamespot.com/api/issues/?api_key=XXXXXX&filter=volume:110496&format=json
 
 */
 
-
+/*
 var express = require("express");
 var app = express();
 var fs = require('fs');
-
+*/
 // INIT
 /*
 var file_content;
