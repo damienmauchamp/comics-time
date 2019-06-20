@@ -5,7 +5,7 @@
 
 	if (page === 'issue') {
 		const get_prev_next = (issues, issue_number, way, nb_issues) => { 
-			console.log(issues, issue_number, way, nb_issues);
+			//console.log(issues, issue_number, way, nb_issues);
 
 			if (way === 'next') {
 				return issues.filter(i => (issue_number + 1) <= parseInt(nb_issues) && parseInt(i.issue_number) === (issue_number + 1), issue_number)
@@ -18,9 +18,9 @@
 
 		issue.prev = prev ? prev[0] : false;
 		issue.next = next ? next[0] : false;
-		console.log(next, prev);
+		//console.log(next, prev);
 	} else {
-		console.log(page, issue.prev, issue.next);
+		//console.log(page, issue.prev, issue.next);
 	}
 %>
 
@@ -33,6 +33,8 @@
 	<li><%= issue.id %></li>
 	<li>Name: <%= issue.name %></li>
 	<li>Store date: <%= issue.store_date %></li>
+	<li>Added: <%= comic.date.added %></li>
+	<li>Updated: <%= comic.date.updated %></li>
 	<li><%= issue.read ? ('Lu le ' + issue.read) : 'Non-lu' %></li>
 
 	<% if (page_issue && issue.prev) { %>

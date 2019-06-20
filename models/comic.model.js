@@ -1,7 +1,10 @@
 let posts = require('../data/comics.json')
 const filename = './data/comics.json'
 const helper = require('../helpers/helper.js')
+const api = require('../api.js')
 
+// COMICS
+// getting all comics
 function getAllComics() {
     return new Promise((resolve, reject) => {
         if (posts.length === 0) {
@@ -15,6 +18,7 @@ function getAllComics() {
     })
 }
 
+// getting a comics with an id
 function getComics(id) {
     return new Promise((resolve, reject) => {
         helper.mustBeInArray(posts, id)
@@ -23,28 +27,52 @@ function getComics(id) {
     })
 }
 
-// olds
-
-function getPosts() {
+function addComics(comic) {
+    console.log(comic)
     return new Promise((resolve, reject) => {
-        if (posts.length === 0) {
+
+        newComic = {
+            _id: helper.getNewId(posts),
+            id: comic.id,
+            name: comic.name,
+            nb_issues: comic.count_of_issues, // array
+            issues: [], // array
+            image: comic.image.original_url.replace('original', '{{code}}'),
+            publisher: {
+                id: comic.id,
+                name: comic.name
+            },
+            start_year: comic.start_year,
+            date: { 
+                added: helper.newDate(),
+                updated: helper.newDate()
+            },
+            active: true
+        }
+
+        //newPost = { ...id, ...date, ...newPost }
+        posts.push(newComic)
+        helper.writeJSONFile(filename, posts)
+        resolve(newComic)
+    })
+}
+
+// ISSUES
+// getting all issues from a comic
+Object.prototype.getIssues = function() {
+    return new Promise((resolve, reject) => {
+        if (typeof this.issues === "undefined" || this.issues.length === 0) {
             reject({
-                message: 'no posts available',
+                message: 'no issues available',
                 status: 202
             })
         }
-
-        resolve(posts)
+        resolve(this.issues)
     })
 }
 
-function getPost(id) {
-    return new Promise((resolve, reject) => {
-        helper.mustBeInArray(posts, id)
-        .then(post => resolve(post))
-        .catch(err => reject(err))
-    })
-}
+
+// olds
 
 function insertPost(newPost) {
     return new Promise((resolve, reject) => {
@@ -93,10 +121,9 @@ function deletePost(id) {
 module.exports = {
     getAllComics,
     getComics,
+    addComics,
 
     insertPost,
-    //getPosts,
-    getPost, 
     updatePost,
     deletePost
 }

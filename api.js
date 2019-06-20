@@ -10,7 +10,7 @@ const API = function(config) {
 	this.maj_api_key = config.MAJ_API_KEY;
 	this.url = 'comicvine.gamespot.com';
 	this.options = {};
-	this.limit = 50;
+	this.limit = 20;
 	this.format = 'json';
 }
 
@@ -110,6 +110,8 @@ API.prototype.request = function (method, path, params, callback) {
 
 	return;
 }
+
+module.exports = new API(config)
 
 
 /////////////
@@ -211,10 +213,10 @@ const API_tests = function() {
 
 ////////////
 
-module.exports = {
+/*module.exports = {
 	api: new API(config),
 	tests: new API_tests(config)
-}
+}*/
 //var api = new API(config);
 
 

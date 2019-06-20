@@ -6,7 +6,7 @@
 %>
 
 <% if (!isHomepage) { %>
-	<a href="../">Retour</a><br/>
+	<a href="..">Retour</a><br/>
 <% } %>
 
 <a href="<%= comic.link %>">
@@ -20,8 +20,8 @@
 <li>Number of issues: <%= comic.nb_issues %></li>
 <li>Publisher: <%= comic.publisher.name %></li>
 <li>Start year: <%= comic.start_year %></li>
-<li>Added: <%= comic.added %></li>
-<li>Updated: <%= comic.updated %></li>
+<li>Added: <%= comic.date.added %></li>
+<li>Updated: <%= comic.date.updated %></li>
 
 <% if (page === 'comics') { %>
 
