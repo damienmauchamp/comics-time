@@ -1,0 +1,85 @@
+config
+	inc:
+		- path
+			appel: require('path')
+			description: sert à récupérer le chemin
+		- dotenv 
+			appel: require('dotenv').config()
+			note: pas de variable nécessaire pour le stocker
+	exports:
+		- objet avec les clés d'api
+
+
+routes/
+	index.routes
+		inc:
+			- express
+				appel: require('express')
+			- router
+				appel: express.Router()
+		use:
+			- comic.routes
+				appel: router.use('/', require('./comic.routes'))
+				description: include des routes
+		exports: router
+	comic.routes
+		inc:
+			- express
+				appel: require('express')
+			- router
+				appel: express.Router()
+			- model:comic
+				path: (../models/comic)
+				fonctions: normales, utilisent Promise() 
+				description: fonctions de récupération/vérification des données/erreurs utilisées dans les routes, avant .then() et .catch()
+			- helper:middlewares
+				path: (../helpers/middlewares)
+				fonctions: (req, res, next), avec req.params pour params routes
+				description: fonctions qui vérifient (seulement) les paramètres passés, en paramètre des routes
+				renvoi: next() ou res.status/redirect/json/render
+			- api ?
+		routes:
+			fontions: .get('', [middlewares], callback(req, res))
+			callback:
+				- fonctions de récupération
+				- utilise Promise()
+				renvoi: next() ou res.status/redirect/json/render
+
+models/
+	comic
+		inc:
+			- comics
+				appel: require(..data/comics.json)
+				fonction: require(nom_du_ficher)
+				description: les données du fichiere
+			- file_name
+				description: nom du fichier
+			- helper
+				appel: require(../helpers/helper)
+				fonctions: normales, utilisent Promise()
+				descripion: fonctions de vérification du fichier, par rapport aux paramètres passés (array, id)
+		fonctions: 
+			fonctions: normales, peuvent appeler les fonctions qui écrivent dans un fichier, utilisent Promise()
+			description: fonctions de récupération/vérification des données/erreurs utilisées dans les routes, avant .then() et .catch()
+			renvoi: .then(item => resolve(item)) ou .catch(err => reject(err ou objet))
+		exports: objet avec les noms des fonctions
+
+
+helpers/
+	helper
+		inc:
+			- fs
+				appel: require('fs')
+				description: sert à écrire dans un fichier
+		fonctions: 
+			fonctions: normales, peuvent écrire dans un fichier, utilisent Promise()
+			description: fonctions de récupération/vérification des données/erreurs (surtout fichiers) utilisées dans les modèles, avant .then() et .catch()
+			renvoi: .then(item => resolve(item)) ou .catch(err => reject(err ou objet))
+		exports: objet avec les noms des fonctions
+	middlewares
+		inc: -
+		fonctions:
+			fonctions: (req, res, next), avec req.params pour params routes
+			description: fonctions qui vérifient (seulement) les paramètres passés, en paramètre des routes
+			renvoi: next() ou res.status/redirect/json/render
+		exports: objet avec les noms des fonctions

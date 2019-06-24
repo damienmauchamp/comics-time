@@ -1,0 +1,170 @@
+GET /
+	@todo
+
+GET /comics
+	@todo
+
+GET /comics/:id
+	fields:
+		- id: unique ID of the comic.
+	checks:
+		- id is integer
+		- id is in array of comics
+	return:
+		- success:
+			data: comic object, including issues
+			render: comic page, including issues
+		- error:
+			@todo
+
+GET /comics/:id/issues (optional)
+	fields:
+		- id: unique ID of the comic.
+	checks:
+		- id is integer
+		- id is in array of comics
+	return:
+		- success:
+			data: comic object, including issues
+		- error:
+			@todo
+
+GET /comics/:id/issue/:id_issue
+	fields:
+		- id: unique ID of the comic.
+		- id_issue: issue number.
+	checks:
+		- id is integer
+		- id is in array of comics
+		- id_issue is float/string (1, 18.2, ...)
+		- id_issue is in array of comics.issues
+	return:
+		- success:
+			data: comic object, including issue (+ prev & next)
+			render: issue page
+		- error:
+			@todo
+
+
+
+POST /comics/
+	fields (id, else data):
+		- id: unique comicvine ID of the comic (api call).
+		- data: comic object.
+	checks:
+		- id is integer (only if id)
+		- id is not in array
+		- data has all the required fields (comic) (before and after the api call)
+	return:
+		- success:
+			data: status 200
+		- error:
+			@todo
+
+POST /comics/:id/issue
+	fields:
+		- id: unique ID of the comic.
+		- data: issue object.
+	checks:
+		- id is integer
+		- id is in array
+		- data has all the required fields (issue)
+	return:
+		- success:
+			data: status 200
+		- error:
+			@todo
+
+POST /comics/:id/issues
+	fields:
+		- id: unique ID of the comic.
+		- data: object containing all the issues.
+	checks:
+		- id is integer
+		- id is in array of comics
+		- id_issue is float/string (1, 18.2, ...)
+		- id_issue is in array of comics.issues
+	return:
+		- success:
+			data: status 200
+		- error:
+			@todo
+
+
+
+PUT /comics/:id
+	fields:
+		- id: unique ID of the comic.
+		- data: comic object (api call if null).
+	checks:
+		- id is integer
+		- id is in array
+		- data has all the required fields (comic)
+	return:
+		- success:
+			data: status 200
+		- error:
+			@todo
+
+PUT /comics/:id/issue/:id_issue
+	fields:
+		- id: unique ID of the comic.
+		- n: issue number.
+		- data: issue object (api call if null).
+	checks:
+		- id is integer
+		- id is in array
+		- id_issue is float/string (1, 18.2, ...)
+		- id_issue is in array of comics.issues
+		- data has all the required fields (issue)
+	return:
+		- success:
+			data: status 200
+		- error:
+			@todo
+
+PUT /comics/:id/issues
+	fields:
+		- id: unique ID of the comic.
+		- data: object containing all the issues (api call if null).
+	checks:
+		- id is integer
+		- id is in array of comics
+	return:
+		- success:
+			data: status 200
+		- error:
+			@todo
+
+
+
+DELETE /comics/:id
+	fields:
+		- id: unique ID of the comic.
+
+DELETE /comics/:id/issue/:n
+	fields:
+		- id: unique ID of the comic.
+		- n: issue number.
+
+DELETE /comics/:id/issues
+	fields:
+		- id: unique ID of the comic.
+
+
+
+GET /search
+	fields:
+		- query: searching string
+		- resources: volume (default)
+	checks:
+		- query is not null
+		- query length > minumum characters
+	return:
+		- success:
+			data: comics lines ({name} {'Volume' || resource_type} ({start_year}) ({count_of_issues} issues) ({publisher.name}))
+			render: list
+		- error:
+			data: null
+			render: no comics found
+			@todo
