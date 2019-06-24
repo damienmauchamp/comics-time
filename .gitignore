@@ -65,3 +65,6 @@ desktop.ini
 
 # personal files
 #utils/
+
+#comics file
+data/comics.json
