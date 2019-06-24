@@ -8,8 +8,8 @@ GET /comics/:id
 	fields:
 		- id: unique ID of the comic.
 	checks:
-		- id is integer
-		- id is in array of comics
+		- id is integer (middleware)
+		- id is in array of comics (helper)
 	return:
 		- success:
 			data: comic object, including issues

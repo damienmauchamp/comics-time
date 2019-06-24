@@ -1,12 +1,22 @@
-// check before to continue if the id is an integer. Using when we need to get the id
-function mustBeInteger(req, res, next) {
-    const id = req.params.id ? req.params.id : (req.body.id ? req.body.id : null)
-    console.log(id);
-
+// check if id is an integer
+function comicsIDMmustBeInteger(req, res, next) {
+    const id = req.params.id
     if (!Number.isInteger(parseInt(id))) {
-        console.error('ID must be an integer');
-        res.status(400).redirect('/')
-        //res.status(400).json({ message: 'ID must be an integer' })
+        //console.error('Comics ID must be an integer');
+        //res.status(400).redirect('/')
+        res.status(400).json({ message: 'ID must be an integer' })
+    } else {
+        next()
+    }
+}
+
+// check if id_issue is n integer or a float
+function issueIDMustBeFloat(req, res, next) {
+    const id = req.params.id_issue
+    if (!Number.isInteger(parseInt(id))) {
+        //console.error('Issue ID must be an integer');
+        //res.status(400).redirect('/')
+        res.status(400).json({ message: 'Issue ID must be an integer' })
     } else {
         next()
     }
@@ -28,6 +38,8 @@ function checkFieldsPost(req, res, next) {
 }
 
 module.exports = {
-    mustBeInteger,
+    comicsIDMmustBeInteger,
+    issueIDMustBeFloat,
+
     checkFieldsPost
 }

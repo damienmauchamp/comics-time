@@ -1,16 +1,20 @@
 const express = require('express')
 const router = express.Router()
+
 var parseUrl = require('parseurl');
 const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
 const api = require('../api.js')
 
+//
+// @todo
 router.use('', function (req, res, next) {
-    if (parseUrl.original(req).pathname !== req.baseUrl) return next(); // skip this for strictness
+    if (parseUrl.original(req).pathname !== req.baseUrl)
+        return next(); // skip this for strictness
 });
 
-// homepage
-// all comics
+// GET /
+// @todo
 router.get('/', async (req, res) => {
     const page = 'homepage';
 
@@ -27,14 +31,19 @@ router.get('/', async (req, res) => {
     })
 })
 
-// get a comic
-router.get('/comics/:id', m.mustBeInteger, async (req, res) => {
+
+//GET /comics
+// @todo
+
+
+//GET /comics/:id
+router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
     const id = req.params.id
     const page = 'comics';
 
     await comic.getComics(id)
     .then(function(comics) {
-        res.render('includes/comic.ejs', {comic: comics, page: page})
+        res.render('includes/comic.ejs', {page: page, comic: comics})
     })
     .catch(err => {
         if (err.status) {
@@ -47,27 +56,136 @@ router.get('/comics/:id', m.mustBeInteger, async (req, res) => {
     })
 })
 
-// get an issue
-//router.get('/comics/:id/issue/:id_issue', m.mustBeInteger, async (req, res) => {
-router.get('/comics/:id/issue/:n', m.mustBeInteger, async (req, res) => {
-    const id_comics = req.params.id
-    const n = req.params.n
+
+//GET /comics/:id/issue/:id_issue
+router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMustBeFloat, async (req, res) => {
+    const id_comic = req.params.id
+    const id_issue = req.params.id_issue
     const page = 'issue';
 
-    await comic.getComics(id_comics)
-    .then(function(comics) {
-        res.render('includes/comic.ejs', {comic: comics, issue_number: n, page: page})
+    comic.getComics(id_comic)
+    .then(function(item) {
+        comic.getIssue(item.issues, id_issue)
+        .then(issue => {
+            issue.previous = comic.getPreviousIssue(item.issues, id_issue)
+            issue.next = comic.getNextIssue(item.issues, id_issue)
+            item.issue = issue
+            res.status(200).json({page: issue, comic: item})
+        })
+        .catch(err => {
+            if (err.status) {
+                //res.status(err.status).redirect('/comics/' + id_comics);
+                res.status(err.status).json({ message: err.message })
+            } else {
+                //res.status(500).redirect('/comics/' + id_comics);
+                res.status(500).json({ message: err.message })
+            }
+        })
     })
     .catch(err => {
         if (err.status) {
-            res.status(err.status).redirect('/comics/' + id_comics);
-            //res.status(err.status).json({ message: err.message })
+            //res.status(err.status).redirect('/comics/' + id_comics);
+            res.status(err.status).json({ message: err.message })
         } else {
-            res.status(500).redirect('/comics/' + id_comics);
-            //res.status(500).json({ message: err.message })
+            //res.status(500).redirect('/comics/' + id_comics);
+            res.status(500).json({ message: err.message })
         }
     })
 })
+
+//GET /comics/:id/issues
+// @todo ?
+
+
+
+//POST /comics/
+//router.post('/comics', async (req, res) => 
+//curl -i -X POST \
+//-H "Content-Type: application/json" \
+//-d '{ "id": 112325 }' \
+//http://localhost:1337/comics/add
+    /*
+    curl -i -X POST \
+    -H "Content-Type: application/json" \
+    -d '{ "id": 112325 }' \
+    -d '{ //DATA// }' \
+    http://localhost:1337/comics/
+    */
+//})
+
+// no surrender 110933
+// life of captain marvel 112325
+
+//POST /comics/:id
+// Add comics using ComicVine volume ID
+router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
+
+    var volume = parseInt(req.params.id)
+    console.log('volume/', volume);
+
+    // volume 
+    api.get('volume/', volume, async function(comic) {
+
+        //console.log(data, api);
+
+        // issues
+        var params = {
+            filter: {
+                volume: volume
+            }
+        }
+
+        //
+        console.log("TEST: issues()", 'issues/', params)
+
+        api.get('issues/', params, function(issues) {
+            console.log(comic, issues)
+        })
+
+        /*await comic.addComics(data)
+        .then(comic => 
+            res.status(201).json({
+                message: `The comic #${comic.id} has been created`,
+                content: comic
+            })
+        )
+        .catch(err => res.status(500).json({ message: err.message }))*/
+    })
+
+    /*
+    curl -i -X POST \
+    -H "Content-Type: application/json" \
+    http://localhost:1337/comics/110933
+    */
+})
+
+//POST /comics/:id/issue
+
+//POST /comics/:id/issues
+// Add comics' issues using ComicVine volume ID
+
+
+
+//PUT /comics/:id
+
+//PUT /comics/:id/issue/:id_issue
+
+//PUT /comics/:id/issues
+
+
+
+//DELETE /comics/:id
+
+//DELETE /comics/:id/issue/:n
+
+//DELETE /comics/:id/issues
+
+
+
+//GET /search
+
+
+
 
 // search
 router.get('/search/:query', async (req, res) => {
@@ -91,13 +209,13 @@ router.get('/search/:query', async (req, res) => {
 })
 
 // add comic /id
-router.post('/comics/add', m.mustBeInteger, async (req, res) => {
-/*
+/*router.post('/comics/add', async (req, res) => {
+*
 curl -i -X POST \
 -H "Content-Type: application/json" \
 -d '{ "id": 112325 }' \
 http://localhost:1337/comics/add
-*/
+*
 
     var volume = req.body.id
 
@@ -114,7 +232,7 @@ http://localhost:1337/comics/add
     })
 
 })
-
+*/
 
 
 
@@ -195,7 +313,7 @@ router.post('/', m.checkFieldsPost, async (req, res) => {
 })
 
 /* Update a comic */
-router.put('/:id', m.mustBeInteger, m.checkFieldsPost, async (req, res) => {
+router.put('/:id', m.comicsIDMmustBeInteger, m.checkFieldsPost, async (req, res) => {
     const id = req.params.id
 
     await comic.updatePost(id, req.body)
@@ -212,7 +330,7 @@ router.put('/:id', m.mustBeInteger, m.checkFieldsPost, async (req, res) => {
 })
 
 /* Delete a comic */
-router.delete('/:id', m.mustBeInteger, async (req, res) => {
+router.delete('/:id', m.comicsIDMmustBeInteger, async (req, res) => {
     const id = req.params.id
 
     await comic.deletePost(id)

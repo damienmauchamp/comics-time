@@ -63,6 +63,8 @@ API.prototype.set_options = function(path, id, query_params) {
 		query_params.limit = this.limit;
 	}
 
+	console.log(path, id, query_params)
+
 	this.options = {
 		hostname: this.url,
 		path: '/api/' + path.replace('/', '') + '/'
@@ -84,6 +86,8 @@ API.prototype.get = function (path, params, callback) {
 API.prototype.request = function (method, path, params, callback) {
 
 	var id = null
+	console.log(method, path, params)
+	console.log(typeof params)
 	if (typeof params === 'number') {
 		id = params;
 		params = {}
@@ -97,6 +101,7 @@ API.prototype.request = function (method, path, params, callback) {
 
 
 	var data = '';
+	console.log(this.options)
 	https.get(this.options, function(res) {
 		res.on('data', function(chunk) {
 			data += chunk;

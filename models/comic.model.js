@@ -1,4 +1,4 @@
-let posts = require('../data/comics.json')
+let comics = require('../data/comics.json')
 const filename = './data/comics.json'
 const helper = require('../helpers/helper.js')
 const api = require('../api.js')
@@ -7,67 +7,84 @@ const api = require('../api.js')
 // getting all comics
 function getAllComics() {
     return new Promise((resolve, reject) => {
-        if (posts.length === 0) {
+        if (comics.length === 0) {
             reject({
                 message: 'no comics available',
                 status: 202
             })
         }
-
-        resolve(posts)
+        resolve(comics)
     })
 }
 
 // getting a comics with an id
 function getComics(id) {
     return new Promise((resolve, reject) => {
-        helper.mustBeInArray(posts, id)
-        .then(post => resolve(post))
+        helper.comicsMustBeInArray(comics, id)
+        .then(item => resolve(item))
         .catch(err => reject(err))
     })
 }
 
-function addComics(comic) {
-    console.log(comic)
+function getIssue(array, id) {
     return new Promise((resolve, reject) => {
-
-        newComic = {
-            _id: helper.getNewId(posts),
-            id: comic.id,
-            name: comic.name,
-            nb_issues: comic.count_of_issues, // array
-            issues: [], // array
-            image: comic.image.original_url.replace('original', '{{code}}'),
-            publisher: {
-                id: comic.id,
-                name: comic.name
-            },
-            start_year: comic.start_year,
-            date: { 
-                added: helper.newDate(),
-                updated: helper.newDate()
-            },
-            active: true
-        }
-
-        //newPost = { ...id, ...date, ...newPost }
-        posts.push(newComic)
-        helper.writeJSONFile(filename, posts)
-        resolve(newComic)
+        helper.issueMustBeInArray(array, id)
+        .then(function(issue) {
+            resolve(issue)
+        })
+        //.then(issue => resolve(issue))
+        .catch(err => reject(err))
     })
 }
 
-// ISSUES
-// getting all issues from a comic
-Object.prototype.getIssues = function() {
+function getPreviousIssue(array, id) {
+    return getNearestIssue(array, id, 'prev')
+}
+
+function getNextIssue(array, id) {
+    return getNearestIssue(array, id, 'next')
+}
+
+function getNearestIssue(array, id, way) {
+    var index = array.indexOf(array.find(r => r.id == id)) + (1 * (way === 'prev' ? -1 : 1));
+    return typeof array[index] !== "undefined" ? array[index] : null
+}
+
+
+// add
+function addComics(item, issues) {
     return new Promise((resolve, reject) => {
-        if (typeof this.issues === "undefined" || this.issues.length === 0) {
+
+        if (comics.find(c => c.id == item.id)) {
             reject({
-                message: 'no issues available',
+                message: 'comics already added',
                 status: 202
             })
+        } else {
+            newComic = {
+                _id: helper.getNewId(comics),
+                id: item.id,
+                name: item.name,
+                nb_issues: item.count_of_issues, // array
+                issues: [], // array
+                image: item.image.original_url.replace('original', '{{code}}'),
+                publisher: {
+                    id: item.id,
+                    name: item.name
+                },
+                start_year: item.start_year,
+                date: { 
+                    added: helper.newDate(),
+                    updated: helper.newDate()
+                },
+                active: true
+            }
+
+            //newPost = { ...id, ...date, ...newPost }
+            comics.push(newComic)
+            helper.writeJSONFile(filename, comics)
         }
-        resolve(this.issues)
+        resolve(newComic)
     })
 }
 
@@ -90,7 +107,7 @@ function insertPost(newPost) {
 
 function updatePost(id, newPost) {
     return new Promise((resolve, reject) => {
-        helper.mustBeInArray(posts, id)
+        helper.comicsMustBeInArray(posts, id)
         .then(post => {
             const index = posts.findIndex(p => p.id == post.id)
             id = { id: post.id }
@@ -108,7 +125,7 @@ function updatePost(id, newPost) {
 
 function deletePost(id) {
     return new Promise((resolve, reject) => {
-        helper.mustBeInArray(posts, id)
+        helper.comicsMustBeInArray(posts, id)
         .then(() => {
             posts = posts.filter(p => p.id !== id)
             helper.writeJSONFile(filename, posts)
@@ -121,9 +138,10 @@ function deletePost(id) {
 module.exports = {
     getAllComics,
     getComics,
-    addComics,
+    getIssue,
+    getPreviousIssue,
+    getNextIssue,
 
-    insertPost,
-    updatePost,
-    deletePost
+
+    addComics
 }
