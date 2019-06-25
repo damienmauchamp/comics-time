@@ -34,7 +34,7 @@
 	const issue = comic.issues.filter(i => i.issue_number == issue_number, issue_number)
 
 	%>
-	<%- include('issue.ejs', {comic: comic, issue: issue[0]}) %>
+	<%- include('issue.ejs', {comic: comic, issue: comic.issue}) %>
 
 <% } else { %>
 

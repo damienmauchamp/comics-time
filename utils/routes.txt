@@ -106,7 +106,7 @@ PUT /comics/:id
 		- error:
 			@todo
 
-PUT /comics/:id/issue/:id_issue
+PUT /comics/:id/issue/:id_issue (PUT /comics/:id/issue/:id_issue/read)
 	fields:
 		- id: unique ID of the comic.
 		- n: issue number.

@@ -58,7 +58,7 @@ router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 
 //GET /comics/:id/issue/:id_issue
-router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMustBeFloat, async (req, res) => {
+router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMustBeinteger, async (req, res) => {
     const id_comic = req.params.id
     const id_issue = req.params.id_issue
     const page = 'issue';
@@ -140,20 +140,14 @@ router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
     })
 })
 /*
-life of captain marvel
+Avengers    110496
+Venom       110770
+Cpt Marvel  112325
+QuickS      110933
+Black P     111034
 curl -i -X POST \
 -H "Content-Type: application/json" \
-http://localhost:1337/comics/112325
-
-no surrender
-curl -i -X POST \
--H "Content-Type: application/json" \
-http://localhost:1337/comics/110933
-
-black panther
-curl -i -X POST \
--H "Content-Type: application/json" \
-http://localhost:1337/comics/111034
+http://localhost:1337/comics/XXXXX
 */
 
 //POST /comics/:id/issue
@@ -163,15 +157,62 @@ http://localhost:1337/comics/111034
 
 
 
-//PUT /comics/:id
+//PUT /comics/:id => edit comics' info
+router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
+    const id = req.params.id
 
-//PUT /comics/:id/issue/:id_issue
+    await comic.editComics(id, req.body)
+    .then(comic => res.json({
+        message: `The comic #${id} has been updated`,
+        content: comic
+    }))
+    .catch(err => {
+        if (err.status) {
+            res.status(err.status).json({ message: err.message })
+        }
+        res.status(500).json({ message: err.message })
+    })
+})
+/*
+    curl -i -X PUT \
+    -H "Content-Type: application/json" \
+    -d '{ "id": 110496, "name": "test" }' \
+    http://localhost:1337/comics/110496
+*/
+//PUT /comics/:id => edit comics' info
 
-//PUT /comics/:id/issues
+//PUT /comics/:id/issues => fetch and edit comics' issues
+
+//PUT /comics/:id/issue/:id_issue =>
 
 
 
 //DELETE /comics/:id
+// Remove comics using ComicVine volume ID
+router.delete('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
+    const id = req.params.id
+
+    await comic.deleteComics(id)
+    .then(comic => res.json({
+        message: `The comic #${id} has been deleted`
+    }))
+    .catch(err => {
+        if (err.status) {
+            res.status(err.status).json({ message: err.message })
+        }
+        res.status(500).json({ message: err.message })
+    })
+
+})
+/*
+Avengers    110496
+Venom       110770
+Cpt Marvel  112325
+QuickS      110933
+Black P     111034
+curl -i -X DELETE http://localhost:1337/comics/XXX
+
+*/
 
 //DELETE /comics/:id/issue/:n
 

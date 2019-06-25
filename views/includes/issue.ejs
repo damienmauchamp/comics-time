@@ -1,6 +1,5 @@
 <%
 	const page_issue = page === 'issue';
-	const issue = comic.issue
 	issue.link = page_issue ? '' : (comic.link + '/issue/' + issue.id);
 	issue.image_code = page_issue ? 'scale_small' : 'scale_avatar';
 %>

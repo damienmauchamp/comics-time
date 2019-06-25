@@ -11,7 +11,8 @@ function comicsIDMmustBeInteger(req, res, next) {
 }
 
 // check if id_issue is n integer or a float
-function issueIDMustBeFloat(req, res, next) {
+//function issueIDMustBeFloat(req, res, next) {
+function issueIDMustBeinteger(req, res, next) {
     const id = req.params.id_issue
     if (!Number.isInteger(parseInt(id))) {
         //console.error('Issue ID must be an integer');
@@ -28,18 +29,17 @@ function checkFieldsPost(req, res, next) {
     const { _id, id, name, nb_issues, issues, image, publisher, start_year, date, active } = req.body
 
     //if (_id & id & name & nb_issues & issues & image & publisher & start_year & added & updated & active) {
-    if (_id & id & name & nb_issues & issues & image & publisher & start_year & (date || (added & updated)) & active) {
+    if (_id & id & name & nb_issues & issues & image & publisher & start_year & date & active) {
         next()
     } else {
-        console.error('fields are not good');
-        res.status(400).redirect('/')
-        //res.status(400).json({ message: 'fields are not good' })
+        res.status(400).json({ message: 'fields are not good' })
     }
 }
 
 module.exports = {
     comicsIDMmustBeInteger,
-    issueIDMustBeFloat,
+    //issueIDMustBeFloat,
+    issueIDMustBeinteger,
 
     checkFieldsPost
 }

@@ -114,6 +114,69 @@ function setComicsIssues(comicsIssues, issues) {
 }
 
 
+// put
+function editComics(id, data) {
+    const regex = /(?:https?:\/\/)?(?:comicvine\.gamespot\.com\/?)?(api\/?)?(image\/?)?((?:\w+)\/)?(?:\d+-\d+\.)?(?:jpg)?/
+    return new Promise((resolve, reject) => {
+        helper.comicsMustBeInArray(comics, id)
+        .then(comic => {
+
+            const index = comics.findIndex(c => c.id == comic.id)
+
+            // name
+            if (comics[index].name !== data.name) {
+                comics[index].name = data.name
+            }
+            
+            // nb_issues
+            if (comics[index].nb_issues !== data.nb_issues) {
+                comics[index].nb_issues = data.nb_issues
+            }
+            
+            // image, if comicvine, if original_url
+            /*if ((typeof data.image !== "undefined" || typeof data.image.original_url !== "undefined") && (typeof data.image === "string" || typeof data.image.original_url === "string") && (comics[index].image !== data.image || comics[index].image !== data.image.original_url)) {
+                var img = typeof data.image !== "undefined" && typeof data.image === "string" ? data.image : (typeof data.image !== "undefined" && typeof data.image.original_url !== "undefined" && typeof data.image.original_url === "string" ? data.image.original_url : null)
+                if (img !== null) {
+                    if (img.match(regex)) {
+                        img = helper.setImageUrl(img);
+                    }
+                    comics[index].image = img
+                }
+            }*/
+
+            // date
+            if (typeof data.date !== "undefined" && typeof data.date.added !== "undefined") {
+                comics[index].date.added === data.date.added
+            }
+            comics[index].date.updated === helper.newDate()
+
+            // active
+            if (comics[index].active !== data.active) {
+                comics[index].active = data.active
+            }
+
+            helper.writeJSONFile(filename, comics)
+            resolve(comics[index])
+        })
+        .catch(err => reject(err))
+    })
+}
+
+
+// delete
+function deleteComics(id) {
+    return new Promise((resolve, reject) => {
+        helper.comicsMustBeInArray(comics, id)
+        .then(() => {
+            comics = comics.filter(c => c.id !== parseInt(id))
+            helper.writeJSONFile(filename, comics)
+            resolve()
+        })
+        .catch(err => reject(err))
+    })
+}
+
+
 // olds
 
 function insertPost(newPost) {
@@ -168,5 +231,9 @@ module.exports = {
     getNextIssue,
 
 
-    addComics
+    addComics,
+
+    editComics,
+
+    deleteComics
 }
