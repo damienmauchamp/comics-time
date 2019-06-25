@@ -70,7 +70,7 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
             issue.previous = comic.getPreviousIssue(item.issues, id_issue)
             issue.next = comic.getNextIssue(item.issues, id_issue)
             item.issue = issue
-            res.status(200).json({page: issue, comic: item})
+            res.status(200).json({page: page, comic: item})
         })
         .catch(err => {
             if (err.status) {
@@ -113,6 +113,7 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
     */
 //})
 
+
 // no surrender 110933
 // life of captain marvel 112325
 
@@ -120,44 +121,40 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
 // Add comics using ComicVine volume ID
 router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
-    var volume = parseInt(req.params.id)
-    console.log('volume/', volume);
-
     // volume 
-    api.get('volume/', volume, async function(comic) {
-
-        //console.log(data, api);
+    var volume = parseInt(req.params.id)
+    api.get('volume/', volume, async function(comics) {
 
         // issues
-        var params = {
-            filter: {
-                volume: volume
-            }
-        }
-
-        //
-        console.log("TEST: issues()", 'issues/', params)
-
+        var params = { filter: { volume: volume } }
         api.get('issues/', params, function(issues) {
-            console.log(comic, issues)
+            comic.addComics(comics, issues)
+            .then(comic => 
+                res.status(201).json({
+                    message: `The comic #${comic.id} has been created`,
+                    content: comic
+                })
+            )
+            .catch(err => res.status(500).json({ message: err.message }))
         })
-
-        /*await comic.addComics(data)
-        .then(comic => 
-            res.status(201).json({
-                message: `The comic #${comic.id} has been created`,
-                content: comic
-            })
-        )
-        .catch(err => res.status(500).json({ message: err.message }))*/
     })
-
-    /*
-    curl -i -X POST \
-    -H "Content-Type: application/json" \
-    http://localhost:1337/comics/110933
-    */
 })
+/*
+life of captain marvel
+curl -i -X POST \
+-H "Content-Type: application/json" \
+http://localhost:1337/comics/112325
+
+no surrender
+curl -i -X POST \
+-H "Content-Type: application/json" \
+http://localhost:1337/comics/110933
+
+black panther
+curl -i -X POST \
+-H "Content-Type: application/json" \
+http://localhost:1337/comics/111034
+*/
 
 //POST /comics/:id/issue
 

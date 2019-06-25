@@ -66,11 +66,11 @@ function addComics(item, issues) {
                 id: item.id,
                 name: item.name,
                 nb_issues: item.count_of_issues, // array
-                issues: [], // array
-                image: item.image.original_url.replace('original', '{{code}}'),
+                issues: setComicsIssues(item.issues, issues), // array
+                image: helper.setImageUrl(item.image.original_url),
                 publisher: {
-                    id: item.id,
-                    name: item.name
+                    id: item.publisher.id,
+                    name: item.publisher.name
                 },
                 start_year: item.start_year,
                 date: { 
@@ -86,6 +86,31 @@ function addComics(item, issues) {
         }
         resolve(newComic)
     })
+}
+
+function setComicsIssues(comicsIssues, issues) {
+    comicsIssues.forEach(function(issue, index) {
+
+        // looking for the issue in the array
+        match = issues.find(i => i.id == issue.id)
+
+        if (match) {
+            this[index] = {
+                id: match.id,
+                name: match.name,
+                issue_number: match.issue_number,
+                image: helper.setImageUrl(match.image.original_url),
+                store_date: match.store_date,
+                date: {
+                    added: helper.newDate(),
+                    updated: helper.newDate()
+                },
+                read: false
+            }
+        }
+    }, comicsIssues);
+
+    return comicsIssues
 }
 
 

@@ -33,7 +33,6 @@ function issueMustBeInArray(array, id) {
 
 
 
-
 // searching in the array the last id and increment of 1 to return a new id
 const getNewId = (array) => {
     if (array.length > 0) {
@@ -46,6 +45,8 @@ const getNewId = (array) => {
 
 // return the date of your server in ISO 8601
 const newDate = () => new Date().toString()
+
+const setImageUrl = (src) => src.replace('original', '{{code}}')
 
 
 function notInArray(array, id) {
@@ -73,11 +74,15 @@ function writeJSONFile(filename, content) {
 }
 
 module.exports = {
+    // array checks
     comicsMustBeInArray,
     issueMustBeInArray,
 
+    // adding elements
     getNewId,
     newDate,
+    setImageUrl,
+
     notInArray,
     writeJSONFile
 }
