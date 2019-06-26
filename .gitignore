@@ -68,6 +68,10 @@ desktop.ini
 # personal files
 #utils/
 
+# Ignore file changes :
+# git update-index --skip-worktree <file>
+# git update-index --no-skip-worktree <file>
+
 #data files
 data/comics.json
 data/extras.yml
