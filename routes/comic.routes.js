@@ -179,7 +179,7 @@ router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 /*
     curl -i -X PUT \
     -H "Content-Type: application/json" \
-    -d '{ "id": 110496, "extra": {"marvel": 44444} }' \
+    -d '{ "id": 110496, "extras": {"marvel": 44444} }' \
     http://localhost:1337/comics/110496
 */
 //PUT /comics/:id => edit comics' info

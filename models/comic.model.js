@@ -78,7 +78,7 @@ function addComics(item, issues) {
                     updated: helper.newDate()
                 },
                 active: true,
-                extras: helper.getExtras('comics', array_extras)
+                extras: helper.getExtras('comics')
             }
 
             /*array_extras = {}
@@ -101,9 +101,6 @@ function setComicsIssues(comicsIssues, issues) {
         match = issues.find(i => i.id == issue.id)
 
         if (match) {
-            var array_extras = {
-                test_non_nullable: 'test'
-            }
             this[index] = {
                 id: match.id,
                 name: match.name,
@@ -115,7 +112,7 @@ function setComicsIssues(comicsIssues, issues) {
                     updated: helper.newDate()
                 },
                 read: false,
-                extras: helper.getExtras('issues', array_extras, { aaa: 'test' })
+                extras: helper.getExtras('issues')
             }
         }
     }, comicsIssues);
@@ -165,8 +162,8 @@ function editComics(id, data) {
                 comics[index].active = data.active
             }
 
-            if (typeof data.extra !== "undefined") {
-                comics[index].extras = helper.getExtras('comics', data.extra, comics[index].extras)
+            if (typeof data.extras !== "undefined") {
+                comics[index].extras = helper.getExtras('comics', data.extras, comics[index].extras)
             }
 
             helper.writeJSONFile(filename, comics)

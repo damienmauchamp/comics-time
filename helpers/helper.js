@@ -75,7 +75,13 @@ function writeJSONFile(filename, content) {
     })
 }
 
+// type: type
+// array: new values
+// existing_extras: already existing values
 function getExtras(type, array, existing_extras) {
+    if (typeof array === "undefined") {
+        array = {}
+    }
     if (typeof existing_extras === "undefined") {
         existing_extras = {}
     }
@@ -90,10 +96,14 @@ function getExtras(type, array, existing_extras) {
             if (typeof extras.comics !== "undefined" && type === 'comics') {
                 console.log('COMICS')
                 comics_extras = setExtras(extras.comics, array)
+                console.log('--- existing:', existing_extras)
+                console.log('--- extras before:', comics_extras)
                 if (Object.keys(existing_extras).length) {
-                    Object.assign(comics_extras, existing_extras)   
+                    comics_extras = mergeExtras(existing_extras, comics_extras)
+                    //comics_extras = {...existing_extras, ...comics_extras};
+                    //Object.assign(existing_extras, comics_extras)   
                 }
-                console.log('extras:', comics_extras)
+                console.log('--- extras:', comics_extras)
                 return comics_extras;
                 //iterate(extras.comics, '')
 
@@ -106,8 +116,11 @@ function getExtras(type, array, existing_extras) {
             if (typeof extras.issues !== "undefined" && type === 'issues') {
                 console.log('ISSUES')
                 issues_extras = setExtras(extras.issues, array)
+                console.log('extras before:', issues_extras)
                 if (Object.keys(existing_extras).length) {
-                    Object.assign(issues_extras, existing_extras)
+                    issues_extras = mergeExtras(existing_extras, issues_extras)
+                    //issues_extras = {...existing_extras, ...issues_extras};
+                    //Object.assign(existing_extras, issues_extras)
                 }
                 console.log('extras:', issues_extras)
                 return issues_extras;
@@ -234,14 +247,6 @@ function setExtras(extras, values) {
                 }
             }
         }
-
-
-        //var type = field.type
-        //var default_value = field.default
-        //var nullable = field.nullable
-        //var example = field.example
-
-        //console.log(i, key, field);
     })
     return results;
 }
@@ -252,6 +257,26 @@ function setExtraDefault(key, value, nullable, def) {
         return def
     }
     return value;
+}
+
+function mergeExtras(obj1, obj2) {
+    var final = {};
+    Object.values({...Object.keys(obj1), ...Object.keys(obj2)}).forEach(function(value, i) {
+        var item = null;
+        if (typeof obj2[value] !== "undefined") {
+            item = obj2[value];
+            //console.log(2, value, item);
+        }
+        if (typeof item === "undefined" || item === null) {
+            item = obj1[value];
+            //console.log(1, value, item);
+        }
+        if (typeof item === "object") {
+            item = {...obj1[value], ...item};
+        }
+        final[value] = item;
+    });
+    return final;
 }
 
 module.exports = {
@@ -268,6 +293,7 @@ module.exports = {
     getExtras,
     setExtras,
     setExtraDefault,
+    mergeExtras,
 
     notInArray,
     writeJSONFile

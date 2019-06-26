@@ -1,0 +1,21 @@
+SAMPLES:
+
+- 110496	Avengers
+- 110770	Venom
+- 112325	Captain Marvel
+- 110933	Quicksilver: No Surrender
+- 111034	Black Panther
+
+CALLS:
+	comics:
+		add:
+			curl -i -X POST -H "Content-Type: application/json" http://localhost:1337/comics/XXX
+
+		edit:
+			curl -i -X PUT -H "Content-Type: application/json" -d '{"extras":{"links":{"test":"aaaaaa"}} }' http://localhost:1337/comics/XXX
+
+		delete:
+			curl -i -X DELETE -H "Content-Type: application/json" http://localhost:1337/comics/XXX
+
+
+
