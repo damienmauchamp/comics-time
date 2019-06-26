@@ -75,7 +75,11 @@ function writeJSONFile(filename, content) {
     })
 }
 
-function getExtras(type, array) {
+function getExtras(type, array, existing_extras) {
+    if (typeof existing_extras === "undefined") {
+        existing_extras = {}
+    }
+    console.log("existing_extras", existing_extras)
     // Get document, or throw exception on error
     try {
         var doc = yaml.safeLoad(fs.readFileSync(extras_file, 'utf8'));
@@ -86,6 +90,9 @@ function getExtras(type, array) {
             if (typeof extras.comics !== "undefined" && type === 'comics') {
                 console.log('COMICS')
                 comics_extras = setExtras(extras.comics, array)
+                if (Object.keys(existing_extras).length) {
+                    Object.assign(comics_extras, existing_extras)   
+                }
                 console.log('extras:', comics_extras)
                 return comics_extras;
                 //iterate(extras.comics, '')
@@ -99,11 +106,19 @@ function getExtras(type, array) {
             if (typeof extras.issues !== "undefined" && type === 'issues') {
                 console.log('ISSUES')
                 issues_extras = setExtras(extras.issues, array)
-                console.log('extras:', comics_extrass)
+                if (Object.keys(existing_extras).length) {
+                    Object.assign(issues_extras, existing_extras)
+                }
+                console.log('extras:', issues_extras)
                 return issues_extras;
                 //iterate(extras.issues, '')
                 //console.log('issues extras: ', extras.issues);
             }
+            /*
+            const extras = 
+            Object.assign(newComic, extras)
+            console.log(newComic, extras)
+            */
 
         }
         return {}
