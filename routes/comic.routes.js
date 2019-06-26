@@ -224,14 +224,10 @@ curl -i -X DELETE http://localhost:1337/comics/XXX
 
 
 //GET /search
-
-
-
-
-// search
-router.get('/search/:query', async (req, res) => {
-    const query = req.params.query
-
+// todo: pagination ?
+router.get('/search', async (req, res) => {
+    const query = req.query.q;
+    
     var params = {
         query: query,
         resources: 'volume'
@@ -241,13 +237,22 @@ router.get('/search/:query', async (req, res) => {
 
         var display = [];
         results.forEach(function(e) {
-            var template = "[" + e.id + "] " + e.name + " (" + e.start_year + ") (" + e.count_of_issues + " issues) [" + e.publisher.name + "]";
+            //var template = "[" + e.id + "] " + e.name + " (" + e.start_year + ") (" + e.count_of_issues + " issues) [" + e.publisher.name + "]";
             // {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
-            display.push(template);
+            display.push({
+                id: e.id,
+                name: e.name,
+                start_year: e.start_year,
+                count_of_issues: e.count_of_issues,
+                publisher: e.publisher.name
+            });
         });
         res.json(display)
     });
 })
+
+
+
 
 // add comic /id
 /*router.post('/comics/add', async (req, res) => {

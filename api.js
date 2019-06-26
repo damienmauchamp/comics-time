@@ -1,5 +1,6 @@
 const config = require('./config.js');
 const https = require('https');
+const querystring = require('querystring');
 
 const API = function(config) {
 	if (!(this instanceof API)) {
@@ -43,12 +44,12 @@ API.prototype.serialize = function (array, first = true) {
 				if (!first_filter) {
 					str += ',';
 				}
-				str += (filters_key + ':' + filters[filters_key]);
+				str += (filters_key + ':' + querystring.escape(filters[filters_key]));
 				first_filter = false;
 			});
 			str += str;
 		} else {
-			str += (key + '=' + array[key]);
+			str += (key + '=' + querystring.escape(array[key]));
 		}
 	});
 	return str;
