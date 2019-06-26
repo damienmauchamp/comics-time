@@ -69,5 +69,5 @@ desktop.ini
 #utils/
 
 #data files
-#data/comics.json
-#data/extras.yml
+data/comics.json
+data/extras.yml
