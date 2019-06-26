@@ -61,9 +61,6 @@ function addComics(item, issues) {
                 status: 202
             })
         } else {
-            var array_extras = {
-                test: "aaaa"
-            } // todo
             newComic = {
                 _id: helper.getNewId(comics),
                 id: item.id,
@@ -81,7 +78,7 @@ function addComics(item, issues) {
                     updated: helper.newDate()
                 },
                 active: true,
-                extras: helper.getExtras('comics', array_extras, { aaa: 'xxxx' })
+                extras: helper.getExtras('comics', array_extras)
             }
 
             /*array_extras = {}
