@@ -1,6 +1,6 @@
 yaml = require('js-yaml');
 fs = require('fs');
-const filename = './utils/extras.yml'
+const filename = './data/extras_example.yml'
 
 var test_extras = {
 	// AVAILABLE
@@ -101,7 +101,7 @@ function _setExtras(extras, values) {
 						// not ok
 						console.warn("warning: '" + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
 						
-						var default_value = setDefault(key, values[key], field.nullable, field.default)
+						var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
 						if (default_value === values[key]) {
 							add_field = false
 						} else {
@@ -118,7 +118,7 @@ function _setExtras(extras, values) {
 						// not ok
 						console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
 						
-						var default_value = setDefault(key, values[key], field.nullable, field.default)
+						var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
 						if (default_value === values[key]) {
 							add_field = false
 						} else {
@@ -135,7 +135,7 @@ function _setExtras(extras, values) {
 						// not ok
 						console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
 						
-						var default_value = setDefault(key, values[key], field.nullable, field.default)
+						var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
 						if (default_value === values[key]) {
 							add_field = false
 						} else {
@@ -148,7 +148,7 @@ function _setExtras(extras, values) {
 					// not ok
 					console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
 						
-					var default_value = setDefault(key, values[key], field.nullable, field.default)
+					var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
 					if (default_value === values[key]) {
 						add_field = false
 					} else {
@@ -189,7 +189,7 @@ function _setExtras(extras, values) {
 	return results;
 }
 
-function setDefault(key, value, nullable, def) {
+function setExtraDefault(key, value, nullable, def) {
 	if (!nullable && def) {
 		console.warn("-- setting default value " + (typeof def !== 'object' ? "'" + def + "' " : "") + "for '" + key + "'")
 		return def

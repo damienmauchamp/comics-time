@@ -147,6 +147,9 @@ QuickS      110933
 Black P     111034
 curl -i -X POST \
 -H "Content-Type: application/json" \
+http://localhost:1337/comics/110496
+curl -i -X POST \
+-H "Content-Type: application/json" \
 http://localhost:1337/comics/XXXXX
 */
 

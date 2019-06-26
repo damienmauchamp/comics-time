@@ -61,6 +61,7 @@ function addComics(item, issues) {
                 status: 202
             })
         } else {
+            var array_extras = {} // todo
             newComic = {
                 _id: helper.getNewId(comics),
                 id: item.id,
@@ -77,8 +78,14 @@ function addComics(item, issues) {
                     added: helper.newDate(),
                     updated: helper.newDate()
                 },
-                active: true
+                active: true,
+                extras: helper.getExtras('comics', array_extras)
             }
+
+            /*array_extras = {}
+            const extras = 
+            Object.assign(newComic, extras)
+            console.log(newComic, extras)*/
 
             //newPost = { ...id, ...date, ...newPost }
             comics.push(newComic)
@@ -95,6 +102,7 @@ function setComicsIssues(comicsIssues, issues) {
         match = issues.find(i => i.id == issue.id)
 
         if (match) {
+            var array_extras = {} // todo
             this[index] = {
                 id: match.id,
                 name: match.name,
@@ -105,7 +113,8 @@ function setComicsIssues(comicsIssues, issues) {
                     added: helper.newDate(),
                     updated: helper.newDate()
                 },
-                read: false
+                read: false,
+                extras: helper.getExtras('comics', array_extras)
             }
         }
     }, comicsIssues);
