@@ -3,7 +3,7 @@ extras:
     links:
       type: "object"
       default: !!map
-      nullable: true
+      nullable: false
       example: !!map
         dctrad: "http://dctrad.fr/viewtopic.php?f=259&t=15059"
         marvel: "https://www.marvel.com/comics/series/24229/avengers_2018_-_present"
@@ -18,6 +18,11 @@ extras:
       default: null
       nullable: true
       example: 24229
+    test_non_nullable:
+      type: "integer"
+      default: "hey, i'm not nullable"
+      nullable: false
+      example: "hey, i'm not nullable"
   issues:
     fr:
       type: boolean
