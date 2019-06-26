@@ -7,7 +7,13 @@ extras:
       example: !!map
         dctrad: "http://dctrad.fr/viewtopic.php?f=259&t=15059"
         marvel: "https://www.marvel.com/comics/series/24229/avengers_2018_-_present"
+        dc: "https://www.dccomics.com/comics/dc-universe-rebirth-2016/batman-rebirth-1"
     marvel:
+      type: "integer"
+      default: null
+      nullable: true
+      example: 24229
+    dc:
       type: "integer"
       default: null
       nullable: true
