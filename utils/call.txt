@@ -2,7 +2,7 @@ SAMPLES:
 
 - 110496	Avengers
 - 110770	Venom
-- 112325	Captain Marvel
+- 112325	The Life of Captain Marvel
 - 110933	Quicksilver: No Surrender
 - 111034	Black Panther
 
