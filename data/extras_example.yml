@@ -2,6 +2,7 @@ extras:
   comics:
     links:
       type: "object"
+      label: "Liens externes"
       description: "external links related to the comics"
       nullable: false
       default: !!map
@@ -9,12 +10,14 @@ extras:
   issues:
     links:
       type: "object"
+      label: "Liens externes"
       description: "external links related to the issue"
       nullable: false
       default: !!map
       example: !!map
     fr:
       type: "boolean"
+      label: "Disponible en français"
       description: "issue available in french"
       nullable: false
       default: false
