@@ -185,6 +185,29 @@ router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 //PUT /comics/:id => edit comics' info
 
 //PUT /comics/:id/issues => fetch and edit comics' issues
+router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
+    const id = req.params.id
+
+    return;
+
+    // volume 
+    var volume = parseInt(req.params.id)
+    api.get('volume/', volume, async function(comics) {
+
+        // issues
+        var params = { filter: { volume: volume } }
+        api.get('issues/', params, function(issues) {
+            comic.editComicsIssues(comics, issues)
+            .then(comic => 
+                res.status(201).json({
+                    message: `The comic #${comic.id} has been created`,
+                    content: comic
+                })
+            )
+            .catch(err => res.status(500).json({ message: err.message }))
+        })
+    })
+})
 
 //PUT /comics/:id/issue/:id_issue =>
 

@@ -173,6 +173,49 @@ function editComics(id, data) {
     })
 }
 
+function editComicsIssues(item, issues) {
+    return new Promise((resolve, reject) => {
+        comic = comics.find(c => c.id == item.id);
+
+        if (!comic) {
+            reject({
+                message: 'comics not found',
+                status: 202
+            })
+        } else {
+
+            Object.keys(comic.issues).forEach(function (key) {
+                console.log(comic.issues[key].id)
+            })
+
+            //comic
+            /*comic = {
+                _id: helper.getNewId(comics),
+                id: item.id,
+                name: item.name,
+                nb_issues: item.count_of_issues, // array
+                issues: setComicsIssues(item.issues, issues), // array
+                image: helper.setImageUrl(item.image.original_url),
+                publisher: {
+                    id: item.publisher.id,
+                    name: item.publisher.name
+                },
+                start_year: item.start_year,
+                date: { 
+                    added: helper.newDate(),
+                    updated: helper.newDate()
+                },
+                active: true,
+                extras: helper.getExtras('comics')
+            }
+
+            comics.push(comic)*/
+            helper.writeJSONFile(filename, comics)
+        }
+        resolve(comic)
+    })
+}
+
 
 // delete
 function deleteComics(id) {
