@@ -31,10 +31,37 @@ router.get('/', async (req, res) => {
     })
 })
 
+//GET /search
+// @todo: pagination ?
+router.get('/search', async (req, res) => {
+    const query = req.query.q;
+    
+    var params = {
+        query: query,
+        resources: 'volume'
+    }
+
+    api.get('search/', params, function(results) {
+
+        var display = [];
+        results.forEach(function(e) {
+            //var template = "[" + e.id + "] " + e.name + " (" + e.start_year + ") (" + e.count_of_issues + " issues) [" + e.publisher.name + "]";
+            // {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
+            display.push({
+                id: e.id,
+                name: e.name,
+                start_year: e.start_year,
+                count_of_issues: e.count_of_issues,
+                publisher: e.publisher.name
+            });
+        });
+        res.json(display)
+    });
+})
+
 
 //GET /comics
-// @todo
-
+// @todo ?
 
 //GET /comics/:id
 router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
@@ -55,7 +82,6 @@ router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
         }
     })
 })
-
 
 //GET /comics/:id/issue/:id_issue
 router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMustBeinteger, async (req, res) => {
@@ -96,27 +122,6 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
 //GET /comics/:id/issues
 // @todo ?
 
-
-
-//POST /comics/
-//router.post('/comics', async (req, res) => 
-//curl -i -X POST \
-//-H "Content-Type: application/json" \
-//-d '{ "id": 112325 }' \
-//http://localhost:1337/comics/add
-    /*
-    curl -i -X POST \
-    -H "Content-Type: application/json" \
-    -d '{ "id": 112325 }' \
-    -d '{ //DATA// }' \
-    http://localhost:1337/comics/
-    */
-//})
-
-
-// no surrender 110933
-// life of captain marvel 112325
-
 //POST /comics/:id
 // Add comics using ComicVine volume ID
 router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
@@ -139,26 +144,13 @@ router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
         })
     })
 })
-/*
-Avengers    110496
-Venom       110770
-Cpt Marvel  112325
-QuickS      110933
-Black P     111034
-curl -i -X POST \
--H "Content-Type: application/json" \
-http://localhost:1337/comics/110496
-curl -i -X POST \
--H "Content-Type: application/json" \
-http://localhost:1337/comics/XXXXX
-*/
 
 //POST /comics/:id/issue
+// @todo ?
 
 //POST /comics/:id/issues
 // Add comics' issues using ComicVine volume ID
-
-
+// @todo ?
 
 //PUT /comics/:id => edit comics' info
 router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
@@ -176,19 +168,10 @@ router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
         res.status(500).json({ message: err.message })
     })
 })
-/*
-    curl -i -X PUT \
-    -H "Content-Type: application/json" \
-    -d '{ "id": 110496, "extras": {"marvel": 44444} }' \
-    http://localhost:1337/comics/110496
-*/
-//PUT /comics/:id => edit comics' info
 
 //PUT /comics/:id/issues => fetch and edit comics' issues
 router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
     const id = req.params.id
-
-    return;
 
     // volume 
     var volume = parseInt(req.params.id)
@@ -200,7 +183,7 @@ router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
             comic.editComicsIssues(comics, issues)
             .then(comic => 
                 res.status(201).json({
-                    message: `The comic #${comic.id} has been created`,
+                    message: `The comic's issues has been edited`,
                     content: comic
                 })
             )
@@ -210,8 +193,6 @@ router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
 })
 
 //PUT /comics/:id/issue/:id_issue =>
-
-
 
 //DELETE /comics/:id
 // Remove comics using ComicVine volume ID
@@ -230,79 +211,10 @@ router.delete('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
     })
 
 })
-/*
-Avengers    110496
-Venom       110770
-Cpt Marvel  112325
-QuickS      110933
-Black P     111034
-curl -i -X DELETE http://localhost:1337/comics/XXX
-
-*/
 
 //DELETE /comics/:id/issue/:n
 
 //DELETE /comics/:id/issues
-
-
-
-//GET /search
-// todo: pagination ?
-router.get('/search', async (req, res) => {
-    const query = req.query.q;
-    
-    var params = {
-        query: query,
-        resources: 'volume'
-    }
-
-    api.get('search/', params, function(results) {
-
-        var display = [];
-        results.forEach(function(e) {
-            //var template = "[" + e.id + "] " + e.name + " (" + e.start_year + ") (" + e.count_of_issues + " issues) [" + e.publisher.name + "]";
-            // {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
-            display.push({
-                id: e.id,
-                name: e.name,
-                start_year: e.start_year,
-                count_of_issues: e.count_of_issues,
-                publisher: e.publisher.name
-            });
-        });
-        res.json(display)
-    });
-})
-
-
-
-
-// add comic /id
-/*router.post('/comics/add', async (req, res) => {
-*
-curl -i -X POST \
--H "Content-Type: application/json" \
--d '{ "id": 112325 }' \
-http://localhost:1337/comics/add
-*
-
-    var volume = req.body.id
-
-    console.log('volume/', volume);
-
-    //var 
-    api.get('volume/', volume, async function(data) {
-        await comic.addComics(data)
-        .then(comic => res.status(201).json({
-            message: `The comic #${comic.id} has been created`,
-            content: comic
-        }))
-        .catch(err => res.status(500).json({ message: err.message }))
-    })
-
-})
-*/
-
 
 
 
@@ -371,47 +283,5 @@ router.get('/:id', m.mustBeInteger, async (req, res) => {
 
 /** @todo: post -> comic */
 
-/* Insert a new comic */
-router.post('/', m.checkFieldsPost, async (req, res) => {
-    await comic.insertPost(req.body)
-    .then(comic => res.status(201).json({
-        message: `The comic #${comic.id} has been created`,
-        content: comic
-    }))
-    .catch(err => res.status(500).json({ message: err.message }))
-})
-
-/* Update a comic */
-router.put('/:id', m.comicsIDMmustBeInteger, m.checkFieldsPost, async (req, res) => {
-    const id = req.params.id
-
-    await comic.updatePost(id, req.body)
-    .then(comic => res.json({
-        message: `The comic #${id} has been updated`,
-        content: comic
-    }))
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        }
-        res.status(500).json({ message: err.message })
-    })
-})
-
-/* Delete a comic */
-router.delete('/:id', m.comicsIDMmustBeInteger, async (req, res) => {
-    const id = req.params.id
-
-    await comic.deletePost(id)
-    .then(comic => res.json({
-        message: `The comic #${id} has been deleted`
-    }))
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        }
-        res.status(500).json({ message: err.message })
-    })
-})
 
 module.exports = router

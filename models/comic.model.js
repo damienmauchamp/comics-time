@@ -120,7 +120,6 @@ function setComicsIssues(comicsIssues, issues) {
     return comicsIssues
 }
 
-
 // put
 function editComics(id, data) {
     const regex = /(?:https?:\/\/)?(?:comicvine\.gamespot\.com\/?)?(api\/?)?(image\/?)?((?:\w+)\/)?(?:\d+-\d+\.)?(?:jpg)?/
@@ -129,15 +128,25 @@ function editComics(id, data) {
         .then(comic => {
 
             const index = comics.findIndex(c => c.id == comic.id)
+            //console.log(comics[index].active, comic.active)
+
+            // active
+            const isActive = comics[index].active
 
             // name
             if (comics[index].name !== data.name) {
+                console.log('EDIT: name from "' + comics[index].name + '" to "' + data.name + '"')
                 comics[index].name = data.name
+            } else {
+                console.log('----: name ==> "' + data.name + '"')
             }
             
             // nb_issues
-            if (comics[index].nb_issues !== data.nb_issues) {
-                comics[index].nb_issues = data.nb_issues
+            if (comics[index].nb_issues !== data.count_of_issues) {
+                console.log('EDIT: nb_issues from "' + comics[index].nb_issues + '" to "' + data.count_of_issues + '"')
+                comics[index].nb_issues = data.count_of_issues
+            } else {
+                console.log('----: nb_issues ==> "' + comics[index].nb_issues + '"')
             }
             
             // image, if comicvine, if original_url
@@ -153,18 +162,25 @@ function editComics(id, data) {
 
             // date
             if (typeof data.date !== "undefined" && typeof data.date.added !== "undefined") {
+                console.log('ADDED: date.added = "' + data.date.added + '"')
                 comics[index].date.added === data.date.added
+            } else {
+                console.log('----: date.added ==> "' + comics[index].date.added + '"')
             }
             comics[index].date.updated === helper.newDate()
 
             // active
-            if (comics[index].active !== data.active) {
+            /*if (comics[index].active !== data.active) {
                 comics[index].active = data.active
-            }
+                console.log('EDIT: active from "' + comics[index].active + '" to "' + data.active + '"')
+            } else {
+                console.log('----: active ==> "' + comics[index].active + '"')
+            }*/
 
             if (typeof data.extras !== "undefined") {
                 comics[index].extras = helper.getExtras('comics', data.extras, comics[index].extras)
             }
+            //comics[index].active = isActive
 
             helper.writeJSONFile(filename, comics)
             resolve(comics[index])
@@ -184,9 +200,22 @@ function editComicsIssues(item, issues) {
             })
         } else {
 
+            /*// nb_issues
+            if (comics[index].nb_issues !== data.nb_issues) {
+                comics[index].nb_issues = data.nb_issues
+            }*/
+
+            // comic : entité du fichier
+            // item : comics de cv
+            // issues : issues de cv
+
+            editComics(comic.id, item)
+
+            /*console.log("item", item, "\n\n\n\n\n", "issues", issues)
             Object.keys(comic.issues).forEach(function (key) {
                 console.log(comic.issues[key].id)
-            })
+            })*/
+
 
             //comic
             /*comic = {
@@ -289,5 +318,7 @@ module.exports = {
 
     editComics,
 
-    deleteComics
+    deleteComics,
+
+    editComicsIssues
 }
