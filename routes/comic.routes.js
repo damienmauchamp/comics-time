@@ -170,6 +170,7 @@ router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 })
 
 //PUT /comics/:id/issues => fetch and edit comics' issues
+// comics/:id/update ?
 router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
     const id = req.params.id
 

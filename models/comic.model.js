@@ -101,6 +101,7 @@ function setComicsIssues(comicsIssues, issues) {
         match = issues.find(i => i.id == issue.id)
 
         if (match) {
+            /** @todo: make a function */
             this[index] = {
                 id: match.id,
                 name: match.name,
@@ -209,7 +210,35 @@ function editComicsIssues(item, issues) {
             // item : comics de cv
             // issues : issues de cv
 
+            // editing comics' info
             editComics(comic.id, item)
+
+            // editing issues' info
+            issues.forEach(function(issue, index) {
+                match = comic.issues.find(i => i.id == issue.id)
+                if (!match) {
+
+                    /** @todo: make a function */
+                    const newIssue = {
+                        id: issue.id,
+                        name: issue.name,
+                        issue_number: issue.issue_number,
+                        image: helper.setImageUrl(issue.image.original_url),
+                        store_date: issue.store_date,
+                        date: {
+                            added: helper.newDate(),
+                            updated: helper.newDate()
+                        },
+                        read: false,
+                        extras: helper.getExtras('issues')
+                    }
+
+                    console.log("nouvelle issue", newIssue)
+                    comic.issues.push(newIssue)
+                }
+            })
+
+            comic.date.updated === helper.newDate()
 
             /*console.log("item", item, "\n\n\n\n\n", "issues", issues)
             Object.keys(comic.issues).forEach(function (key) {
