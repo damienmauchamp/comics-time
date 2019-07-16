@@ -1,7 +1,31 @@
-<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+<!DOCTYPE html>
+<html>
+<head>
+	<title>-</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+</head>
+<body id="container">
+	<div id="main">
 
-<% comics.forEach( comic => { %>
-	<ul>
-		<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
-    </ul>
-<% }) %>
+
+		<div class="page-left page-sidebar">
+		</div>
+
+		<div class="page-center">
+
+			<% if (page === "comics") { %>
+				<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
+			<% } else { %>
+				<% comics.forEach( comic => { %>
+					<ul>
+						<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
+				    </ul>
+				<% }) %>
+			<% } %>
+
+		</div>
+
+	</div>
+
+</body>
+</html>

@@ -89,7 +89,7 @@ router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
     await comic.getComics(id)
     .then(function(comics) {
-        res.render('includes/comic.ejs', {page: page, comic: comics})
+        res.render('index.ejs', {page: page, comic: comics})
     })
     .catch(err => {
         if (err.status) {
