@@ -8,6 +8,8 @@ SAMPLES:
 - 111590	Thor
 
 CALLS:
+	search:
+			curl -i -X POST -H "Content-Type: application/json" http://localhost:1337/search?q=XXX
 	comics:
 		add:
 			curl -i -X POST -H "Content-Type: application/json" http://localhost:1337/comics/XXX
