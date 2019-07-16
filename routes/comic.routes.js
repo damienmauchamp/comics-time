@@ -31,6 +31,25 @@ router.get('/', async (req, res) => {
     })
 })
 
+//GET /calendar
+// @todo: pagination ?
+// must be valid date
+router.get('/calendar', async (req, res) => {
+/*
+CALENDAR
+var date_start = "2019-04-01";
+var date_end = "2019-06-31";
+var res = [];
+c.forEach(function(comic) {
+    var issues = comic.issues.filter(i => date_start <= i.store_date && i.store_date <= date_end);
+    issues.map(obj => (obj.comics = {id: comic.id, name: comic.name}));
+    res = res.concat(issues);
+})
+res.sort((a, b) => new Date(a.store_date) - new Date(b.store_date));
+console.log(res);
+*/
+})
+
 //GET /search
 // @todo: pagination ?
 router.get('/search', async (req, res) => {

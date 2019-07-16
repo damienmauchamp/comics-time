@@ -5,6 +5,7 @@ SAMPLES:
 - 112325	The Life of Captain Marvel
 - 110933	Quicksilver: No Surrender
 - 111034	Black Panther
+- 111590	Thor
 
 CALLS:
 	comics:

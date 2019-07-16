@@ -64,7 +64,7 @@ API.prototype.set_options = function(path, id, query_params) {
 		query_params.limit = this.limit;
 	}
 
-	console.log(path, id, query_params)
+	//console.log(path, id, query_params)
 
 	this.options = {
 		hostname: this.url,
@@ -87,8 +87,8 @@ API.prototype.get = function (path, params, callback) {
 API.prototype.request = function (method, path, params, callback) {
 
 	var id = null
-	console.log(method, path, params)
-	console.log(typeof params)
+	//console.log(method, path, params)
+	//console.log(typeof params)
 	if (typeof params === 'number') {
 		id = params;
 		params = {}
@@ -102,7 +102,7 @@ API.prototype.request = function (method, path, params, callback) {
 
 
 	var data = '';
-	console.log(this.options)
+	//console.log(this.options)
 	https.get(this.options, function(res) {
 		res.on('data', function(chunk) {
 			data += chunk;
@@ -111,7 +111,7 @@ API.prototype.request = function (method, path, params, callback) {
 			callback(json.results);
 		});
 	}).on("error", (err) => {
-		console.log("Error: " + err.message);
+		//console.log("Error: " + err.message);
 	});
 
 	return;
@@ -136,7 +136,7 @@ const API_tests = function() {
 		}
 
 		//
-		console.log("TEST: search()", 'search/', params)
+		//console.log("TEST: search()", 'search/', params)
 
 		// search
 		api.get('search/', params, function(data) {
@@ -149,7 +149,7 @@ const API_tests = function() {
 
 
 
-			console.log(data);
+			//console.log(data);
 		})
 		return true;
 	}
@@ -164,7 +164,7 @@ const API_tests = function() {
 		}
 
 		//
-		console.log("TEST: issues()", 'issues/', params)
+		//console.log("TEST: issues()", 'issues/', params)
 
 		api.get('issues/', params, function(issues) {
 
@@ -196,10 +196,10 @@ const API_tests = function() {
 		var issue = 668770
 
 		//
-		console.log("TEST: issue()", 'issue/', issue)
+		//console.log("TEST: issue()", 'issue/', issue)
 
 		api.get('issue/', issue, function(data) {
-			console.log(data);
+			//console.log(data);
 		})
 	}
 
@@ -209,10 +209,10 @@ const API_tests = function() {
 		var volume = 110496
 
 		//
-		console.log("TEST: volume()", 'volume/', volume)
+		//console.log("TEST: volume()", 'volume/', volume)
 		
 		api.get('volume/', volume, function(data) {
-			console.log(data);
+			//console.log(data);
 		})
 	}
 }

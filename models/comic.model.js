@@ -135,20 +135,20 @@ function editComics(id, data) {
             const isActive = comics[index].active
 
             // name
-            if (comics[index].name !== data.name) {
+            if (typeof data.name !== 'undefined' && comics[index].name !== data.name) {
                 console.log('EDIT: name from "' + comics[index].name + '" to "' + data.name + '"')
                 comics[index].name = data.name
-            } else {
-                console.log('----: name ==> "' + data.name + '"')
-            }
+            } /*else {
+                console.log('----: name ==> "' + comics[index].name + '"')
+            }*/
             
             // nb_issues
-            if (comics[index].nb_issues !== data.count_of_issues) {
+            if (typeof data.count_of_issues !== 'undefined' && comics[index].nb_issues !== data.count_of_issues) {
                 console.log('EDIT: nb_issues from "' + comics[index].nb_issues + '" to "' + data.count_of_issues + '"')
                 comics[index].nb_issues = data.count_of_issues
-            } else {
+            } /*else {
                 console.log('----: nb_issues ==> "' + comics[index].nb_issues + '"')
-            }
+            }*/
             
             // image, if comicvine, if original_url
             /*if ((typeof data.image !== "undefined" || typeof data.image.original_url !== "undefined") && (typeof data.image === "string" || typeof data.image.original_url === "string") && (comics[index].image !== data.image || comics[index].image !== data.image.original_url)) {
@@ -165,9 +165,9 @@ function editComics(id, data) {
             if (typeof data.date !== "undefined" && typeof data.date.added !== "undefined") {
                 console.log('ADDED: date.added = "' + data.date.added + '"')
                 comics[index].date.added === data.date.added
-            } else {
+            } /*else {
                 console.log('----: date.added ==> "' + comics[index].date.added + '"')
-            }
+            }*/
             comics[index].date.updated === helper.newDate()
 
             // active

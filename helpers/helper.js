@@ -4,7 +4,7 @@ const extras_file = './data/extras_example.yml'
 
 // return a promise. Using when we need to check if a row exist via the id
 function comicsMustBeInArray(array, id) {
-    console.log(id, 'comicsMustBeInArray')
+    //console.log(id, 'comicsMustBeInArray')
     return new Promise((resolve, reject) => {
         const row = array.find(r => r.id == id)
         //const row = array.find(r => r._id == id)
@@ -19,7 +19,7 @@ function comicsMustBeInArray(array, id) {
 }
 
 function issueMustBeInArray(array, id) {
-    console.log(id, 'issueMustBeInArray')
+    //console.log(id, 'issueMustBeInArray')
     return new Promise((resolve, reject) => {
         const row = array.find(r => r.id == id)
         //const row = array.find(r => r._id == id)
@@ -70,7 +70,7 @@ function notInArray(array, id) {
 function writeJSONFile(filename, content) {
     fs.writeFileSync(filename, JSON.stringify(content), 'utf8', (err) => {
         if (err) {
-            console.log(err)
+            //console.log(err)
         }
     })
 }
@@ -85,7 +85,7 @@ function getExtras(type, array, existing_extras) {
     if (typeof existing_extras === "undefined") {
         existing_extras = {}
     }
-    console.log("existing_extras", existing_extras)
+    //console.log("existing_extras", existing_extras)
     // Get document, or throw exception on error
     try {
         var doc = yaml.safeLoad(fs.readFileSync(extras_file, 'utf8'));
