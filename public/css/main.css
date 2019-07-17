@@ -1,54 +1,326 @@
 :root {
-  --main-bg-color: #121212;
-  --menu-bg-color: #272727;
+	--main-bg-color: #121212;
+	--menu-bg-color: #272727;
 
-  --main-color: #FFF;
+	--main-color: #FFF;
 
-  --main-link-color: #3EA6FF;
+	--main-link-color: #3EA6FF;
 }
+
+*, :after, :before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}	
 
 body {
 	background: var(--main-bg-color);
 	color: var(--main-color);
-}
-a {
-	color: var(--main-link-color);
+	overflow-x: hidden;
+	font-family: ProximaNova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	line-height: 1.428571429;
+	margin: 0;
+	padding: 0 0 1px;
 }
 
+a {
+	color: var(--main-link-color);
+	background-color: transparent;
+	text-decoration: none;
+}
+a:focus, a:hover {
+	text-decoration: underline;
+	outline: 0;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.h2, h2 {
+	font-size: 30px;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+	font-family: ProximaNovaSB,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+img {
+	border: 0;
+	vertical-align: middle;
+}
+
+dl, ol, ul {
+	margin-top: 0;
+}
+
+ol, ul {
+	margin-bottom: 10px;
+}
+
+.btn-group-vertical>.btn-group:after, .btn-group-vertical>.btn-group:before, .btn-toolbar:after, .btn-toolbar:before, .clearfix:after, .clearfix:before, .container-fluid:after, .container-fluid:before, .container:after, .container:before, .dl-horizontal dd:after, .dl-horizontal dd:before, .form-horizontal .form-group:after, .form-horizontal .form-group:before, .modal-footer:after, .modal-footer:before, .modal-header:after, .modal-header:before, .nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after, .panel-body:before, .row:after, .row:before {
+	display: table;
+	content: " ";
+}
+
+/* general */
+.list-inline, .list-unstyled {
+	padding-left: 0;
+	list-style: none;
+}
+
+.list-inline {
+	margin-left: -5px;
+}
+.list-inline > li {
+	display: inline-block;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.embed-responsive, .modal, .modal-open, .progress {
+	overflow: hidden;
+}
+.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+.progress {
+	height: 20px;
+	margin-bottom: 20px;
+	background-color: #f5f5f5;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+.progress-bar {
+	float: left;
+	width: 0;
+	height: 100%;
+	font-size: 12px;
+	line-height: 20px;
+	color: #fff;
+	text-align: center;
+	background-color: #337ab7;
+	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+	-webkit-transition: width .6s ease;
+	-o-transition: width .6s ease;
+	transition: width .6s ease;
+}
+.progress-bar-success {
+	background-color: #5cb85c;
+}
+/*  */
+
 .page-sidebar {
-    position: fixed;
-    overflow: hidden;
-    top: 0;
-    bottom: 0;
-    width: 240px;
-    vertical-align: top;
-    z-index: 99;
+	position: fixed;
+	overflow: hidden;
+	top: 0;
+	bottom: 0;
+	width: 240px;
+	vertical-align: top;
+	z-index: 99;
 }
 
 .page-left {
-    left: 0;
-    background-color: var(--menu-bg-color);
+	left: 0;
+	background-color: var(--menu-bg-color);
 }
 
 .page-center {
-    display: block;
-    margin: 0 0 0 240px;
+	display: block;
+	margin: 0 0 0 240px;
 	background-color: var(--main-bg-color);
 }
-@media (max-width: 768px) {
-	.page-left {
-	    width: 100%;
-	    overflow: hidden;
-	    bottom: auto;
-	    max-height: 60px;
-	    z-index: 7000;
-	    -webkit-transition: max-height .5s ease-in-out;
-	    -moz-transition: max-height .5s ease-in-out;
-	    -ms-transition: max-height .5s ease-in-out;
-	    -o-transition: max-height .5s ease-in-out;
-	    transition: max-height .5s ease-in-out;
-	}
-	.page-center {
-	    margin: 0!important;
-	}
+
+.page-center section {
+	position: relative;
+	padding: 20px 12px 0;
 }
+
+.page-center section h1 {
+	font-family: ProximaNova;
+	color: #666;
+	margin: 0 0 0 12px;
+	line-height: 24px;
+	font-size: 19px;
+}
+
+.page-center-inner {
+	position: relative;
+}
+
+#home {
+	margin: 0;
+	min-height: 600px;
+}
+
+/* homepage comics */
+.covers-list {
+	font-size: 0;
+	letter-spacing: -1px;
+	text-align: left;
+	margin-top: 10px;
+}
+.covers-list > li {
+	padding: 12px 17px;
+	width: 187px;
+	overflow: hidden;
+	vertical-align: top;
+}
+.covers-list>li .nav {
+	text-align: right;
+	margin-bottom: 2px;
+}
+.covers-list>li .image-crop {
+	width: 155px;
+	height: 222px;
+	overflow: hidden;
+	border-radius: 2px;
+	box-shadow: 0 0 2px #777;
+	position: relative;
+}
+.covers-list>li:not(.new) .new-label {
+	display: none;
+}
+.covers-list>li.new .new-label {
+	position: absolute;
+	top: 24px;
+	left: -24px;
+	width: 68px;
+	height: 34px;
+	-webkit-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	background-color: gold;
+	color: rgba(39,39,39,.8);
+	font-family: ProximaNovaSB;
+	font-size: 12px;
+	text-transform: uppercase;
+	z-index: 0;
+	transform-origin: 0 0;
+	-webkit-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	-o-transform-origin: 0 0;
+	padding-top: 16px;
+	text-align: center;
+}
+.covers-list>li .image-crop img {
+	width: 100%;
+}
+.covers-list>li .image-crop .progress {
+	position: absolute;
+	bottom: 0;
+	height: 4px;
+	background-color: rgba(0,0,0,.5);
+	border-radius: 0;
+	z-index: 0;
+	margin-bottom: 0;
+	width: 100%;
+}
+.covers-list>li .image-crop .progress .progress-bar {
+	background-color: #7cdb62;
+	box-shadow: none;
+}
+/*.covers-list>li .image-crop .overlay {
+	display: none;
+	position: absolute;
+	border-radius: 3px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+	background-color: rgba(0,0,0,.6);
+	letter-spacing: 0;
+}
+.covers-list>li .image-crop:focus .overlay, .covers-list>li .image-crop:hover .overlay {
+    display: block;
+    }*/
+    .covers-list>li .cover-details {
+    	letter-spacing: 0;
+    	text-align: left;
+    }
+    .covers-list>li .cover-details h2 {
+    	margin: 7px 0 2px;
+    	font-size: 14px;
+    	color: #444;
+    	font-family: ProximaNovaSB;
+    	height: 15px;
+    	overflow: hidden;
+    	word-break: break-all;
+    }
+    .covers-list>li .cover-details a {
+    	-webkit-transition: all .4s ease-in-out;
+    	-moz-transition: all .4s ease-in-out;
+    	transition: all .4s ease-in-out;
+    }
+    .covers-list>li .cover-details h2 a {
+    	color: #444;
+    	display: inline-block;
+    	overflow: hidden;
+    	vertical-align: top;
+    }
+    .covers-list>li .cover-details h2 span,
+    .covers-list>li .cover-details span {
+    	font-family: ProximaNova;
+    	font-size: 12px;
+    	color: #999;
+    }
+    .covers-list>li .cover-details a {
+    	-webkit-transition: all .4s ease-in-out;
+    	-moz-transition: all .4s ease-in-out;
+    	transition: all .4s ease-in-out;
+    }
+    .covers-list>li .cover-details .secondary-link {
+    	color: #666;
+    	font-family: ProximaNova;
+    	font-size: 12px;
+    	display: inline;
+    }
+
+
+    @media (max-width: 768px) {
+    	.page-left {
+    		width: 100%;
+    		overflow: hidden;
+    		bottom: auto;
+    		max-height: 60px;
+    		z-index: 7000;
+    		-webkit-transition: max-height .5s ease-in-out;
+    		-moz-transition: max-height .5s ease-in-out;
+    		-ms-transition: max-height .5s ease-in-out;
+    		-o-transition: max-height .5s ease-in-out;
+    		transition: max-height .5s ease-in-out;
+    	}
+    	.page-center {
+    		margin: 0!important;
+    	}
+    	.page-center-inner {
+    		position: relative;
+    		margin-top: 60px;
+    	}
+    	#episode-details .episode-infos .basic-infos, #show-details .basic-infos, .covers-list {
+    		text-align: center;
+    	}
+
+    	.covers-list>li {
+    		padding: 12px 7px;
+    		width: 148px;
+    	}
+    	.covers-list>li .image-crop {
+    		width: 132px;
+    		height: 195px;
+    	}
+    }
