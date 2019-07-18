@@ -1,29 +1,45 @@
-<%
-	const isHomepage = typeof page === 'undefined' || page === 'homepage';
-	comic.link = isHomepage ? ('comics/' + comic.id) : (page === 'issue' ? '../' : './' + comic.id);
-	comic.image_code = isHomepage ? 'scale_avatar' : (page === 'comics' ? 'scale_small' : 'scale_avatar');
-	comic.full_name = comic.name + ' (' + comic.start_year + ')';
-%>
+<% if (page === 'homepage') { %>
 
-<% if (!isHomepage) { %>
-	<a href="..">Retour</a><br/>
-<% } %>
+	<!-- ITEM -->
+	<li id="episode-item-6934001" class="new">
 
-<a href="<%= comic.link %>">
-	<img src="<%= comic.image.replace('{{code}}', comic.image_code) %>" />
-</a><br/>
+		<!-- .nav -->
+		<div class="nav">
+			<a href="#" class="watched-btn popover-link" title="" data-original-title="Mark as read">
+				<i class="to-watch-icon icon-tvst-watch"></i>
+				<i class="watched-icon icon-tvst-check"></i>
+			</a>
+		</div>
+		<!-- // .nav -->
 
-<li>Link: <%= comic.link %></li>
+		<div class="image-crop">
+			<div class="new-label">New</div>
+			<a href="#">
+				<img src="https://comicvine.gamespot.com/api/image/scale_small/6406863-01.jpg" alt="{{ volume }}">
+			</a>
+			<div class="progress">
+				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
+				</div>
+			</div>
+			<!--div class="overlay">
+				<a href="#" class="zoom-btn overlay-btn" title="Infos">
+					<i class="zoom-icon icon-tvst-search"></i>
+				</a>
+			</div-->
+		</div>
 
-<li><a href="<%= comic.link %>"><%= comic.full_name %></a></li>
-<li>Name: <%= comic.name %></li>
-<li>Number of issues: <%= comic.nb_issues %></li>
-<li>Publisher: <%= comic.publisher.name %></li>
-<li>Start year: <%= comic.start_year %></li>
-<li>Added: <%= comic.date.added %></li>
-<li>Updated: <%= comic.date.updated %></li>
+		<div class="episode-details cover-details">
+			<h2><a href="#">{{ volume }} #X</a>
+				<!--span class="nb-remainging-episodes">+ X more</span-->
+			</h2>
+			<!--a class="nb-reviews-link secondary-link" href="#">+ x more</a-->
+			<span class="nb-remainging-episodes">+ X more</span>
 
-<% if (page === 'comics') { %>
+		</div>
+	</li>
+	<!-- // ITEM -->
+
+<% } else if (page === 'comics') { %>
 
 	<% comic.issues.forEach( issue => { %>
 		<%- include('issue.ejs', {comic: comic, issue: issue}) %>
@@ -37,6 +53,31 @@
 	<%- include('issue.ejs', {comic: comic, issue: comic.issue}) %>
 
 <% } else { %>
+
+	<%
+		const isHomepage = typeof page === 'undefined' || page === 'homepage';
+		comic.link = isHomepage ? ('comics/' + comic.id) : (page === 'issue' ? '../' : './' + comic.id);
+		comic.image_code = isHomepage ? 'scale_avatar' : (page === 'comics' ? 'scale_small' : 'scale_avatar');
+		comic.full_name = comic.name + ' (' + comic.start_year + ')';
+	%>
+
+	<% if (!isHomepage) { %>
+		<a href="..">Retour</a><br/>
+	<% } %>
+
+	<a href="<%= comic.link %>">
+		<img src="<%= comic.image.replace('{{code}}', comic.image_code) %>" />
+	</a><br/>
+
+	<li>Link: <%= comic.link %></li>
+
+	<li><a href="<%= comic.link %>"><%= comic.full_name %></a></li>
+	<li>Name: <%= comic.name %></li>
+	<li>Number of issues: <%= comic.nb_issues %></li>
+	<li>Publisher: <%= comic.publisher.name %></li>
+	<li>Start year: <%= comic.start_year %></li>
+	<li>Added: <%= comic.date.added %></li>
+	<li>Updated: <%= comic.date.updated %></li>
 
 	<li><a href="<%= comic.link %>">See all issues</a></li>
 

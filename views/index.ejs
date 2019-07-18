@@ -13,7 +13,13 @@
 
 		<div class="page-center">
 
-			<% if (page === "comics") { %>
+			<% if (page === "homepage") { %>
+				<ul class="to-read-list covers-list list-unstyled list-inline single-row">
+					<% comics.forEach( comic => { %>
+						<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
+					<% }) %>
+				</ul>
+			<% } else if (page === "comics") { %>
 				<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
 			<% } else { %>
 				<% comics.forEach( comic => { %>
