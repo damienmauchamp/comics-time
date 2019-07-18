@@ -1,7 +1,26 @@
-<% if (page === 'homepage') { %>
+<% if (page === 'homepage') { 
+	// params
+	var image_code = 'scale_small';
+
+	// comics
+	var is_new = false;
+	var img = comic.image.replace('{{code}}', image_code);
+
+	// issue
+	var found = comic.issues.find(function(i) {
+		return !i.read;
+	});
+
+	// +
+	var issue_number = parseInt(found.issue_number);
+	var last_read = (issue_number - 1);
+	var issues_left = comic.nb_issues - last_read;
+
+	var progress = last_read/comic.nb_issues*100;
+	%>
 
 	<!-- ITEM -->
-	<li id="episode-item-6934001" class="new">
+	<li id="episode-item-6934001" class="<%= is_new ? 'new' : ''%>">
 
 		<!-- .nav -->
 		<div class="nav">
@@ -15,10 +34,10 @@
 		<div class="image-crop">
 			<div class="new-label">New</div>
 			<a href="#">
-				<img src="https://comicvine.gamespot.com/api/image/scale_small/6406863-01.jpg" alt="{{ volume }}">
+				<img src="<%= img %>" alt="{{ volume }}">
 			</a>
 			<div class="progress">
-				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
+				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: <%= progress %>%">
 				</div>
 			</div>
 			<!--div class="overlay">
@@ -29,7 +48,7 @@
 		</div>
 
 		<div class="episode-details cover-details">
-			<h2><a href="#">{{ volume }} #X</a>
+			<h2><a href="#"><%= comic.name %> #X</a>
 				<!--span class="nb-remainging-episodes">+ X more</span-->
 			</h2>
 			<!--a class="nb-reviews-link secondary-link" href="#">+ x more</a-->
