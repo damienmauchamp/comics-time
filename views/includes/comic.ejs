@@ -5,17 +5,25 @@
 	// comics
 	var is_new = false;
 	var img = comic.image.replace('{{code}}', image_code);
+	var link = '/comics/' + comic.id;
 
-	// issue
+	/* issues */
+	// first unread
 	var found = comic.issues.find(function(i) {
 		return !i.read;
 	});
-
-	// +
-	var issue_number = parseInt(found.issue_number);
+	// to be released issues
+	var number_unreleased = comic.issues.filter(function(i) {
+		return new Date() < new Date(i.store_date)
+	}).length;
+	// progress
+	var issue_number = parseInt(found.issue_number) - number_unreleased;
+	// last read
 	var last_read = (issue_number - 1);
-	var issues_left = comic.nb_issues - last_read;
+	// to be read
+	var issues_left = comic.nb_issues - last_read - 1;
 
+	// progress bar percentage
 	var progress = last_read/comic.nb_issues*100;
 	%>
 
@@ -33,11 +41,11 @@
 
 		<div class="image-crop">
 			<div class="new-label">New</div>
-			<a href="#">
-				<img src="<%= img %>" alt="{{ volume }}">
+			<a href="<%= link %>">
+				<img src="<%= img %>" alt="<%= comic.name %>">
 			</a>
 			<div class="progress">
-				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: <%= progress %>%">
+				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= progress %>%">
 				</div>
 			</div>
 			<!--div class="overlay">
@@ -48,11 +56,11 @@
 		</div>
 
 		<div class="episode-details cover-details">
-			<h2><a href="#"><%= comic.name %> #X</a>
+			<h2><a href="<%= link %>"><%= comic.name %> #<%= issue_number %></a>
 				<!--span class="nb-remainging-episodes">+ X more</span-->
 			</h2>
 			<!--a class="nb-reviews-link secondary-link" href="#">+ x more</a-->
-			<span class="nb-remainging-episodes">+ X more</span>
+			<span class="nb-remainging-episodes" title="<%= comic.nb_issues + ' issues' %>"><% if (issues_left) { %>+ <%= issues_left %> more<% } %></span>
 
 		</div>
 	</li>
