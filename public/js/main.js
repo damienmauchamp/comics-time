@@ -1,3 +1,5 @@
+
+// /read
 $('.to-read-icon').on('click', function() {
 	var comics = $(this).closest('.comics');
 	var params = {
@@ -8,8 +10,8 @@ $('.to-read-icon').on('click', function() {
 	$.ajax({
 		url: '/read',
         dataType: 'json',
-		method: 'post',
-		data: params,
+        method: 'post',
+        data: params,
         success(response) {
 
         	var item = $('#comics-item-' + response.comics);
@@ -18,7 +20,7 @@ $('.to-read-icon').on('click', function() {
         	item.data({
                 comics: response.comics,
                 issue: response.issue,
-        	});
+            });
 
         	// img
         	item.find('img#img-' + response.comics).attr('src', response.img);
@@ -44,6 +46,21 @@ $('.to-read-icon').on('click', function() {
 
             console.log(response);
         }
-	});
+    });
 	console.log('read', params);
 });
+
+// /search
+function test_search(query) {
+    $.ajax({
+        url: '/search',
+        dataType: 'json',
+        method: 'get',
+        data: {
+            q: query
+        },
+        success(response) {
+            console.log(response)
+        }
+    });
+}

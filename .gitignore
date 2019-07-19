@@ -75,3 +75,4 @@ desktop.ini
 #data files
 data/comics.json
 data/extras.yml
+public/index*
