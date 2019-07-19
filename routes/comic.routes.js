@@ -141,6 +141,24 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
 //GET /comics/:id/issues
 // @todo ?
 
+//POST /read
+router.post('/read', async (req, res) => {
+
+    comic.readIssue(req.body)
+    .then(function(item) {
+        res.status(200).json(item)
+    })
+    .catch(err => {
+        if (err.status) {
+            res.status(err.status).json({ message: err.message })
+        } else {
+            res.status(500).json({ message: err.message })
+        }
+    })
+
+    //console.log(req.body)
+})
+
 //POST /comics/:id
 // Add comics using ComicVine volume ID
 router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {

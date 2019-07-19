@@ -49,7 +49,7 @@ a:focus, a:hover {
 	font-size: 30px;
 }
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-	font-family: ProximaNovaSB,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	/*font-family: ProximaNovaSB,"Helvetica Neue",Helvetica,Arial,sans-serif;*/
 }
 img {
 	border: 0;
@@ -147,7 +147,7 @@ ol, ul {
 }
 
 .page-center section h1 {
-	font-family: ProximaNova;
+	/*font-family: ProximaNova;*/
 	color: #666;
 	margin: 0 0 0 12px;
 	line-height: 24px;
@@ -172,7 +172,7 @@ ol, ul {
 }
 .covers-list > li {
 	padding: 12px 17px;
-	width: 187px;
+	/*width: 187px;*/
 	overflow: hidden;
 	vertical-align: top;
 }
@@ -181,12 +181,20 @@ ol, ul {
 	margin-bottom: 2px;
 }
 .covers-list>li .image-crop {
-	width: 155px;
-	height: 222px;
+	/*width: 155px;
+	height: 222px; x1.29032258*/
+    width: 200px;
+    height: 300px;
 	overflow: hidden;
 	border-radius: 2px;
 	box-shadow: 0 0 2px #777;
 	position: relative;
+}
+.covers-list>li .nav a {
+    color: #666;
+    font-size: 16px;
+    padding: 0;
+    background-color: transparent;
 }
 .covers-list>li:not(.new) .new-label {
 	display: none;
@@ -204,7 +212,7 @@ ol, ul {
 	transform: rotate(-45deg);
 	background-color: gold;
 	color: rgba(39,39,39,.8);
-	font-family: ProximaNovaSB;
+	/*font-family: ProximaNovaSB;*/
 	font-size: 12px;
 	text-transform: uppercase;
 	z-index: 0;
@@ -256,7 +264,7 @@ ol, ul {
     	margin: 7px 0 2px;
     	font-size: 14px;
     	color: #444;
-    	font-family: ProximaNovaSB;
+    	/*font-family: ProximaNovaSB;*/
     	height: 15px;
     	overflow: hidden;
     	word-break: break-all;
@@ -272,9 +280,9 @@ ol, ul {
     	overflow: hidden;
     	vertical-align: top;
     }
-    .covers-list>li .cover-details h2 span,
-    .covers-list>li .cover-details span {
-    	font-family: ProximaNova;
+    .covers-list>li .cover-details h2 span:not(.issue-number),
+    .covers-list>li .cover-details span:not(.issue-number) {
+    	/*font-family: ProximaNova;*/
     	font-size: 12px;
     	color: #999;
     }
@@ -285,7 +293,7 @@ ol, ul {
     }
     .covers-list>li .cover-details .secondary-link {
     	color: #666;
-    	font-family: ProximaNova;
+    	/*font-family: ProximaNova;*/
     	font-size: 12px;
     	display: inline;
     }
@@ -311,16 +319,18 @@ ol, ul {
     		position: relative;
     		margin-top: 60px;
     	}
-    	#episode-details .episode-infos .basic-infos, #show-details .basic-infos, .covers-list {
+    	#issue-details .issue-infos .basic-infos, #show-details .basic-infos, .covers-list {
     		text-align: center;
     	}
 
     	.covers-list>li {
     		padding: 12px 7px;
-    		width: 148px;
+    		/*width: 148px;*/
     	}
     	.covers-list>li .image-crop {
-    		width: 132px;
-    		height: 195px;
+    		/*width: 132px;
+    		height: 195px;*/
+    		width: 170px;
+    		height: 255px;
     	}
     }

@@ -3,38 +3,48 @@
 	var image_code = 'scale_small';
 
 	// comics
-	var is_new = false;
-	var img = comic.image.replace('{{code}}', image_code);
+	var comics_img = comic.image.replace('{{code}}', image_code);
 	var link = '/comics/' + comic.id;
 
 	/* issues */
 	// first unread
-	var found = comic.issues.find(function(i) {
+	var to_read = comic.issues.find(function(i) {
 		return !i.read;
 	});
+
+	// if there's no more issues left
+	if (!to_read) {
+		return;
+	}
+
+	// img
+	var issue_img = to_read.image.replace('{{code}}', image_code);
+	console.log(to_read)
 	// to be released issues
 	var number_unreleased = comic.issues.filter(function(i) {
 		return new Date() < new Date(i.store_date)
 	}).length;
 	// progress
-	var issue_number = parseInt(found.issue_number) - number_unreleased;
+	var issues_count = parseInt(to_read.issue_number) - number_unreleased;
 	// last read
-	var last_read = (issue_number - 1);
+	var last_read = (issues_count - 1);
 	// to be read
 	var issues_left = comic.nb_issues - last_read - 1;
+	//new
+    var is_new = Math.floor(Math.abs(new Date(to_read.store_date) - new Date()) / 1000 / 86400) < 7;
 
 	// progress bar percentage
 	var progress = last_read/comic.nb_issues*100;
 	%>
 
 	<!-- ITEM -->
-	<li id="episode-item-6934001" class="<%= is_new ? 'new' : ''%>">
+	<li id="comics-item-<%= comic.id %>" data-comics="<%= comic.id %>" data-issue="<%= to_read.id %>" class="comics <%= is_new ? 'new' : ''%>">
 
 		<!-- .nav -->
 		<div class="nav">
-			<a href="#" class="watched-btn popover-link" title="" data-original-title="Mark as read">
-				<i class="to-watch-icon icon-tvst-watch"></i>
-				<i class="watched-icon icon-tvst-check"></i>
+			<a href="#" class="read-btn popover-link" title="" data-original-title="Mark as read">
+				<i class="to-read-icon icon-tvst-read">✓</i>
+				<i class="read-icon icon-tvst-check"></i>
 			</a>
 		</div>
 		<!-- // .nav -->
@@ -42,7 +52,7 @@
 		<div class="image-crop">
 			<div class="new-label">New</div>
 			<a href="<%= link %>">
-				<img src="<%= img %>" alt="<%= comic.name %>">
+				<img id="img-<%= comic.id %>" src="<%= issue_img %>" alt="<%= comic.name %>">
 			</a>
 			<div class="progress">
 				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= progress %>%">
@@ -55,12 +65,12 @@
 			</div-->
 		</div>
 
-		<div class="episode-details cover-details">
-			<h2><a href="<%= link %>"><%= comic.name %> #<%= issue_number %></a>
-				<!--span class="nb-remainging-episodes">+ X more</span-->
+		<div class="issue-details cover-details">
+			<h2><a href="<%= link %>"><%= comic.name %> #<span class="issue-number"><%= to_read.issue_number %></span></a>
+				<!--span class="nb-remainging-issues">+ X more</span-->
 			</h2>
 			<!--a class="nb-reviews-link secondary-link" href="#">+ x more</a-->
-			<span class="nb-remainging-episodes" title="<%= comic.nb_issues + ' issues' %>"><% if (issues_left) { %>+ <%= issues_left %> more<% } %></span>
+			<span class="nb-remainging-issues" title="<%= comic.nb_issues + ' issues' %>"><% if (issues_left) { %>+ <span class="remainging-issues"><%= issues_left %></span> more<% } %></span>
 
 		</div>
 	</li>

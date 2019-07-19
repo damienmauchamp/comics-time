@@ -288,52 +288,68 @@ function deleteComics(id) {
     })
 }
 
-
-// olds
-
-function insertPost(newPost) {
+function readIssue(params) {
     return new Promise((resolve, reject) => {
-        const id = { id: helper.getNewId(posts) }
-        const date = { 
-            createdAt: helper.newDate(),
-            updatedAt: helper.newDate()
-        } 
-        newPost = { ...id, ...date, ...newPost }
-        posts.push(newPost)
-        helper.writeJSONFile(filename, posts)
-        resolve(newPost)
+        helper.comicsMustBeInArray(comics, params.comics)
+        .then(comic => {
+
+            const comics_index = comics.findIndex(c => c.id == comic.id)
+
+            const issue_index = comic.issues.findIndex(r => r.id == params.issue)
+
+            comics[comics_index].issues[issue_index].read = params.date
+
+            next = getNextIssue(comic.issues, params.issue)
+
+            /*
+
+    // to be released issues
+    var number_unreleased = comic.issues.filter(function(i) {
+        return new Date() < new Date(i.store_date)
+    }).length;
+    // progress
+    var issue_number = parseInt(to_read.issue_number) - number_unreleased;
+    // last read
+    var last_read = (issue_number - 1);
+    // to be read
+    var issues_left = comic.nb_issues - last_read - 1;
+
+    // progress bar percentage
+    var progress = last_read/comic.nb_issues*100;
+
+            */
+
+            var number_unreleased = comic.issues.filter(function(i) {
+                return new Date() < new Date(i.store_date)
+            }).length;
+            // progress
+            var issues_count = parseInt(next.issue_number) - number_unreleased;
+            // last read
+            var last_read = (issues_count - 1);
+            // to be read
+            var issues_left = comic.nb_issues - last_read - 1;
+            // release less than a week ago
+            var is_new = Math.floor(Math.abs(new Date(next.store_date) - new Date()) / 1000 / 86400) < 7;
+
+            // img
+            var image_code = 'scale_small';
+            var issue_img = next.image.replace('{{code}}', image_code);
+
+
+            helper.writeJSONFile(filename, comics)
+            resolve({
+                comics: comic.id,
+                issue: next.id,
+                issue_number: next.issue_number,
+                issues_left: issues_left,
+                progress: last_read/comic.nb_issues*100,
+                img: issue_img,
+                new: is_new
+            })
+        }).catch(err => reject(err))
     })
 }
 
-function updatePost(id, newPost) {
-    return new Promise((resolve, reject) => {
-        helper.comicsMustBeInArray(posts, id)
-        .then(post => {
-            const index = posts.findIndex(p => p.id == post.id)
-            id = { id: post.id }
-            const date = {
-                createdAt: post.createdAt,
-                updatedAt: helper.newDate()
-            } 
-            posts[index] = { ...id, ...date, ...newPost }
-            helper.writeJSONFile(filename, posts)
-            resolve(posts[index])
-        })
-        .catch(err => reject(err))
-    })
-}
-
-function deletePost(id) {
-    return new Promise((resolve, reject) => {
-        helper.comicsMustBeInArray(posts, id)
-        .then(() => {
-            posts = posts.filter(p => p.id !== id)
-            helper.writeJSONFile(filename, posts)
-            resolve()
-        })
-        .catch(err => reject(err))
-    })
-}
 
 module.exports = {
     getAllComics,
@@ -341,6 +357,8 @@ module.exports = {
     getIssue,
     getPreviousIssue,
     getNextIssue,
+
+    readIssue,
 
 
     addComics,
