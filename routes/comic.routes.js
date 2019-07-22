@@ -54,27 +54,77 @@ console.log(res);
 // @todo: pagination ?
 router.get('/search', async (req, res) => {
     const query = req.query.q;
+
+    const offset = 0;
+    const limit = 20;
     
     var params = {
         query: query,
+
+        offset: offset,
+        limit: limit,
+
         resources: 'volume'
     }
 
-    api.get('search/', params, function(results) {
+    api.get('search/', params, function(data) {
 
-        var display = [];
-        results.forEach(function(e) {
+/*
+{
+    "results":
+        [
+            {},
+            {},
+            {},
+        ],
+    "pagination":
+        {
+            "more": true
+        },
+    "incomplete_results":false,
+    "total_count":45
+}
+
+--------
+
+"error": "OK",
+"limit": 10,
+"offset": 0,
+"number_of_page_results": 10,
+"number_of_total_results": 787,
+"status_code": 1,
+"results": []
+
+
+*/
+
+        var results = [];
+        data.forEach(function(e) {
             //var template = "[" + e.id + "] " + e.name + " (" + e.start_year + ") (" + e.count_of_issues + " issues) [" + e.publisher.name + "]";
             // {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
-            display.push({
+            results.push({
                 id: e.id,
                 name: e.name,
                 start_year: e.start_year,
                 count_of_issues: e.count_of_issues,
+                image: e.image.icon_url, //.replace('original', '{{code}}')
                 publisher: e.publisher.name
             });
         });
-        res.json(display)
+
+        var results_returned = (data.offset + 1) * data.limit;
+        var total_count = data.number_of_total_results;
+
+        //res.json(results)
+        res.json({
+            pagination: {
+                more: results_returned < total_count
+            },
+            incomplete_results: false,
+            total_count: data.number_of_total_results,
+            results: results
+        })
+
     });
 })
 
