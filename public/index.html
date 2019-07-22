@@ -1,8 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>-</title>
-	<link rel="stylesheet" type="text/css" href="./css/main.css" />
+	<title>-</title><link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+	<script>
+		/*
+			// Select2 avec requête AJAX pour la sélection du compte client
+			var autocompletion_url = "includes/ventes/comptoir_autocompletion_client_sql.php";
+			var max_resultats = 50;
+			$("input#id_client").select2({
+				placeholder: $(this).data("placeholder"),
+				// minimumInputLength: 1,
+				allowClear: true,
+				ajax: {
+					url: autocompletion_url,
+					dataType: 'json',
+					quietMillis: 100,
+					//type: 'GET',
+					cache: false,
+					data: function(term, page) {
+						return {
+							q: term || "",
+							page: page
+						};
+					},
+					results: function(data, page) {
+						var more = (page * max_resultats) < data.total_count;
+						return {results: data.results, more: more};
+					}
+				},
+				// INITIATION DU CHAMP (lors du chargement et de la remise à zéro du champ)
+				initSelection: function(element, callback) {
+					// si un compte client est déjà choisi on va chercher ses infos
+					var id = $(element).val();
+					if (id !== "" && parseInt(id) !== 0) {
+						$.ajax(autocompletion_url + "?id=" + id, {
+							dataType: "json"
+						}).done(function(data) {
+							callback(data.results);
+						});
+					} else { // on remet le placeholder s'il n'y a pas d'ID
+						callback({text: $(element).data("placeholder")});
+					}
+				},
+				// TEXTE AU CHARGEMENT DES NOUVELLES PAGES
+				formatLoadMore: function(page) {
+					return "Chargement des clients...";
+				},
+				// TEXTE AU CHARGEMENT DE LA RECHERCHE
+				formatSearching: function() {
+					return "Recherche des clients...";
+				},
+				// TEXTE LORSQUE LE NOMBRE DE CARACTÈRES ENTRÉS < minimumInputLength
+				formatInputTooShort: function(term, minLength) {
+					var too_short_end = minLength === 1 ? "un caractère" : minLength + " caractères";
+					return "Veuillez entrer au moins " + too_short_end;
+				}
+			}).on("keyup blur change", function(e) {
+				charger_infos_client($(this).val());
+			});
+*/
+
+/*
+{
+	"results":
+		[
+			{},
+			{},
+			{},
+		],
+	"pagination":
+		{
+			"more": true
+		},
+	"incomplete_results":false,
+	"total_count":45
+}
+
+*/
+	</script>
 </head>
 <body id="container">
 	<div id="main">
