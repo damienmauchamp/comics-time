@@ -32,15 +32,17 @@ router.get('/', async (req, res) => {
 })
 
 //GET /calendar
-// @todo: pagination ?
-// must be valid date
 router.get('/calendar', async (req, res) => {
-    
-    var date = "2018-04-01";
-    var way = 1
-    var days = 600
+    var default_days = 900;
+    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
-    await comic.getCalendar(date, way, days)
+    var default_date_end = new Date().getTime();
+    const date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
+
+    var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
+    const date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
+
+    await comic.getCalendar(date_start, date_end)
     .then(issues => {
         res.status(200).json(issues)
     }).catch(err => {
@@ -50,19 +52,29 @@ router.get('/calendar', async (req, res) => {
             res.status(500).json({ message: err.message })
         }
     })
-/*
-CALENDAR
-var date_start = "2019-04-01";
-var date_end = "2019-06-31";
-var res = [];
-c.forEach(function(comic) {
-    var issues = comic.issues.filter(i => date_start <= i.store_date && i.store_date <= date_end);
-    issues.map(obj => (obj.comics = {id: comic.id, name: comic.name}));
-    res = res.concat(issues);
 })
-res.sort((a, b) => new Date(a.store_date) - new Date(b.store_date));
-console.log(res);
-*/
+
+//GET /calendar/data
+router.get('/calendar/data', async (req, res) => {
+    var default_days = 900;
+    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
+
+    var default_date_end = new Date().getTime();
+    const date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
+
+    var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
+    const date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
+
+    await comic.getCalendar(date_start, date_end)
+    .then(issues => {
+        res.status(200).json(issues)
+    }).catch(err => {
+        if (err.status) {
+            res.status(err.status).json({ message: err.message })
+        } else {
+            res.status(500).json({ message: err.message })
+        }
+    })
 })
 
 //GET /search
@@ -88,39 +100,8 @@ router.get('/search', async (req, res) => {
 
     api.get('search/', params, function(data) {
 
-/*
-{
-    "results":
-        [
-            {},
-            {},
-            {},
-        ],
-    "pagination":
-        {
-            "more": true
-        },
-    "incomplete_results":false,
-    "total_count":45
-}
-
---------
-
-"error": "OK",
-"limit": 10,
-"offset": 0,
-"number_of_page_results": 10,
-"number_of_total_results": 787,
-"status_code": 1,
-"results": []
-
-
-*/
-
         var results = [];
         data.results.forEach(function(e) {
-            //var template = "[" + e.id + "] " + e.name + " (" + e.start_year + ") (" + e.count_of_issues + " issues) [" + e.publisher.name + "]";
-            // {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
             results.push({
                 id: e.id,
                 name: e.name,

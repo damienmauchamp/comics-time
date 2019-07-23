@@ -350,17 +350,14 @@ function readIssue(params) {
     })
 }
 
-function getCalendar(date, way, days) {
+function getCalendar(date_start, date_end) {
     return new Promise((resolve, reject) => {
-        var date_start = new Date(date);
-        var date_end = new Date(date_start);
-        date_end.setDate(date_end.getDate() + days * way);
-
+        const start = new Date(date_start).setHours(0,0,0,0);
+        const end = new Date(date_end).setHours(23,59,59,99);
         var res = [];
         comics.forEach(function(comic) {
-            var issues = comic.issues.filter(i => date_start <= new Date(i.store_date) && new Date(i.store_date) <= date_end);
-            console.log(issues)
-            issues.map(obj => (obj.comics_id = comic.id, obj.comics_name = comic.name));
+            var issues = comic.issues.filter(i => start <= new Date(i.store_date).getTime() && new Date(i.store_date).getTime() <= end);
+            issues.map(obj => (obj.comics = {id: comic.id, name: comic.name}));
             res = res.concat(issues);
         })
         res.sort((a, b) => new Date(a.store_date) - new Date(b.store_date));
