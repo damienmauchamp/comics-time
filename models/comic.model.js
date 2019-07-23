@@ -13,7 +13,7 @@ function getAllComics() {
                 status: 202
             })
         }
-        resolve(comics)
+        resolve(comics.sort((a, b) => { return a.date.updated < b.date.updated; }))
     })
 }
 
@@ -69,8 +69,8 @@ function addComics(item, issues) {
                 issues: setComicsIssues(item.issues, issues), // array
                 image: helper.setImageUrl(item.image.original_url),
                 publisher: {
-                    id: item.publisher.id,
-                    name: item.publisher.name
+                    id: item.publisher.id ? item.publisher.id : '',
+                    name: item.publisher.name ? item.publisher.name : ''
                 },
                 start_year: item.start_year,
                 date: { 

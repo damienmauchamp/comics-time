@@ -80,10 +80,20 @@ $('#search').select2({
         },
         cache: true
     },
+    allowClear: true,
+    containerCssClass: 'searchbox',
+    //dropdownCssClass: 'aaaa',
+    dropdownParent: $('#test'),
     placeholder: 'Search for comics',
     escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
     minimumInputLength: 1,
     templateResult: function (item) {
+        if(item.loading) {
+            return 'Searching...';
+        }
+        // item.image
+        return item.name + ' (' + item.start_year + ') - ' + item.count_of_issues + ' issue(s)' + (item.publisher ? ', by ' + item.publisher : '');
+
         var markup = "<div class='select2-result-repository clearfix'>" +
         "<div class='select2-result-repository__avatar'><img src='" + item.image + "' /></div>" +
         "<div class='select2-result-repository__meta'>" +
@@ -98,6 +108,7 @@ $('#search').select2({
 
         return markup;
     },
+    minimumResultsForSearch: 1,
     width: '100%',
     /*templateSelection: function (data, container) {
         console.log('templateSelection', data.id);
