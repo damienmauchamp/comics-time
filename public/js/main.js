@@ -64,25 +64,13 @@ $('#search').select2({
         delay: 250,
         data: function (params) {
             return {
-                q: params.term, // search term
+                q: params.term,
                 page: params.page,
                 limit: options.search.limit
             };
         },
         processResults: function (data, params) {
-            // parse the results into the format expected by Select2
-            // since we are using custom formatting functions we do not need to
-            // alter the remote JSON data, except to indicate that infinite
-            // scrolling can be used
             params.page = params.page || 1;
-
-            console.log('processResults', data, params, {
-                results: data.results,
-                pagination: {
-                    more: (params.page * options.search.limit) < data.total_count
-                }
-            });
-
             return {
                 results: data.results,
                 pagination: {
@@ -110,6 +98,21 @@ $('#search').select2({
 
         return markup;
     },
-    width: '100%'
+    width: '100%',
+    /*templateSelection: function (data, container) {
+        console.log('templateSelection', data.id);
+        return data.name;
+    }*/
     //templateSelection: formatRepoSelection
+})
+.on("select2:select", function(e, i) { 
+    console.log('ajout', $(this).val());
+    $.ajax({
+        url: '/comics/' + $(this).val(),
+        dataType: 'json',
+        method: 'post',
+        success(response) {
+            console.log(response);
+        }
+    })
 });
