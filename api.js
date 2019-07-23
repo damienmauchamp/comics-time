@@ -66,11 +66,18 @@ API.prototype.set_options = function(path, id, query_params) {
 
 	//console.log(path, id, query_params)
 
+	// search filters
+	var field_list = '';
+	if (path.replace('/', '') === 'search') {
+		field_list = "&field_list=id,image,publisher,name,start_year,count_of_issues";
+	}
+
 	this.options = {
 		hostname: this.url,
 		path: '/api/' + path.replace('/', '') + '/'
 			+ ((id && prefixe) ? (prefixe + '-' + id + '/') : '') // {prefixe}-{id}
 			+ '?api_key=' + this.api_key
+			+ field_list
 			+ this.serialize(query_params, false),
 			headers: {
 				'User-Agent': 'Mozilla/5.0'
@@ -100,6 +107,7 @@ API.prototype.request = function (method, path, params, callback) {
 	// setting options
 	this.set_options(path, id, params);
 
+	console.log(this.options)
 
 	var data = '';
 	//console.log(this.options)
@@ -108,7 +116,7 @@ API.prototype.request = function (method, path, params, callback) {
 			data += chunk;
 		}).on('end', function() {
 			var json = JSON.parse(data);
-			callback(json.results);
+			callback(path.replace('/', '') === 'search' ? json : json.results);
 		});
 	}).on("error", (err) => {
 		//console.log("Error: " + err.message);

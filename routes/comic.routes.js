@@ -55,17 +55,21 @@ console.log(res);
 router.get('/search', async (req, res) => {
     const query = req.query.q;
 
-    const offset = 0;
+
+    const page = req.query.page || 1;
     const limit = 20;
+    const offset = (page - 1) * limit;
     
     var params = {
         query: query,
 
-        offset: offset,
+        page: page,
+        //offset: offset,
         limit: limit,
 
         resources: 'volume'
     }
+    console.log(page, params)
 
     api.get('search/', params, function(data) {
 
@@ -99,7 +103,7 @@ router.get('/search', async (req, res) => {
 */
 
         var results = [];
-        data.forEach(function(e) {
+        data.results.forEach(function(e) {
             //var template = "[" + e.id + "] " + e.name + " (" + e.start_year + ") (" + e.count_of_issues + " issues) [" + e.publisher.name + "]";
             // {name} {'Volume' || resource_type} {start_year} ({count_of_issues} issues) ({publisher.name})
             results.push({
@@ -112,16 +116,15 @@ router.get('/search', async (req, res) => {
             });
         });
 
-        var results_returned = (data.offset + 1) * data.limit;
-        var total_count = data.number_of_total_results;
+        var results_returned = (parseInt(data.offset) + 1) * parseInt(data.limit);
+        var total_count = parseInt(data.number_of_total_results);
 
-        //res.json(results)
         res.json({
             pagination: {
                 more: results_returned < total_count
             },
             incomplete_results: false,
-            total_count: data.number_of_total_results,
+            total_count: total_count,
             results: results
         })
 

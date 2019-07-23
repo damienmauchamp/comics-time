@@ -51,7 +51,11 @@ $('.to-read-icon').on('click', function() {
 });
 
 // /search
-
+var options = {
+    search: {
+        limit: 20
+    }
+}
 $('#search').select2({
     ajax: {
         url: '/search',
@@ -61,7 +65,8 @@ $('#search').select2({
         data: function (params) {
             return {
                 q: params.term, // search term
-                page: params.page
+                page: params.page,
+                limit: options.search.limit
             };
         },
         processResults: function (data, params) {
@@ -74,14 +79,14 @@ $('#search').select2({
             console.log('processResults', data, params, {
                 results: data.results,
                 pagination: {
-                    more: (params.page * 30) < data.total_count
+                    more: (params.page * options.search.limit) < data.total_count
                 }
             });
 
             return {
                 results: data.results,
                 pagination: {
-                    more: (params.page * 30) < data.total_count
+                    more: (params.page * options.search.limit) < data.total_count
                 }
             };
         },
