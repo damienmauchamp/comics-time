@@ -14,11 +14,17 @@
 
 
 		<div class="page-left page-sidebar">
+			<div id="test"></div>
 		</div>
 
 		<div class="page-center">
 
 			<% if (page === "homepage") { %>
+				<%# ul.HOMEPAGE to-read-list covers-list list-unstyled list-inline single-row %>
+
+				<%# ul.SEARCH search-results-list shows-results-list covers-list list-unstyled list-inline %>
+
+
 				<ul class="to-read-list covers-list list-unstyled list-inline single-row">
 					<% comics.forEach( comic => { %>
 						<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
