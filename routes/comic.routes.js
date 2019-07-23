@@ -35,6 +35,21 @@ router.get('/', async (req, res) => {
 // @todo: pagination ?
 // must be valid date
 router.get('/calendar', async (req, res) => {
+    
+    var date = "2018-04-01";
+    var way = 1
+    var days = 600
+
+    await comic.getCalendar(date, way, days)
+    .then(issues => {
+        res.status(200).json(issues)
+    }).catch(err => {
+        if (err.status) {
+            res.status(err.status).json({ message: err.message })
+        } else {
+            res.status(500).json({ message: err.message })
+        }
+    })
 /*
 CALENDAR
 var date_start = "2019-04-01";
