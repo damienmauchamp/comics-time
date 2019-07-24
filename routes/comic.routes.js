@@ -107,7 +107,7 @@ router.get('/search', async (req, res) => {
                 name: e.name,
                 start_year: e.start_year,
                 count_of_issues: e.count_of_issues,
-                image: e.image.icon_url, //.replace('original', '{{code}}')
+                image: e.image.thumb_url, //scale_avatar, .replace('original', '{{code}}')
                 publisher: e.publisher ? e.publisher.name : ''
             });
         });

@@ -61,7 +61,7 @@ $('#search').select2({
         url: '/search',
         dataType: 'json',
         method: 'get',
-        delay: 250,
+        delay: 1000,
         data: function (params) {
             return {
                 q: params.term,
@@ -91,22 +91,17 @@ $('#search').select2({
         if(item.loading) {
             return 'Searching...';
         }
-        // item.image
+        return  '<div class="search-item">' +
+                    '<div class="search-column search--image">' +
+                        '<img src="' + item.image + '" />' +
+                    '</div>' +
+                    '<div class="search-column search--info">' +
+                        '<div class="search--name">' + item.name + ' (' + item.start_year + ')</div>' +
+                        '<div class="search--issues">' + item.count_of_issues + ' issue(s)</div>' +
+                        '<div class="search--publisher">' + item.publisher + '</div>' +
+                    '</div>' +
+                '</div>';
         return item.name + ' (' + item.start_year + ') - ' + item.count_of_issues + ' issue(s)' + (item.publisher ? ', by ' + item.publisher : '');
-
-        var markup = "<div class='select2-result-repository clearfix'>" +
-        "<div class='select2-result-repository__avatar'><img src='" + item.image + "' /></div>" +
-        "<div class='select2-result-repository__meta'>" +
-          "<div class='select2-result-repository__title'>" + item.name + "</div>";
-
-        markup += "<div class='select2-result-repository__statistics'>" +
-        "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i>(" + item.start_year + ")</div>" +
-        "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + item.publisher + "</div>" +
-        "<div class='select2-result-repository__sstargazers'><i class='fa fa-star'></i> " + item.count_of_issues + " issues</div>" +
-        "</div>" +
-        "</div></div>";
-
-        return markup;
     },
     minimumResultsForSearch: 1,
     width: '100%',
