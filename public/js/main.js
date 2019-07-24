@@ -28,10 +28,11 @@ $('.to-read-icon').on('click', function() {
         	// #
         	item.find('.issue-number').text(response.issue_number);
 
-        	if (response.issues_left > 0) {
-        		item.find('.remainging-issues').text(response.issues_left).show();
+            item.find('.remainging-issues').text(response.issues_left)
+        	if (response.issues_left) {
+        		item.find('.nb-remainging-issues').show();
         	} else {
-        		item.find('.remainging-issues').text(response.issues_left).hide();
+        		item.find('.nb-remainging-issues').hide();
         	}
 
         	// progress bar
@@ -43,6 +44,8 @@ $('.to-read-icon').on('click', function() {
         	} else {
         		item.removeClass('new');
         	}
+
+            //item.prependTo($('.to-read-list'));
 
             console.log(response);
         }
@@ -118,6 +121,7 @@ $('#search').select2({
         dataType: 'json',
         method: 'post',
         success(response) {
+            $('.to-read-list').prepend('<li>' + JSON.stringify(response.content) + '</li>');
             console.log(response);
         }
     })
