@@ -6,6 +6,13 @@ const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
 const api = require('../api.js')
 
+var options = {
+    page: "default",
+    datatype: "default",
+
+    image_code: 'scale_small'
+}
+
 //
 // @todo
 router.use('', function (req, res, next) {
@@ -16,11 +23,26 @@ router.use('', function (req, res, next) {
 // GET /
 // @todo
 router.get('/', async (req, res) => {
-    const page = 'homepage';
+    options.page = 'homepage';
 
     await comic.getAllComics()
     .then(function(comics) {
-        res.render('index.ejs', {comics: comics, page: page})
+
+        comics = comics.map(c => ({
+            ...c,
+
+            // comics info
+            image: c.image.replace('{{code}}', options.image_code),
+            link: '/comics/' + c.id,
+
+            // to read
+            to_read: c.issues.find(function(i) {
+                return !i.read;
+            })
+
+        }))
+
+        res.render('index.ejs', {comics: comics, options: options})
     })
     .catch(err => {
         if (err.status) {
@@ -33,6 +55,8 @@ router.get('/', async (req, res) => {
 
 //GET /calendar
 router.get('/calendar', async (req, res) => {
+    options.page = 'calendar';
+
     var default_days = 900;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
@@ -56,6 +80,8 @@ router.get('/calendar', async (req, res) => {
 
 //GET /calendar/data
 router.get('/calendar/data', async (req, res) => {
+    options.page = 'calendar';
+    
     var default_days = 900;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
@@ -83,14 +109,14 @@ router.get('/search', async (req, res) => {
     const query = req.query.q;
 
 
-    const page = req.query.page || 1;
+    options.page = req.query.page || 1;
     const limit = 20;
     const offset = (page - 1) * limit;
     
     var params = {
         query: query,
 
-        page: page,
+        options: options,
         //offset: offset,
         limit: limit,
 
@@ -134,11 +160,11 @@ router.get('/search', async (req, res) => {
 //GET /comics/:id
 router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
     const id = req.params.id
-    const page = 'comics';
+    options.page = 'comics';
 
     await comic.getComics(id)
     .then(function(comics) {
-        res.render('index.ejs', {page: page, comic: comics})
+        res.render('index.ejs', {options: options, comic: comics})
     })
     .catch(err => {
         if (err.status) {
@@ -155,7 +181,7 @@ router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMustBeinteger, async (req, res) => {
     const id_comic = req.params.id
     const id_issue = req.params.id_issue
-    const page = 'issue';
+    options.page = 'issue';
 
     comic.getComics(id_comic)
     .then(function(item) {
@@ -164,7 +190,7 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
             issue.previous = comic.getPreviousIssue(item.issues, id_issue)
             issue.next = comic.getNextIssue(item.issues, id_issue)
             item.issue = issue
-            res.status(200).json({page: page, comic: item})
+            res.status(200).json({options: options, comic: item})
         })
         .catch(err => {
             if (err.status) {

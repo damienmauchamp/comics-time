@@ -1,44 +1,32 @@
-<% if (page === 'homepage') { 
-	// params
-	var image_code = 'scale_small';
-
-	// comics
-	var comics_img = comic.image.replace('{{code}}', image_code);
-	var link = '/comics/' + comic.id;
-
-	/* issues */
-	// first unread
-	var to_read = comic.issues.find(function(i) {
-		return !i.read;
-	});
+<% if (options.page === 'homepage') { 
 
 	// if there's no more issues left
-	if (!to_read) {
+	if (!comic.to_read) {
 		return;
 	}
 
 	// img
-	var issue_img = to_read.image.replace('{{code}}', image_code);
-	console.log(to_read)
+	comic.to_read.image = comic.to_read.image.replace('{{code}}', options.image_code);
+
 	// to be released issues
 	var number_unreleased = comic.issues.filter(function(i) {
 		return new Date() < new Date(i.store_date)
 	}).length;
 	// progress
-	var issues_count = parseInt(to_read.issue_number) - number_unreleased;
+	var issues_count = parseInt(comic.to_read.issue_number) - number_unreleased;
 	// last read
 	var last_read = (issues_count - 1);
 	// to be read
 	var issues_left = comic.nb_issues - last_read - 1;
 	//new
-    var is_new = Math.floor(Math.abs(new Date(to_read.store_date) - new Date()) / 1000 / 86400) < 7;
+    var is_new = Math.floor(Math.abs(new Date(comic.to_read.store_date) - new Date()) / 1000 / 86400) < 7;
 
 	// progress bar percentage
 	var progress = last_read/comic.nb_issues*100;
 	%>
 
 	<!-- ITEM -->
-	<li id="comics-item-<%= comic.id %>" data-comics="<%= comic.id %>" data-issue="<%= to_read.id %>" class="comics <%= is_new ? 'new' : ''%>">
+	<li id="comics-item-<%= comic.id %>" data-comics="<%= comic.id %>" data-issue="<%= comic.to_read.id %>" class="comics <%= is_new ? 'new' : ''%>">
 
 		<!-- .nav -->
 		<div class="nav">
@@ -51,8 +39,8 @@
 
 		<div class="image-crop">
 			<div class="new-label">New</div>
-			<a href="<%= link %>">
-				<img id="img-<%= comic.id %>" src="<%= issue_img %>" alt="<%= comic.name %>">
+			<a href="<%= comic.link %>">
+				<img id="img-<%= comic.id %>" src="<%= comic.to_read.image %>" alt="<%= comic.name %>">
 			</a>
 			<div class="progress">
 				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= progress %>%">
@@ -66,7 +54,7 @@
 		</div>
 
 		<div class="issue-details cover-details">
-			<h2><a href="<%= link %>"><%= comic.name %> #<span class="issue-number"><%= to_read.issue_number %></span></a>
+			<h2><a href="<%= comic.link %>"><%= comic.name %> #<span class="issue-number"><%= comic.to_read.issue_number %></span></a>
 				<!--span class="nb-remainging-issues">+ X more</span-->
 			</h2>
 			<!--a class="nb-reviews-link secondary-link" href="#">+ x more</a-->
@@ -76,13 +64,13 @@
 	</li>
 	<!-- // ITEM -->
 
-<% } else if (page === 'comics') { %>
+<% } else if (options.page === 'comics') { %>
 
 	<% comic.issues.forEach( issue => { %>
 		<%- include('issue.ejs', {comic: comic, issue: issue}) %>
 	<% })
 
-} else if (page === 'issue') {
+} else if (options.page === 'issue') {
 
 	const issue = comic.issues.filter(i => i.issue_number == issue_number, issue_number)
 
@@ -92,9 +80,9 @@
 <% } else { %>
 
 	<%
-		const isHomepage = typeof page === 'undefined' || page === 'homepage';
-		comic.link = isHomepage ? ('comics/' + comic.id) : (page === 'issue' ? '../' : './' + comic.id);
-		comic.image_code = isHomepage ? 'scale_avatar' : (page === 'comics' ? 'scale_small' : 'scale_avatar');
+		const isHomepage = typeof options.page === 'undefined' || options.page === 'homepage';
+		comic.link = isHomepage ? ('comics/' + comic.id) : (options.page === 'issue' ? '../' : './' + comic.id);
+		comic.image_code = isHomepage ? 'scale_avatar' : (options.page === 'comics' ? 'scale_small' : 'scale_avatar');
 		comic.full_name = comic.name + ' (' + comic.start_year + ')';
 	%>
 

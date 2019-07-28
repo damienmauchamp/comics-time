@@ -32,18 +32,20 @@
 
 			<%# ul.HOMEPAGE to-read-list covers-list list-unstyled list-inline single-row %>
 			<%# ul.SEARCH search-results-list shows-results-list covers-list list-unstyled list-inline %>
-			<% if (page === "homepage") { %>
+			<% if (options.page === "homepage") { %>
 				<ul class="to-read-list covers-list list-unstyled list-inline single-row">
 					<% comics.forEach( comic => { %>
-						<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
+						<%- include('includes/comic.ejs', {options: options, comic: comic, options: options}) %>
 					<% }) %>
 				</ul>
-			<% } else if (page === "comics") { %>
-				<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
+			<% }
+
+			else if (options.page === "comics") { %>
+				<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
 			<% } else { %>
 				<% comics.forEach( comic => { %>
 					<ul>
-						<%- include('includes/comic.ejs', {comic: comic, page: page}) %>
+						<%- include('includes/comic.ejs', {comic: comic}) %>
 				    </ul>
 				<% }) %>
 			<% } %>
