@@ -301,6 +301,13 @@ function readIssue(params) {
 
             next = getNextIssue(comic.issues, params.issue)
 
+            if (!next) {
+                resolve({
+                    comics: comic.id,
+                    complete: true
+                })
+            }
+
             /*
 
     // to be released issues
@@ -344,7 +351,8 @@ function readIssue(params) {
                 issues_left: issues_left,
                 progress: last_read/comic.nb_issues*100,
                 img: issue_img,
-                new: is_new
+                new: is_new,
+                complete: false
             })
         }).catch(err => reject(err))
     })

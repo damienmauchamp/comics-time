@@ -14,7 +14,12 @@ $('.to-read-icon').on('click', function() {
         data: params,
         success(response) {
 
-        	var item = $('#comics-item-' + response.comics);
+            var item = $('#comics-item-' + response.comics);
+
+            if (response.complete) {
+                item.remove();
+                return false;
+            }
 
         	// item attributes
         	item.data({
