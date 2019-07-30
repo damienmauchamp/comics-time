@@ -109,7 +109,7 @@ router.get('/search', async (req, res) => {
     const query = req.query.q;
 
 
-    options.page = req.query.page || 1;
+    var page = req.query.page || 1;
     const limit = 20;
     const offset = (page - 1) * limit;
     
@@ -262,12 +262,33 @@ router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
         var params = { filter: { volume: volume } }
         api.get('issues/', params, function(issues) {
             comic.addComics(comics, issues)
-            .then(comic => 
-                res.status(201).json({
+            .then(comic => {
+
+                comic = {
+                    ...comic,
+
+                    // comics info
+                    image: comic.image.replace('{{code}}', options.image_code),
+                    link: '/comics/' + comic.id,
+
+                    // to read
+                    to_read: comic.issues.find(function(i) {
+                        return !i.read;
+                    })
+                };
+
+
+                res.send({ data: [
+                    { comic: comic, options: options }
+                ]});
+                //res.send({ data: {comic: comic, options: options}});
+                //console.log(comic);
+                //res.render('includes/comic.ejs', {comic: comic, options: options})
+                /*res.status(201).json({
                     message: `The comic #${comic.id} has been created`,
                     content: comic
-                })
-            )
+                })*/
+            })
             .catch(err => res.status(500).json({ message: err.message }))
         })
     })
@@ -347,7 +368,16 @@ router.delete('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 
 
+router.get('/template/:template', async(req, res) => {
+    const template = req.params.template
+    options.page = 'homepage';
 
+    var path = require('path');
+    res.sendFile(path.resolve('views/includes/' + template));
+
+    console.log(path.resolve('views/includes/' + template))
+    //comic.ejs
+})
 
 
 

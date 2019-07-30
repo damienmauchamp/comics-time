@@ -1,6 +1,7 @@
 
 // /read
-$('.to-read-icon').on('click', function() {
+//$('ul.to-read-list .to-read-icon').
+$(document).on('click', '.to-read-icon', function() {
 	var comics = $(this).closest('.comics');
 	var params = {
 		comics: comics.data('comics'),
@@ -125,9 +126,15 @@ $('#search').select2({
         url: '/comics/' + $(this).val(),
         dataType: 'json',
         method: 'post',
-        success(response) {
-            $('.to-read-list').prepend('<li>' + JSON.stringify(response.content) + '</li>');
-            console.log(response);
+        success(res) {
+            // Grab the template
+            $.get('template/comic.ejs', function (template) {
+                // Compile the EJS template.
+                var func = ejs.compile(template);
+                var html = func(res.data[0]);
+                // Display
+                $('.to-read-list').prepend(html);
+            });
         }
     })
 });
@@ -157,7 +164,6 @@ $('#update').on('click', function() {
                     }
                 })
                 updates.push(update_request);
-                console.log(n_comics--, v);
             });
 
             $.when.apply(null, updates).done(function(){
