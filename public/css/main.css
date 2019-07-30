@@ -303,6 +303,9 @@ ol, ul {
 	font-size: 12px;
 	display: inline;
 }
+.covers-list>li .comics.complete .to-read-icon {
+	visibility: hidden;
+}
 
 
 /* SEARCH BOX */

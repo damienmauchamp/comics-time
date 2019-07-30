@@ -1,7 +1,6 @@
 
 // /read
-//$('ul.to-read-list .to-read-icon').
-$(document).on('click', '.to-read-icon', function() {
+$(document).on('click', '.comics:not(.complete) .to-read-icon', function() {
 	var comics = $(this).closest('.comics');
 	var params = {
 		comics: comics.data('comics'),
@@ -13,54 +12,55 @@ $(document).on('click', '.to-read-icon', function() {
         dataType: 'json',
         method: 'post',
         data: params,
-        success(response) {
+        success(res) {
+            // item
+            var item = $('#comics-item-' + res.comics);
 
-            var item = $('#comics-item-' + response.comics);
+            // img
+            item.find('img#img-' + res.comics).attr('src', res.img);
 
-            if (response.complete) {
-                item.remove();
-                return false;
-            }
-
-        	// item attributes
-        	item.data({
-                comics: response.comics,
-                issue: response.issue,
-            });
-
-        	// img
-        	item.find('img#img-' + response.comics).attr('src', response.img);
+            // progress bar
+            item.find('.progress-bar').css('width', res.progress + '%');
 
         	// #
-        	item.find('.issue-number').text(response.issue_number);
+        	item.find('.issue-number').text(res.issue_number ? ('#' + res.issue_number) : '');
 
-            item.find('.remainging-issues').text(response.issues_left)
-        	if (response.issues_left) {
+            // remaining issue(s)
+            item.find('.remainging-issues').text(res.issues_left)
+
+        	if (res.issues_left && !res.complete) {
         		item.find('.nb-remainging-issues').show();
         	} else {
         		item.find('.nb-remainging-issues').hide();
         	}
 
-        	// progress bar
-        	item.find('.progress-bar').css('width', response.progress + '%');
+            // new show/hide, date
+            if (res.new && !res.complete) {
+                item.addClass('new');
+            } else {
+                item.removeClass('new');
+            }
 
-        	// new show/hide, date
-        	if (response.new) {
-        		item.addClass('new');
-        	} else {
-        		item.removeClass('new');
-        	}
+            if (res.complete) {
+                //item.remove();
+                item.find('.to-read-icon').css('visibility', 'hidden');
+                item.addClass('complete');
+                item.removeData('issue');
+                return false;
+            }
 
-            //item.prependTo($('.to-read-list'));
-
-            console.log(response);
+            // item attributes
+            item.data({
+                comics: res.comics,
+                issue: res.issue,
+            });
         }
     });
-	console.log('read', params);
 });
 
 // /search
-var options = {
+options = {
+    ...options,
     search: {
         limit: 20
     }

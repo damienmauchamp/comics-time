@@ -108,8 +108,7 @@ router.get('/calendar/data', async (req, res) => {
 router.get('/search', async (req, res) => {
     const query = req.query.q;
 
-
-    var page = req.query.page || 1;
+    const page = req.query.page || 1;
     const limit = 20;
     const offset = (page - 1) * limit;
     
