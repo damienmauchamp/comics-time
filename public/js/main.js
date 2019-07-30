@@ -131,3 +131,41 @@ $('#search').select2({
         }
     })
 });
+
+// update
+$('#update').on('click', function() {
+    //
+    $(this).text('updating...').prop('disabled', true);
+    $.ajax({
+        url: '/update',
+        dataType: 'json',
+        method: 'get',
+        success(response) {
+            if(!response) {
+                return false;
+            }
+
+            var n_comics = response.length;
+            var updates = [];
+            response.forEach(function(v) {
+                var update_request = $.ajax({
+                    url: '/comics/' + v + '/issues',
+                    dataType: 'json',
+                    method: 'put',
+                    success(response) {
+                        console.log(response);
+                    }
+                })
+                updates.push(update_request);
+                console.log(n_comics--, v);
+            });
+
+            $.when.apply(null, updates).done(function(){
+                $('#update').text('updated').prop('disabled', false);
+                console.log('Comics updated');
+            });
+
+            //
+        }
+    });
+});

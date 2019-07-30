@@ -153,6 +153,22 @@ router.get('/search', async (req, res) => {
     });
 })
 
+//GET /update
+router.get('/update', async(req, res) => {
+    await comic.getAllComics()
+    .then(function(comics) {
+        res.status(200).json(comics.map(c => {
+            return c.id
+        }))
+    }).catch(err => {
+        if (err.status) {
+            res.status(err.status).json({ message: err.message })
+        } else {
+            res.status(500).json({ message: err.message })
+        }
+    })
+})
+
 
 //GET /comics
 // @todo ?
@@ -295,7 +311,7 @@ router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
         api.get('issues/', params, function(issues) {
             comic.editComicsIssues(comics, issues)
             .then(comic => 
-                res.status(201).json({
+                res.status(200).json({
                     message: `The comic's issues has been edited`,
                     content: comic
                 })
