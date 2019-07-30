@@ -127,14 +127,7 @@ $('#search').select2({
         dataType: 'json',
         method: 'post',
         success(res) {
-            // Grab the template
-            $.get('template/comic.ejs', function (template) {
-                // Compile the EJS template.
-                var func = ejs.compile(template);
-                var html = func(res.data[0]);
-                // Display
-                $('.to-read-list').prepend(html);
-            });
+            template('comic', res.data[0], '.to-read-list', 'before');
         }
     })
 });
@@ -175,3 +168,18 @@ $('#update').on('click', function() {
         }
     });
 });
+
+function template(name, data, element, before_after = 'before') {
+    // Grab the template
+    $.get('template/' + name + '.ejs', function (template) {
+        var func = ejs.compile(template);
+        var html = func(data);
+        if (before_after === 'before') {
+            $(element).prepend(html);
+        } else if (before_after === 'after') {
+            $(element).append(html);
+        } else {
+            return false;
+        }
+    });
+}
