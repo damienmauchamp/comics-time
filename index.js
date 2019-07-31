@@ -12,7 +12,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(require('./routes/index.routes'))
 
 // files
-app.use('/static', express.static(__dirname + '/public'));
+//app.use('/static', express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 // First route
 /*app.get('/', function(req, res) {

@@ -9,6 +9,10 @@
 	<%#meta name="MobileOptimized" content="1040"%>
 	<meta http-equiv="content-language" content="en">
 
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300" rel="stylesheet">
+
+
 	<title>-</title>
 	<%# jQuery %>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -16,15 +20,26 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.full.js"></script>
 	<%# EJS %>
-	<script src="/static/js/ejs.js"></script>
+	<script src="/js/ejs.js"></script>
 	<%# custom %>
-	<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
 <body id="container">
 	<div id="main">
 
 
 		<div class="page-left page-sidebar">
+
+			<a href="#" class="extend-left-link"><i class="fa fa-bars"></i></a>
+
+			<div class="scrollable scrolling-element">
+				<div class="wrapper">
+					<a id="home-link" href="/" style="display:none"> <%# height: 66px; %>
+			            <img class="logo" src="/images/logo_tmp.png" alt="COMICS TIME"> <span id="home-text">COMICS TIME</span>
+			        </a>
+				</div>
+			</div>
+
 			<%# search %>
 			<select id="search" name="search"></select>
 			<%# // search %>
@@ -71,6 +86,6 @@
 			}
 		};
 	</script>
-	<script src="/static/js/main.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>

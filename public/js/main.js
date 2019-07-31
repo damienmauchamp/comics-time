@@ -64,7 +64,8 @@ options = {
     search: {
         limit: 20
     }
-}
+};
+
 $('#search').select2({
     ajax: {
         url: '/search',
@@ -181,5 +182,34 @@ function template(name, data, element, before_after = 'before') {
         } else {
             return false;
         }
+    });
+}
+
+function moveElement(element, newParent, duration = 0, direction = 'top') {
+    var tempParent = newParent;
+    //Allow passing in either a jQuery object or selector
+    element = $(element);
+    newParent= $(newParent);
+
+    var oldOffset = element.offset();
+    if (['top', 'haut', 'début'].includes(direction)) {
+        element.prependTo(newParent);
+    } else if (['bottom', 'bas', 'fin'].includes(direction)) {
+        element.appendTo(newParent);
+    }
+    var newOffset = element.offset();
+
+    var temp = element.clone().appendTo(tempParent); // body
+    temp.css({
+        'position': 'absolute',
+        'left': oldOffset.left,
+        'top': oldOffset.top,
+        'z-index': 1000
+    });
+    element.hide();
+
+    temp.animate({'top': newOffset.top, 'left': newOffset.left}, duration, function(){
+       element.show();
+       temp.remove();
     });
 }
