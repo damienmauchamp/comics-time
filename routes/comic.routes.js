@@ -8,7 +8,8 @@ const api = require('../api.js')
 
 var options = {
     page: "default",
-    datatype: "default",
+    main: "home",
+    datatype: "html",
 
     image_code: 'scale_small'
 }
@@ -56,8 +57,9 @@ router.get('/', async (req, res) => {
 //GET /calendar
 router.get('/calendar', async (req, res) => {
     options.page = 'calendar';
+    options.main = 'calendar';
 
-    var default_days = 900;
+    var default_days = 7*4;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
     var default_date_end = new Date().getTime();
@@ -68,7 +70,18 @@ router.get('/calendar', async (req, res) => {
 
     await comic.getCalendar(date_start, date_end)
     .then(issues => {
-        res.status(200).json(issues)
+
+        // ordering by week
+        var by_week = {}
+        issues.forEach(i => {
+            if (!by_week[i.store_date]) {
+                by_week[i.store_date] = [];
+            }
+            by_week[i.store_date].push(i)
+        })
+
+        //res.status(200).json({calendar: by_week, options: options})
+        res.render('index.ejs', {calendar: by_week, options: options})
     }).catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })
@@ -82,7 +95,7 @@ router.get('/calendar', async (req, res) => {
 router.get('/calendar/data', async (req, res) => {
     options.page = 'calendar';
     
-    var default_days = 900;
+    var default_days = 7*4;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
     var default_date_end = new Date().getTime();

@@ -28,6 +28,7 @@
 	<div id="main">
 
 
+
 		<div class="page-left page-sidebar">
 
 			<a href="#" class="extend-left-link"><i class="fa fa-bars"></i></a>
@@ -49,32 +50,67 @@
 			<%# // update %>
 		</div>
 
+
+
 		<div class="page-center">
+			<div id="<%= options.main %>">
 
-			<%# ul.HOMEPAGE to-read-list covers-list list-unstyled list-inline single-row %>
-			<%# ul.SEARCH search-results-list shows-results-list covers-list list-unstyled list-inline %>
-			<% if (options.page === "homepage") { %>
-				<ul class="to-read-list covers-list list-unstyled list-inline single-row">
-					<% comics.forEach( comic => { %>
-						<%- include('includes/comic.ejs', {options: options, comic: comic, options: options}) %>
-					<% }) %>
-				</ul>
-			<% }
+			<% switch(options.page) {
+				default: break;
+				%>
 
-			else if (options.page === "comics") { %>
-				<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
-			<% } else { %>
-				<% comics.forEach( comic => { %>
-					<ul>
-						<%- include('includes/comic.ejs', {comic: comic}) %>
-				    </ul>
-				<% }) %>
+				<%# HOMEPAGE %>
+				<% case "homepage": %>
+					<section class="to-read" id="to-read">
+						<h1>Read next&nbsp;<span class="nb-items">(XXX)</span></h1>
+						<ul class="to-read-list covers-list list-unstyled list-inline single-row">
+							<%
+							comics_to_read = comics.filter(c => {
+								return parseInt(c.to_read.issue_number) > 1;
+							})
+							comics_not_started = comics.filter(c => {
+								return parseInt(c.to_read.issue_number) <= 1;
+							})
+							comics_to_read.forEach( comic => { %>
+								<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+							<% }); %>
+						</ul>
+					</section>
+					<% if (comics_not_started) { %>
+						<section class="to-read" id="not-started">
+							<h1>Not started yet&nbsp;<span class="nb-items">(XXX)</span></h1>
+							<ul class="to-read-list covers-list list-unstyled list-inline single-row">
+								<% comics_not_started.forEach( comic => { %>
+									<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+								<% }); %>
+							</ul>
+						</section>
+					<% } %>
+					<% break %>
+
+				<%# COMICS %>
+				<% case "comics": %>
+					<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+					<% break %>
+
+				<%# CALENDAR %>
+				<% case "calendar": 
+				//console.log(calendar)%>
+					<% Object.entries(calendar).forEach(([week, items]) => { %>
+						<%# includes/calendar.ejs %>
+						<%# includes/calendar/week_item.ejs %>
+						<% console.log(week, items) %>
+					<% }); %>
+					<% break %>
+
+
+				<div id="test"></div>
+
 			<% } %>
-
-
-			<div id="test"></div>
-
+			</div>
 		</div>
+
+
 
 	</div>
 
@@ -89,3 +125,4 @@
 	<script src="/js/main.js"></script>
 </body>
 </html>
+<%# ul.SEARCH search-results-list shows-results-list covers-list list-unstyled list-inline %>
