@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
             // to read
             to_read: c.issues.find(function(i) {
                 return !i.read;
-            })
+            }) || false
 
         }))
 
