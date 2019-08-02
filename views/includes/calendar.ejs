@@ -1,2 +1,21 @@
-<%# displaying date, today, tomorrow, in X days/months/year, a/X days/month/year ago,  %>
-<%# foreach week item, include %>
+<%# {options: options, day: day, issues: issues} %>
+<%
+	var day_date = options.modules.moment(new Date(date)).lang(options.lang);
+%>
+<div class="day">
+	<div class="day-header" data-date="<%= day_date.format('YYYY-MM-DD') %>">
+		<div class="day-info">
+			<div class="day-label"><%= day_date.format('dddd') %></div>
+			<div class="day-number"><%= day_date.format('DD') %></div>
+			<div class="month-label"><%= day_date.format('MMMM') %></div>
+		</div>
+		<div class="relative-date">
+			<%# a-X day(s)-month(s)-year(s) ago/yesterday/today/tomorrow/in a/X day(s)-month(s)-year %>
+			<ul class="fanarts-list list-unstyled list-inline">
+				<% Object.entries(issues).forEach(([i, issue]) => { %>
+					<%- include('calendar/day_item.ejs', {options: options, date: date, issue: issue}) %>
+				<% }); %>
+			</ul>
+		</div>
+	</div>
+</div>

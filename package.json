@@ -25,7 +25,8 @@
     "dotenv": "^8.0.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
-    "js-yaml": "^3.13.1"
+    "js-yaml": "^3.13.1",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "morgan": "^1.9.1",

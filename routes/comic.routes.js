@@ -6,10 +6,15 @@ const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
 const api = require('../api.js')
 
+const moment = require('moment')
+
 var options = {
     page: "default",
     main: "home",
     datatype: "html",
+    lang: "en",
+
+    modules: {},
 
     image_code: 'scale_small'
 }
@@ -58,6 +63,7 @@ router.get('/', async (req, res) => {
 router.get('/calendar', async (req, res) => {
     options.page = 'calendar';
     options.main = 'calendar';
+    options.modules['moment'] = moment
 
     var default_days = 7*4;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
@@ -72,16 +78,16 @@ router.get('/calendar', async (req, res) => {
     .then(issues => {
 
         // ordering by week
-        var by_week = {}
+        var by_day = {}
         issues.forEach(i => {
-            if (!by_week[i.store_date]) {
-                by_week[i.store_date] = [];
+            if (!by_day[i.store_date]) {
+                by_day[i.store_date] = [];
             }
-            by_week[i.store_date].push(i)
+            by_day[i.store_date].push(i)
         })
 
-        //res.status(200).json({calendar: by_week, options: options})
-        res.render('index.ejs', {calendar: by_week, options: options})
+        //res.status(200).json({calendar: by_day, options: options})
+        res.render('index.ejs', {calendar: by_day, options: options})
     }).catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })

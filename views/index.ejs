@@ -23,6 +23,9 @@
 	<script src="/js/ejs.js"></script>
 	<%# custom %>
 	<link rel="stylesheet" type="text/css" href="/css/main.css" />
+
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js" integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/fr.js" integrity="sha256-D0tqyrTQHDExvGYoi+kyInjV47fm30M5qq4whUrMuuE=" crossorigin="anonymous"></script-->
 </head>
 <body id="container">
 	<div id="main">
@@ -30,6 +33,14 @@
 
 
 		<div class="page-left page-sidebar">
+
+			<%# search %>
+			<select id="search" name="search"></select>
+			<%# // search %>
+
+			<%# update %>
+			<button id="update" name="update">update</button>
+			<%# // update %>
 
 			<a href="#" class="extend-left-link"><i class="fa fa-bars"></i></a>
 
@@ -40,14 +51,6 @@
 			        </a>
 				</div>
 			</div>
-
-			<%# search %>
-			<select id="search" name="search"></select>
-			<%# // search %>
-
-			<%# update %>
-			<button id="update" name="update">update</button>
-			<%# // update %>
 		</div>
 
 
@@ -111,11 +114,13 @@
 				<%# CALENDAR %>
 				<% case "calendar": 
 				//console.log(calendar)%>
-					<% Object.entries(calendar).forEach(([week, items]) => { %>
-						<%# includes/calendar.ejs %>
-						<%# includes/calendar/week_item.ejs %>
-						<% console.log(week, items) %>
-					<% }); %>
+					<section>
+						<div class="calendar-wrapper">
+							<% Object.entries(calendar).forEach(([date, items]) => { %>
+								<%- include('includes/calendar.ejs', {options: options, date: new Date(date), issues: items}) %>
+							<% }); %>
+						</div>
+					</section>
 					<% break %>
 
 
