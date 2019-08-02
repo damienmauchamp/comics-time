@@ -14,7 +14,13 @@ var options = {
     datatype: "html",
     lang: "en",
 
+    // search
+    search: {
+        limit: 20
+    },
+    
     modules: {},
+
 
     image_code: 'scale_small'
 }
@@ -74,11 +80,22 @@ router.get('/calendar', async (req, res) => {
     var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
     const date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
 
+    options.calendar = {
+        min: {
+            date: date_start,
+            more: true
+        },
+        max: {
+            date: date_end,
+            more: true
+        }
+    }
+
     await comic.getCalendar(date_start, date_end)
     .then(issues => {
 
         // ordering by week
-        var by_day = {}
+        var by_day = []
         issues.forEach(i => {
             if (!by_day[i.store_date]) {
                 by_day[i.store_date] = [];

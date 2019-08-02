@@ -59,13 +59,6 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon', function() {
 });
 
 // /search
-options = {
-    ...options,
-    search: {
-        limit: 20
-    }
-};
-
 $('#search').select2({
     ajax: {
         url: '/search',
@@ -93,7 +86,7 @@ $('#search').select2({
     allowClear: true,
     containerCssClass: 'searchbox',
     //dropdownCssClass: 'aaaa',
-    dropdownParent: $('#test'),
+    //dropdownParent: $('#test'),
     placeholder: 'Search for comics',
     escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
     minimumInputLength: 1,
@@ -213,3 +206,17 @@ function moveElement(element, newParent, duration = 0, direction = 'top') {
        temp.remove();
     });
 }
+
+// calendar
+// infinite scroll setup
+$(window).on('scroll', function() {
+    if (options.page !== 'calendar') {
+        return false;
+    }
+    console.log({
+        top: $(window).scrollTop() === 0,
+        scrollTop: $(this).scrollTop(),
+        bottom: ($(window).scrollTop() + $(window).height()) == $(document).height()
+    });
+});
+

@@ -1,6 +1,6 @@
 <%# {options: options, day: day, issues: issues} %>
 <%
-	var day_date = options.modules.moment(new Date(date)).lang(options.lang);
+	var day_date = options.modules.moment(new Date(date)).locale(options.lang);
 %>
 <div class="day">
 	<div class="day-header" data-date="<%= day_date.format('YYYY-MM-DD') %>">

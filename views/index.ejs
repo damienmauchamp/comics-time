@@ -42,6 +42,12 @@
 			<button id="update" name="update">update</button>
 			<%# // update %>
 
+			<ul>
+				<li><a href=".">Accueil</a></li>
+				<li><a href="/calendar">Calendar</a></li>
+			</ul>
+
+			
 			<a href="#" class="extend-left-link"><i class="fa fa-bars"></i></a>
 
 			<div class="scrollable scrolling-element">
@@ -51,6 +57,7 @@
 			        </a>
 				</div>
 			</div>
+			%>
 		</div>
 
 
@@ -136,11 +143,20 @@
 
 
 	<script>
-		var options = {
-			general: {
-				page: '<%= options.page %>'
-			}
-		};
+		var options = <%- JSON.stringify(options) %>;
+		
+		<%#
+    options.calendar = {
+        min: {
+            date: date_start,
+            more: true
+        },
+        max: {
+            date: date_end,
+            more: true
+        }
+    }
+		%>
 	</script>
 	<script src="/js/main.js"></script>
 </body>
