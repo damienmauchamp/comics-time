@@ -71,7 +71,7 @@ router.get('/calendar', async (req, res) => {
     options.main = 'calendar';
     options.modules['moment'] = moment
 
-    var default_days = 7*4;
+    var default_days = 7*12;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
     var default_date_end = new Date().getTime();
@@ -118,7 +118,7 @@ router.get('/calendar', async (req, res) => {
 router.get('/calendar/data', async (req, res) => {
     options.page = 'calendar';
     
-    var default_days = 7*4;
+    var default_days = 7*12;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
     var default_date_end = new Date().getTime();
@@ -153,6 +153,7 @@ router.get('/search', async (req, res) => {
 
         options: options,
         //offset: offset,
+        page: page,
         limit: limit,
 
         resources: 'volume'
@@ -161,28 +162,39 @@ router.get('/search', async (req, res) => {
 
     api.get('search/', params, function(data) {
 
-        var results = [];
-        data.results.forEach(function(e) {
-            results.push({
-                id: e.id,
-                name: e.name,
-                start_year: e.start_year,
-                count_of_issues: e.count_of_issues,
-                image: e.image.small_url, //scale_avatar, .replace('original', '{{code}}')
-                publisher: e.publisher ? e.publisher.name : ''
+        comic.getAllComics()
+        .then(comics => {
+            var results = [];
+            data.results.forEach(function(e) {
+                results.push({
+                    id: e.id,
+                    name: e.name,
+                    start_year: e.start_year,
+                    count_of_issues: e.count_of_issues,
+                    image: e.image.small_url, //scale_avatar, .replace('original', '{{code}}')
+                    publisher: e.publisher ? e.publisher.name : '',
+                    added: comics.find(c => c.id === e.id)
+                });
             });
-        });
 
-        var results_returned = (parseInt(data.offset) + 1) * parseInt(data.limit);
-        var total_count = parseInt(data.number_of_total_results);
+            var results_returned = (parseInt(data.offset) + 1) * parseInt(data.limit);
+            var total_count = parseInt(data.number_of_total_results);
 
-        res.json({
-            pagination: {
-                more: results_returned < total_count
-            },
-            incomplete_results: false,
-            total_count: total_count,
-            results: results
+            res.json({
+                pagination: {
+                    more: results_returned < total_count
+                },
+                incomplete_results: false,
+                total_count: total_count,
+                results: results
+            })
+        })
+        .catch(err => {
+            if (err.status) {
+                res.status(err.status).json({ message: err.message })
+            } else {
+                res.status(500).json({ message: err.message })
+            }
         })
 
     });

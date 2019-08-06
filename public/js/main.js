@@ -99,7 +99,7 @@ $('#search').select2({
                         '<img src="' + item.image + '" />' +
                     '</div>' +
                     '<div class="search-column search--info">' +
-                        '<div class="search--name">' + item.name + ' (' + item.start_year + ')</div>' +
+                        '<div class="search--name">' + item.name + ' (' + item.start_year + ') ' + (item.added ? '✓' : '') + '</div>' +
                         '<div class="search--issues">' + item.count_of_issues + ' issue(s)</div>' +
                         '<div class="search--publisher">' + item.publisher + '</div>' +
                     '</div>' +
