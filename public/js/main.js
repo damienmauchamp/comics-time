@@ -213,10 +213,20 @@ $(window).on('scroll', function() {
     if (options.page !== 'calendar') {
         return false;
     }
-    console.log({
+    var scroll = {
         top: $(window).scrollTop() === 0,
-        scrollTop: $(this).scrollTop(),
+        pos: $(this).scrollTop(),
         bottom: ($(window).scrollTop() + $(window).height()) == $(document).height()
-    });
+    };
+    console.log(scroll);
+
+    // top
+    if (scroll.top) {
+        console.log(options.calendar.max, "prependTo");
+    } else if (scroll.bottom) {
+        console.log(options.calendar.min, "appendTo");
+    }
+
+    //options.calendar.max
 });
 

@@ -117,19 +117,55 @@ router.get('/calendar', async (req, res) => {
 //GET /calendar/data
 router.get('/calendar/data', async (req, res) => {
     options.page = 'calendar';
-    
+    options.main = 'calendar';
+    options.modules['moment'] = moment
+
     var default_days = 7*12;
     const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
-    var default_date_end = new Date().getTime();
-    const date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
+    if (typeof req.query.date === "undefined") {
+        res.status(500).json({ message: "Aucune date transmise" })
+        return
+    }
 
-    var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
-    const date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
+    var date = Number(req.query.date)
+    var direction = req.query.direction ? req.query.direction : 1
+
+    if (direction > 0) {
+        date_start = new Date(date).setDate(new Date(date).getDate() + 1);
+        date_end = new Date(date).setDate(new Date(date).getDate() + days);
+    } else if (direction < 0) {
+        date_end = new Date(date).setDate(new Date(date).getDate() - 1);
+        date_start = new Date(date).setDate(new Date(date).getDate() - days);
+    } else {
+        res.status(500).json({ message: "Direction non valide" })
+        return
+    }
+
+    options.calendar = {
+        min: {
+            date: date_start,
+            more: true
+        },
+        max: {
+            date: date_end,
+            more: true
+        }
+    }
 
     await comic.getCalendar(date_start, date_end)
     .then(issues => {
-        res.status(200).json(issues)
+
+        // ordering by week
+        var by_day = []
+        issues.forEach(i => {
+            if (!by_day[i.store_date]) {
+                by_day[i.store_date] = [];
+            }
+            by_day[i.store_date].push(i)
+        })
+
+        res.status(200).json({calendar: by_day, options: options})
     }).catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })
