@@ -66,7 +66,17 @@ router.get('/', async (req, res) => {
 })
 
 //GET /calendar
-router.get('/calendar', async (req, res) => {
+router.get('/calendar*', async (req, res, next) => {
+    var path = parseUrl.original(req).pathname.replace(/^\/+|\/+$/g, '');
+    if (path === 'calendar') {
+        console.log("OK: CALENDAR PAGE")
+    } else if (path === 'calendar/data') {
+        console.log("OK: CALENDAR DATA")
+    } else {
+        console.log("NOT OK")
+        next();
+    }
+
     options.page = 'calendar';
     options.main = 'calendar';
     options.modules['moment'] = moment
