@@ -6,6 +6,8 @@ const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
 const api = require('../api.js')
 
+const url = require('url');  
+
 const moment = require('moment')
 
 var options = {
@@ -65,93 +67,54 @@ router.get('/', async (req, res) => {
     })
 })
 
-//GET /calendar
-router.get('/calendar*', async (req, res, next) => {
-    var path = parseUrl.original(req).pathname.replace(/^\/+|\/+$/g, '');
-    if (path === 'calendar') {
-        console.log("OK: CALENDAR PAGE")
-    } else if (path === 'calendar/data') {
-        console.log("OK: CALENDAR DATA")
-    } else {
-        console.log("NOT OK")
-        next();
-    }
-
-    options.page = 'calendar';
-    options.main = 'calendar';
-    options.modules['moment'] = moment
-
-    var default_days = 7*12;
-    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
-
-    var default_date_end = new Date().getTime();
-    const date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
-
-    var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
-    const date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
-
-    options.calendar = {
-        min: {
-            date: date_start,
-            more: true
-        },
-        max: {
-            date: date_end,
-            more: true
-        }
-    }
-
-    await comic.getCalendar(date_start, date_end)
-    .then(issues => {
-
-        // ordering by week
-        var by_day = []
-        issues.forEach(i => {
-            if (!by_day[i.store_date]) {
-                by_day[i.store_date] = [];
-            }
-            by_day[i.store_date].push(i)
-        })
-
-        //res.status(200).json({calendar: by_day, options: options})
-        res.render('index.ejs', {calendar: by_day, options: options})
-    }).catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+//POST /calendar/data ==> GET /calendar/data
+router.post('/calendar/data', async (req, res, next) => {
+    res.redirect(url.format({
+        pathname:'/calendar/data',
+        query: req.body
+     }));
 })
 
-//GET /calendar/data
-router.get('/calendar/data', async (req, res) => {
+//GET /calendar
+router.get('/calendar/:type*?', async (req, res, next) => {
+    //var path = parseUrl.original(req).pathname.replace(/^\/+|\/+$/g, '');
+
+    var default_days = 7*12, date_start, date_end;
+    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
+
+    if (!req.params.type) { // /calendar
+        var default_date_end = new Date().getTime();
+        date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
+
+        var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
+        date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
+    } else if (req.params.type === "data") { // /calendar/data
+
+        if (typeof req.query.date === "undefined") {
+            res.status(500).json({ message: "Aucune date transmise" })
+            return
+        }
+
+        var date = Number(req.query.date)
+        var direction = req.query.direction ? req.query.direction : 1
+
+        if (direction > 0) {
+            date_start = new Date(date).setDate(new Date(date).getDate() + 1);
+            date_end = new Date(date).setDate(new Date(date).getDate() + days);
+        } else if (direction < 0) {
+            date_end = new Date(date).setDate(new Date(date).getDate() - 1);
+            date_start = new Date(date).setDate(new Date(date).getDate() - days);
+        } else {
+            res.status(500).json({ message: "Direction non valide" })
+            return
+        }
+    } else {
+        next()
+    }
+
     options.page = 'calendar';
     options.main = 'calendar';
     options.modules['moment'] = moment
-
-    var default_days = 7*12;
-    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
-
-    if (typeof req.query.date === "undefined") {
-        res.status(500).json({ message: "Aucune date transmise" })
-        return
-    }
-
-    var date = Number(req.query.date)
-    var direction = req.query.direction ? req.query.direction : 1
-
-    if (direction > 0) {
-        date_start = new Date(date).setDate(new Date(date).getDate() + 1);
-        date_end = new Date(date).setDate(new Date(date).getDate() + days);
-    } else if (direction < 0) {
-        date_end = new Date(date).setDate(new Date(date).getDate() - 1);
-        date_start = new Date(date).setDate(new Date(date).getDate() - days);
-    } else {
-        res.status(500).json({ message: "Direction non valide" })
-        return
-    }
-
     options.calendar = {
         min: {
             date: date_start,
@@ -167,7 +130,7 @@ router.get('/calendar/data', async (req, res) => {
     .then(issues => {
 
         // ordering by week
-        var by_day = []
+        var by_day = {}
         issues.forEach(i => {
             if (!by_day[i.store_date]) {
                 by_day[i.store_date] = [];
@@ -175,7 +138,13 @@ router.get('/calendar/data', async (req, res) => {
             by_day[i.store_date].push(i)
         })
 
-        res.status(200).json({calendar: by_day, options: options})
+        //options.calendar.(min|max).more = true|false
+        
+        if (req.params.type === "data") {
+            res.status(200).json({calendar: by_day, options: options})
+        } else {
+            res.render('index.ejs', {calendar: by_day, options: options})
+        }
     }).catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })

@@ -365,6 +365,10 @@ function getCalendar(date_start, date_end) {
     return new Promise((resolve, reject) => {
         const start = new Date(date_start).setHours(0,0,0,0);
         const end = new Date(date_end).setHours(23,59,59,99);
+
+        //console.log(new Date('2019-01-01').getTime(), start < end)
+        //console.log(new Date('2019-01-01'), new Date(date_start), new Date(date_end))
+
         var res = [];
         comics.forEach(function(comic) {
             var issues = comic.issues.filter(i => start <= new Date(i.store_date).getTime() && new Date(i.store_date).getTime() <= end);

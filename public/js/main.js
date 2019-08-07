@@ -220,12 +220,36 @@ $(window).on('scroll', function() {
     };
     console.log(scroll);
 
-    // top
+    var direction = 0,
+        date = null;
+
     if (scroll.top) {
-        console.log(options.calendar.max, "prependTo");
+        direction = -1, date = options.calendar.min.date, more = options.calendar.min.more;
+        console.log(options.calendar.min, "prependTo");
     } else if (scroll.bottom) {
-        console.log(options.calendar.min, "appendTo");
+        direction = 1, date = options.calendar.max.date, more = options.calendar.max.more;
+        console.log(options.calendar.max, "appendTo");
+    } else {
+        return false;
     }
+
+    if(!more) {
+        return false;
+    }
+
+    $.ajax({
+        url: '/calendar/data',
+        dataType: 'json',
+        method: 'post',
+        data: {
+            direction: direction,
+            date: date,
+            more: more
+        },
+        success(res) {
+            console.log(res);
+        }
+    })
 
     //options.calendar.max
 });
