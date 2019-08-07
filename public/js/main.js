@@ -248,6 +248,18 @@ $(window).on('scroll', function() {
         },
         success(res) {
             console.log(res);
+            if (res.calendar) {
+                Object.entries(res.calendar).forEach(([date, items]) => {
+                    console.log(date, items);
+                    //{options: options, date: new Date(date), items: items}
+                    template('calendar', {options: options, date: new Date(date), items: items}, '.calendar-wrapper', direction > 0 ? 'after' : 'before');
+                });
+                console.log('yes');
+            } else {
+                console.log('non');
+            }
+            //{calendar: by_day, options: options}
+            //template('comic', res.data[0], '.to-read-list', 'before');
         }
     })
 

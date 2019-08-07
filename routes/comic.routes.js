@@ -133,9 +133,18 @@ router.get('/calendar/:type*?', async (req, res, next) => {
         var by_day = {}
         issues.forEach(i => {
             if (!by_day[i.store_date]) {
-                by_day[i.store_date] = [];
+                var store_date = moment(new Date(i.store_date)).locale(options.lang);
+                by_day[i.store_date] = {
+                    format: {
+                        full: store_date.format('YYYY-MM-DD'),
+                        dddd: store_date.format('dddd'),
+                        DD: store_date.format('DD'),
+                        MMMM: store_date.format('MMMM')
+                    },
+                    issues: []
+                };
             }
-            by_day[i.store_date].push(i)
+            by_day[i.store_date].issues.push(i)
         })
 
         //options.calendar.(min|max).more = true|false
@@ -430,14 +439,19 @@ router.delete('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 
 
-router.get('/template/:template', async(req, res) => {
-    const template = req.params.template
+router.get('/template/:template*', async(req, res) => {
     options.page = 'homepage';
+
+    var template = req.params.template
+    if (parseUrl.original(req).pathname.replace('/template/', '').includes('/')) {
+        template = parseUrl.original(req).pathname.replace('/template/', '')
+    }
+   // console.log(('views/includes/' + template));
 
     var path = require('path');
     res.sendFile(path.resolve('views/includes/' + template));
 
-    console.log(path.resolve('views/includes/' + template))
+    //console.log(path.resolve('views/includes/' + template))
     //comic.ejs
 })
 
