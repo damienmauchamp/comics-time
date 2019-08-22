@@ -99,7 +99,7 @@ $('#search').select2({
                         '<img src="' + item.image + '" />' +
                     '</div>' +
                     '<div class="search-column search--info">' +
-                        '<div class="search--name">' + item.name + ' (' + item.start_year + ')</div>' +
+                        '<div class="search--name">' + item.name + ' (' + item.start_year + ') ' + (item.added ? '✓' : '') + '</div>' +
                         '<div class="search--issues">' + item.count_of_issues + ' issue(s)</div>' +
                         '<div class="search--publisher">' + item.publisher + '</div>' +
                     '</div>' +
@@ -213,10 +213,56 @@ $(window).on('scroll', function() {
     if (options.page !== 'calendar') {
         return false;
     }
-    console.log({
+    var scroll = {
         top: $(window).scrollTop() === 0,
-        scrollTop: $(this).scrollTop(),
+        pos: $(this).scrollTop(),
         bottom: ($(window).scrollTop() + $(window).height()) == $(document).height()
-    });
+    };
+    console.log(scroll);
+
+    var direction = 0,
+        date = null;
+
+    if (scroll.top) {
+        direction = -1, date = options.calendar.min.date, more = options.calendar.min.more;
+        console.log(options.calendar.min, "prependTo");
+    } else if (scroll.bottom) {
+        direction = 1, date = options.calendar.max.date, more = options.calendar.max.more;
+        console.log(options.calendar.max, "appendTo");
+    } else {
+        return false;
+    }
+
+    if(!more) {
+        return false;
+    }
+
+    $.ajax({
+        url: '/calendar/data',
+        dataType: 'json',
+        method: 'post',
+        data: {
+            direction: direction,
+            date: date,
+            more: more
+        },
+        success(res) {
+            console.log(res);
+            if (res.calendar) {
+                Object.entries(res.calendar).forEach(([date, items]) => {
+                    console.log(date, items);
+                    //{options: options, date: new Date(date), items: items}
+                    template('calendar', {options: options, date: new Date(date), items: items}, '.calendar-wrapper', direction > 0 ? 'after' : 'before');
+                });
+                console.log('yes');
+            } else {
+                console.log('non');
+            }
+            //{calendar: by_day, options: options}
+            //template('comic', res.data[0], '.to-read-list', 'before');
+        }
+    })
+
+    //options.calendar.max
 });
 

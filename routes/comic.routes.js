@@ -6,6 +6,8 @@ const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
 const api = require('../api.js')
 
+const url = require('url');  
+
 const moment = require('moment')
 
 var options = {
@@ -65,21 +67,54 @@ router.get('/', async (req, res) => {
     })
 })
 
+//POST /calendar/data ==> GET /calendar/data
+router.post('/calendar/data', async (req, res, next) => {
+    res.redirect(url.format({
+        pathname:'/calendar/data',
+        query: req.body
+     }));
+})
+
 //GET /calendar
-router.get('/calendar', async (req, res) => {
+router.get('/calendar/:type*?', async (req, res, next) => {
+    //var path = parseUrl.original(req).pathname.replace(/^\/+|\/+$/g, '');
+
+    var default_days = 7*12, date_start, date_end;
+    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
+
+    if (!req.params.type) { // /calendar
+        var default_date_end = new Date().getTime();
+        date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
+
+        var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
+        date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
+    } else if (req.params.type === "data") { // /calendar/data
+
+        if (typeof req.query.date === "undefined") {
+            res.status(500).json({ message: "Aucune date transmise" })
+            return
+        }
+
+        var date = Number(req.query.date)
+        var direction = req.query.direction ? req.query.direction : 1
+
+        if (direction > 0) {
+            date_start = new Date(date).setDate(new Date(date).getDate() + 1);
+            date_end = new Date(date).setDate(new Date(date).getDate() + days);
+        } else if (direction < 0) {
+            date_end = new Date(date).setDate(new Date(date).getDate() - 1);
+            date_start = new Date(date).setDate(new Date(date).getDate() - days);
+        } else {
+            res.status(500).json({ message: "Direction non valide" })
+            return
+        }
+    } else {
+        next()
+    }
+
     options.page = 'calendar';
     options.main = 'calendar';
     options.modules['moment'] = moment
-
-    var default_days = 7*4;
-    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
-
-    var default_date_end = new Date().getTime();
-    const date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
-
-    var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
-    const date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
-
     options.calendar = {
         min: {
             date: date_start,
@@ -95,41 +130,30 @@ router.get('/calendar', async (req, res) => {
     .then(issues => {
 
         // ordering by week
-        var by_day = []
+        var by_day = {}
         issues.forEach(i => {
             if (!by_day[i.store_date]) {
-                by_day[i.store_date] = [];
+                var store_date = moment(new Date(i.store_date)).locale(options.lang);
+                by_day[i.store_date] = {
+                    format: {
+                        full: store_date.format('YYYY-MM-DD'),
+                        dddd: store_date.format('dddd'),
+                        DD: store_date.format('DD'),
+                        MMMM: store_date.format('MMMM')
+                    },
+                    issues: []
+                };
             }
-            by_day[i.store_date].push(i)
+            by_day[i.store_date].issues.push(i)
         })
 
-        //res.status(200).json({calendar: by_day, options: options})
-        res.render('index.ejs', {calendar: by_day, options: options})
-    }).catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
+        //options.calendar.(min|max).more = true|false
+        
+        if (req.params.type === "data") {
+            res.status(200).json({calendar: by_day, options: options})
         } else {
-            res.status(500).json({ message: err.message })
+            res.render('index.ejs', {calendar: by_day, options: options})
         }
-    })
-})
-
-//GET /calendar/data
-router.get('/calendar/data', async (req, res) => {
-    options.page = 'calendar';
-    
-    var default_days = 7*4;
-    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
-
-    var default_date_end = new Date().getTime();
-    const date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
-
-    var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
-    const date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
-
-    await comic.getCalendar(date_start, date_end)
-    .then(issues => {
-        res.status(200).json(issues)
     }).catch(err => {
         if (err.status) {
             res.status(err.status).json({ message: err.message })
@@ -153,6 +177,7 @@ router.get('/search', async (req, res) => {
 
         options: options,
         //offset: offset,
+        page: page,
         limit: limit,
 
         resources: 'volume'
@@ -161,28 +186,39 @@ router.get('/search', async (req, res) => {
 
     api.get('search/', params, function(data) {
 
-        var results = [];
-        data.results.forEach(function(e) {
-            results.push({
-                id: e.id,
-                name: e.name,
-                start_year: e.start_year,
-                count_of_issues: e.count_of_issues,
-                image: e.image.small_url, //scale_avatar, .replace('original', '{{code}}')
-                publisher: e.publisher ? e.publisher.name : ''
+        comic.getAllComics()
+        .then(comics => {
+            var results = [];
+            data.results.forEach(function(e) {
+                results.push({
+                    id: e.id,
+                    name: e.name,
+                    start_year: e.start_year,
+                    count_of_issues: e.count_of_issues,
+                    image: e.image.small_url, //scale_avatar, .replace('original', '{{code}}')
+                    publisher: e.publisher ? e.publisher.name : '',
+                    added: comics.find(c => c.id === e.id)
+                });
             });
-        });
 
-        var results_returned = (parseInt(data.offset) + 1) * parseInt(data.limit);
-        var total_count = parseInt(data.number_of_total_results);
+            var results_returned = (parseInt(data.offset) + 1) * parseInt(data.limit);
+            var total_count = parseInt(data.number_of_total_results);
 
-        res.json({
-            pagination: {
-                more: results_returned < total_count
-            },
-            incomplete_results: false,
-            total_count: total_count,
-            results: results
+            res.json({
+                pagination: {
+                    more: results_returned < total_count
+                },
+                incomplete_results: false,
+                total_count: total_count,
+                results: results
+            })
+        })
+        .catch(err => {
+            if (err.status) {
+                res.status(err.status).json({ message: err.message })
+            } else {
+                res.status(500).json({ message: err.message })
+            }
         })
 
     });
@@ -403,14 +439,19 @@ router.delete('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 
 
-router.get('/template/:template', async(req, res) => {
-    const template = req.params.template
+router.get('/template/:template*', async(req, res) => {
     options.page = 'homepage';
+
+    var template = req.params.template
+    if (parseUrl.original(req).pathname.replace('/template/', '').includes('/')) {
+        template = parseUrl.original(req).pathname.replace('/template/', '')
+    }
+   // console.log(('views/includes/' + template));
 
     var path = require('path');
     res.sendFile(path.resolve('views/includes/' + template));
 
-    console.log(path.resolve('views/includes/' + template))
+    //console.log(path.resolve('views/includes/' + template))
     //comic.ejs
 })
 

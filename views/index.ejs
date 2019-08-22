@@ -124,7 +124,7 @@
 					<section>
 						<div class="calendar-wrapper">
 							<% Object.entries(calendar).forEach(([date, items]) => { %>
-								<%- include('includes/calendar.ejs', {options: options, date: new Date(date), issues: items}) %>
+								<%- include('includes/calendar.ejs', {options: options, date: new Date(date), items: items}) %>
 							<% }); %>
 						</div>
 					</section>
