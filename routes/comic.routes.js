@@ -38,6 +38,7 @@ router.use('', function (req, res, next) {
 // @todo
 router.get('/', async (req, res) => {
     options.page = 'homepage';
+    options.main = 'main';
 
     await comic.getAllComics()
     .then(function(comics) {
