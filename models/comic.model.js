@@ -313,33 +313,14 @@ function readIssue(params) {
                     complete: true
                 }
             } else {
-                /*
-                // to be released issues
-                var number_unreleased = comic.issues.filter(function(i) {
-                    return new Date() < new Date(i.store_date)
-                }).length;
-                // progress
-                var issue_number = parseInt(to_read.issue_number) - number_unreleased;
+                
                 // last read
-                var last_read = (issue_number - 1);
+                var last_read_issue = comic.issues.reduce((prev, current) => (new Date(prev.read) > new Date(current.read)) ? prev : current);
+                var last_read = last_read_issue.issue_number;
                 // to be read
-                var issues_left = comic.nb_issues - last_read - 1;
-                // progress bar percentage
-                var progress = last_read/comic.nb_issues*100;
-                */
-
-                var number_unreleased = comic.issues.filter(function(i) {
-                    return new Date() < new Date(i.store_date)
-                }).length;
-                // progress
-                var issues_count = parseInt(next.issue_number) - number_unreleased;
-                // last read
-                var last_read = (issues_count - 1);
-                // to be read
-                var issues_left = comic.nb_issues - last_read - 1;
+                var issues_left = comic.issues.filter(i => { return !i.read && i.id !== next.id && new Date() >= new Date(i.store_date); }).length;
                 // release less than a week ago
                 var is_new = Math.floor(Math.abs(new Date(next.store_date) - new Date()) / 1000 / 86400) < 7;
-
                 // img
                 var issue_img = next.image.replace('{{code}}', image_code);
 
@@ -348,7 +329,8 @@ function readIssue(params) {
                     issue: next.id,
                     issue_number: next.issue_number,
                     issues_left: issues_left,
-                    progress: last_read/comic.nb_issues*100,
+                    //progress: last_read/comic.nb_issues*100,
+                    progress:  (comic.nb_issues-issues_left-1)/comic.nb_issues*100,
                     img: issue_img,
                     new: is_new,
                     complete: false
