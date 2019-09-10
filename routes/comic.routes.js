@@ -30,8 +30,6 @@ var options = {
     image_code: 'scale_small'
 }
 
-console.log(config)
-
 //
 // @todo
 router.use('', function (req, res, next) {
@@ -44,6 +42,8 @@ router.use('', function (req, res, next) {
 router.get('/', async (req, res) => {
     options.page = 'homepage';
     options.main = 'main';
+
+    console.log(config, options)
 
     await comic.getAllComics()
     .then(function(comics) {
