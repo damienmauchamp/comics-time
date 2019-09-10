@@ -44,8 +44,6 @@ router.get('/', async (req, res) => {
     options.page = 'homepage';
     options.main = 'main';
 
-    console.log(config, options)
-
     await comic.getAllComics()
     .then(function(comics) {
 
