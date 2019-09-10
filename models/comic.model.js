@@ -1,4 +1,4 @@
-const config = require('./config.js');
+const config = require('../config.js');
 if (config.env === "dev") {
     let comics = require('../data/comics_dev.json')
     const filename = './data/comics_dev.json'
