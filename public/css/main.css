@@ -379,11 +379,10 @@ ol, ul {
 		/*width: 148px;*/
 	}
 	.covers-list>li .image-crop {
-    		/*width: 132px;
-    		height: 195px;*/
-    		width: 170px;
-    		height: 255px;
-    	}
+		/*width: 132px;
+		height: 195px;*/
+		width: 170px;
+		height: 255px;
     }
 	.covers-list>li .cover-details h2 {
 		width: 170px;
