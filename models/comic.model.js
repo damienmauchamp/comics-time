@@ -1,10 +1,10 @@
 const config = require('../config.js');
 if (config.env === "dev") {
     let comics = require('../data/comics_dev.json')
-    const filename = './data/comics_dev.json'
+    const filename = '../data/comics_dev.json'
 } else {
     let comics = require('../data/comics.json')
-    const filename = './data/comics.json'
+    const filename = '../data/comics.json'
 }
 const helper = require('../helpers/helper.js')
 const api = require('../api.js')
