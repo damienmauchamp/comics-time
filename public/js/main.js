@@ -7,6 +7,9 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon', function() {
 		issue: comics.data('issue'),
 		date: new Date()
 	}
+    if (typeof read === "function") {
+        read(params);
+    }
 	$.ajax({
 		url: '/read',
         dataType: 'json',

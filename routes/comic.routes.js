@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+const config = require('./config.js');
 var parseUrl = require('parseurl');
 const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
@@ -22,6 +23,8 @@ var options = {
     },
     
     modules: {},
+
+    params: config.PARAMS ? config.PARAMS : {},
 
 
     image_code: 'scale_small'
