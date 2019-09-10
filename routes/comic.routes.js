@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const config = require('./config.js');
+const config = require('../config.js');
 var parseUrl = require('parseurl');
 const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
