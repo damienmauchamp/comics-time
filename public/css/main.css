@@ -400,6 +400,6 @@ ol, ul {
 
 	.image-crop {
 	    width: 100% !important;
-	    height: auto;
+	    height: auto !important;
 	}
 }
