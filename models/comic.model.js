@@ -1,5 +1,5 @@
 const config = require('../config.js');
-const file_end = config.env === "dev" ? "_dev" : "";
+const file_end = config.ENV === "dev" ? "_dev" : "";
 let comics = require('../data/comics'+file_end+'.json')
 const filename = './data/comics'+file_end+'.json'
 const helper = require('../helpers/helper.js')
