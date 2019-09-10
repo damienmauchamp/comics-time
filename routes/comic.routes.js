@@ -27,6 +27,8 @@ var options = {
 
     params: config.PARAMS,
 
+    env: config.ENV,
+
 
     image_code: 'scale_small'
 }
