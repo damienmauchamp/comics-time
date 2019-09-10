@@ -388,4 +388,18 @@ ol, ul {
 	.covers-list>li .cover-details h2 {
 		width: 170px;
 	}
+
+	/* iPhone/tablet v2 */
+	#issue-details .issue-infos .basic-infos, #show-details .basic-infos, .covers-list {
+	    text-align: left;
+	}
+
+	.comics {
+	    width: calc(100%/3);
+	}
+
+	.image-crop {
+	    width: 100% !important;
+	    height: auto;
+	}
 }
