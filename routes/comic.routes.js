@@ -24,7 +24,7 @@ var options = {
     
     modules: {},
 
-    params: config.PARAMS ? config.PARAMS : {},
+    params: config.PARAMS,
 
 
     image_code: 'scale_small'
