@@ -30,6 +30,8 @@ var options = {
     image_code: 'scale_small'
 }
 
+console.log(config)
+
 //
 // @todo
 router.use('', function (req, res, next) {
