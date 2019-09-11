@@ -74,5 +74,9 @@ desktop.ini
 
 #data files
 data/comics.json
+data/comics_dev.json
 data/extras.yml
 public/index*
+
+#custom files
+public/js/addons*

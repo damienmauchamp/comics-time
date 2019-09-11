@@ -49,8 +49,11 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon', function() {
                 item.find('.to-read-icon').css('visibility', 'hidden');
                 item.addClass('complete');
                 item.removeData('issue');
+                // moveElement => '.to-read#done > ul.to-read'
                 return false;
             }
+
+            // if first read, ==> moveElement => '.to-read#not-started > ul.to-read'
 
             // item attributes
             item.data({
@@ -124,7 +127,7 @@ $('#search').select2({
         dataType: 'json',
         method: 'post',
         success(res) {
-            template('comic', res.data[0], '.to-read-list', 'before');
+            template('comic', res.data[0], '.to-read#not-started > ul.to-read-list', 'before');
         }
     })
 });
