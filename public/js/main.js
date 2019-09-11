@@ -56,8 +56,8 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon', function(e) {
 
                 var increase_count = $('.to-read#done .nb-items');
                 var decrease_count = $('.to-read#'+section+' .nb-items');
-                increase_count.text(parseInt(increase_count.text()) + 1)
-                decrease_count.text(parseInt(decrease_count.text()) - 1)
+                increase_count.text(parseInt(increase_count.text()) + 1);
+                decrease_count.text(parseInt(decrease_count.text()) - 1);
                 moveElement(item, '.to-read#done ul.to-read-list');
                 return false;
             } else if (section === "not-started") {
@@ -65,8 +65,8 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon', function(e) {
 
                 var increase_count = $('.to-read#to-read .nb-items');
                 var decrease_count = $('.to-read#'+section+' .nb-items');
-                increase_count.text(parseInt(increase_count.text()) + 1)
-                decrease_count.text(parseInt(decrease_count.text()) - 1)
+                increase_count.text(parseInt(increase_count.text()) + 1);
+                decrease_count.text(parseInt(decrease_count.text()) - 1);
                 moveElement(item, '.to-read#to-read ul.to-read-list');
             } else {
                 // console.log("not moving");
@@ -145,6 +145,8 @@ $('#search').select2({
         method: 'post',
         success(res) {
             template('comic', res.data[0], '.to-read#not-started > ul.to-read-list', 'before');
+            var increase_count = $('.to-read#not-started .nb-items');
+            increase_count.text(parseInt(increase_count.text()) + 1);
         }
     })
 });
