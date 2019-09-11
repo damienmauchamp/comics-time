@@ -385,7 +385,7 @@ ol, ul {
 		height: 255px;
     }
 	.covers-list>li .cover-details h2 {
-		width: 170px;
+		/*width: 170px;*/
 	}
 
 	/* iPhone/tablet v2 */
@@ -400,5 +400,9 @@ ol, ul {
 	.image-crop {
 	    width: 100% !important;
 	    height: auto !important;
+	}
+
+	.covers-list>li .cover-details h2 {
+		width: 100%;
 	}
 }
