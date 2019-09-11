@@ -83,7 +83,7 @@
 					})
 				%>
 					<section class="to-read" id="to-read">
-						<h1>Read next&nbsp;<span class="nb-items">(<%= comics_to_read.length %>)</span></h1>
+						<h1>Read next&nbsp;(<span class="nb-items"><%= comics_to_read.length %></span>)</h1>
 						<ul class="to-read-list covers-list list-unstyled list-inline single-row">
 							<%
 							comics_to_read.forEach( comic => { %>
@@ -93,7 +93,7 @@
 					</section>
 					<% if (comics_not_started) { %>
 						<section class="to-read" id="not-started">
-							<h1>Not started yet&nbsp;<span class="nb-items">(<%= comics_not_started.length %>)</span></h1>
+							<h1>Not started yet&nbsp;(<span class="nb-items"><%= comics_not_started.length %></span>)</h1>
 							<ul class="to-read-list covers-list list-unstyled list-inline single-row">
 								<% comics_not_started.forEach( comic => { %>
 									<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
@@ -102,8 +102,8 @@
 						</section>
 					<% } %>
 					<% if (comics_done) { %>
-						<section class="to-read" id="not-started">
-							<h1>Up to date&nbsp;<span class="nb-items">(<%= comics_done.length %>)</span></h1>
+						<section class="to-read" id="done">
+							<h1>Up to date&nbsp;(<span class="nb-items"><%= comics_done.length %></span>)</h1>
 							<ul class="to-read-list covers-list list-unstyled list-inline single-row">
 								<% comics_done.forEach( comic => { %>
 									<%- include('includes/comic.ejs', {options: options, comic: comic}) %>

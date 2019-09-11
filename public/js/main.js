@@ -1,7 +1,9 @@
 
 // /read
-$(document).on('click', '.comics:not(.complete) .to-read-icon', function() {
+$(document).on('click', '.comics:not(.complete) .to-read-icon', function(e) {
+    e.preventDefault();
 	var comics = $(this).closest('.comics');
+    var section = comics.closest('.to-read').attr('id');
 	var params = {
 		comics: comics.data('comics'),
 		issue: comics.data('issue'),
@@ -49,11 +51,26 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon', function() {
                 item.find('.to-read-icon').css('visibility', 'hidden');
                 item.addClass('complete');
                 item.removeData('issue');
-                // moveElement => '.to-read#done > ul.to-read'
-                return false;
-            }
 
-            // if first read, ==> moveElement => '.to-read#not-started > ul.to-read'
+                // console.log("moving to", section);
+
+                var increase_count = $('.to-read#done .nb-items');
+                var decrease_count = $('.to-read#'+section+' .nb-items');
+                increase_count.text(parseInt(increase_count.text()) + 1)
+                decrease_count.text(parseInt(decrease_count.text()) - 1)
+                moveElement(item, '.to-read#done ul.to-read-list');
+                return false;
+            } else if (section === "not-started") {
+                // console.log("moving to", section);
+
+                var increase_count = $('.to-read#to-read .nb-items');
+                var decrease_count = $('.to-read#'+section+' .nb-items');
+                increase_count.text(parseInt(increase_count.text()) + 1)
+                decrease_count.text(parseInt(decrease_count.text()) - 1)
+                moveElement(item, '.to-read#to-read ul.to-read-list');
+            } else {
+                // console.log("not moving");
+            }
 
             // item attributes
             item.data({
@@ -189,6 +206,11 @@ function moveElement(element, newParent, duration = 0, direction = 'top') {
     //Allow passing in either a jQuery object or selector
     element = $(element);
     newParent= $(newParent);
+
+    console.log("moving", {
+        element: element,
+        to: newParent
+    });
 
     var oldOffset = element.offset();
     if (['top', 'haut', 'début'].includes(direction)) {
