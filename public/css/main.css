@@ -82,6 +82,7 @@ ol, ul {
 
 .list-inline {
 	margin-left: -5px;
+	margin-right: -5px;
 }
 .list-inline > li {
 	display: inline-block;
