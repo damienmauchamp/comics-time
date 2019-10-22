@@ -1,15 +1,49 @@
 <%
+
 	const page_issue = options.page === 'issue';
-	issue.link = page_issue ? '' : (comic.link + '/issue/' + issue.id);
+	/*
 	issue.image_code = page_issue ? 'scale_small' : 'scale_avatar';
+	*/
 %>
 
-<a href="<%= issue.link %>">
+<% switch(options.page) {
+	default: break;
+	%>
+
+	<%# COMICS %>
+	<% case "comics":
+		issue.image_code = 'scale_small';
+		issue.link = comic.link + '/issue/' + issue.id;
+	%>
+	<div class="comics-issue" id="comics-item-<%= comic.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>">
+		<div class="comics-issue-top">
+			<div class="comics-issue-controls">
+				<span class="comics-issue-control comics-issue-closed"><i class="fas fa-angle-down"></i></span>
+				<span class="comics-issue-control comics-issue-opened"><i class="fas fa-angle-up"></i></span>
+			</div>
+
+			<div class="comics-issue-title">
+				<%= "#" + issue.issue_number %> <%= issue.name ? " - " + issue.name : '' %>
+			</div>
+
+			<div class="comics-issue-status">
+				<span class="comics-issue-status-read"><%= issue.read ? 'read' : '-' %></span>
+			</div>
+		</div>
+		<div class="comics-issue-bottom">
+			<img class="comics-issue-img" src="<%= issue.image.replace('{{code}}', issue.image_code) %>" />
+			<pre style="white-space:normal;font-size: 12px;"><code class="language-javascript"><%= JSON.stringify(issue) %></code></pre>
+		</div>
+	</div>
+	<% break %>
+<% } %>
+
+<!--a href="<%= issue.link %>" <%= options.page %>>
 	<img src="<%= issue.image.replace('{{code}}', issue.image_code) %>" />
 </a><br/>
 <ul>
 	<li>#<%= issue.issue_number %></li>
-	<li><a href="<%= issue.link %>"><%= comic.full_name + " #" + issue.issue_number %></a></li>
+	<li><a href="<%= issue.link %>"><%= comic.name + " #" + issue.issue_number %></a></li>
 	<li><%= issue.id %></li>
 	<li>Name: <%= issue.name %></li>
 	<li>Store date: <%= issue.store_date %></li>
@@ -24,4 +58,4 @@
 	<% if (page_issue && issue.next) { %>
 		<a href="../../<%= issue.next.link %>">Next</a>
 	<% } %>
-</ul>
+</ul-->

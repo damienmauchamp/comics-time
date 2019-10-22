@@ -407,3 +407,41 @@ ol, ul {
 		width: 100%;
 	}
 }
+
+
+/* Comics page */
+.comics-issue {
+    padding: 0 10px;
+    margin: 10px;
+    background: black;
+}
+.comics-issue-top {
+    padding: 10px 0;
+}
+.comics-issue-top div {
+	display: inline;
+}
+.comics-issue-top .comics-issue-status span {
+	float: right;
+	cursor: pointer;
+}
+.comics-issue-top .comics-issue-title {
+	cursor: pointer;
+}
+.comics-issue-controls .comics-issue-control {
+	cursor: pointer;
+}
+.comics-issue-img {
+	width: 100%
+}
+
+.comics-issue:not(.open) .comics-issue-opened {
+	display: none;
+}
+.comics-issue.open .comics-issue-closed {
+	display: none;
+}
+
+.comics-issue:not(.open) .comics-issue-bottom {
+	display: none;
+}

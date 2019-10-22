@@ -24,6 +24,18 @@
 	<%# custom %>
 	<link rel="stylesheet" type="text/css" href="/css/main.css" />
 
+	<%# dev only %>
+	<link href="/css/prism.css" rel="stylesheet" />
+	<style>
+		code[class*="language-"], pre[class*="language-"] {
+			font-size: 12px;
+			white-space: normal;
+		}
+	</style>
+
+	<script src="https://kit.fontawesome.com/e581184fd2.js" crossorigin="anonymous"></script>
+
+
 	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js" integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/fr.js" integrity="sha256-D0tqyrTQHDExvGYoi+kyInjV47fm30M5qq4whUrMuuE=" crossorigin="anonymous"></script-->
 </head>
@@ -53,8 +65,8 @@
 			<div class="scrollable scrolling-element">
 				<div class="wrapper">
 					<a id="home-link" href="/" style="display:none"> <%# height: 66px; %>
-			            <img class="logo" src="/images/logo_tmp.png" alt="COMICS TIME"> <span id="home-text">COMICS TIME</span>
-			        </a>
+						<img class="logo" src="/images/logo_tmp.png" alt="COMICS TIME"> <span id="home-text">COMICS TIME</span>
+					</a>
 				</div>
 			</div>
 			%>
@@ -114,7 +126,8 @@
 					<% break %>
 
 				<%# COMICS %>
-				<% case "comics": %>
+				<% case "comics":
+					comic.issues.sort((a, b) =>	(parseFloat(a.issue_number.replace('.HU', '.5')) > parseFloat(b.issue_number.replace('.HU', '.5'))) ? 1 : -1); %>
 					<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
 					<% break %>
 
@@ -146,21 +159,40 @@
 		var options = <%- JSON.stringify(options) %>;
 		
 		<%#
-    options.calendar = {
-        min: {
-            date: date_start,
-            more: true
-        },
-        max: {
-            date: date_end,
-            more: true
-        }
-    }
+	options.calendar = {
+		min: {
+			date: date_start,
+			more: true
+		},
+		max: {
+			date: date_end,
+			more: true
+		}
+	}
 		%>
 	</script>
 	<script src="/js/main.js"></script>
 	<%# addons %>
 	<script src="/js/addons.js"></script>
+	<%# dev only %>
+	<script src="/js/prism.js"></script>
+
+	<style>
+		/*
+background: url(https://comicvine.gamespot.com/api/image/scale_small/4852083-01.jpg) 50% 50%;
+    filter: blur(10px);
+		*/
+	</style>
+
+	<script>
+		$(document).on('click', '.comics-issue-top:not(.comics-issue-status *)', function(e) {
+			// prevent
+			if (e.target.closest('.comics-issue-status')) {
+				return false;
+			}
+			$(this).closest('.comics-issue').toggleClass('open');
+		});
+	</script>
 </body>
 </html>
 <%# ul.SEARCH search-results-list shows-results-list covers-list list-unstyled list-inline %>

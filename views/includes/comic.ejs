@@ -63,6 +63,8 @@
 
 <% } else if (options.page === 'comics') { %>
 
+	<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript"><%= JSON.stringify(comic) %></code></pre>
+	<hr/>
 	<% comic.issues.forEach( issue => { %>
 		<%- include('issue.ejs', {comic: comic, issue: issue}) %>
 	<% })
