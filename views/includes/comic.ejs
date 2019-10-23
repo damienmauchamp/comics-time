@@ -67,6 +67,8 @@
 	<div class="comics-issue">
 		<div class="comics-issue-top">
 			<div class="comics-issue-controls">
+				<span class="comics-issue-control comics-issue-closed"><i class="fas fa-angle-down"></i></span>
+				<span class="comics-issue-control comics-issue-opened"><i class="fas fa-angle-up"></i></span>
 			</div>
 
 			<div class="comics-issue-title">
@@ -75,7 +77,7 @@
 
 			<div class="comics-issue-status">
 				<span class="comics-issue-status-read">
-					<i class="fas fa-check-circle fa-read-status <%= issue.read ? 'fa-read' : '' %>"></i>
+					<i class="fas fa-check-circle fa-read-status <%= comics.filter(c => c.to_read; ).length ? 'fa-read' : '' %>"></i>
 				</span>
 			</div>
 		</div>
