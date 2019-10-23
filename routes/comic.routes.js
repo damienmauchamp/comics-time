@@ -55,6 +55,7 @@ router.get('/', async (req, res) => {
             // comics info
             image: c.image.replace('{{code}}', options.image_code),
             link: '/comics/' + c.id,
+            started: (comics.issues.filter(i => i.read).length > 0) || false,
 
             // to read
             to_read: c.issues.find(function(i) {
