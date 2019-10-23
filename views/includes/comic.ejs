@@ -63,8 +63,29 @@
 
 <% } else if (options.page === 'comics') { %>
 
-	<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript"><%= JSON.stringify(comic) %></code></pre>
-	<hr/>
+	<%# debug %>
+	<div class="comics-issue">
+		<div class="comics-issue-top">
+			<div class="comics-issue-controls">
+			</div>
+
+			<div class="comics-issue-title">
+				<%= comic.name + ' (' + comic.start_year + ')' %>
+			</div>
+
+			<div class="comics-issue-status">
+				<span class="comics-issue-status-read">
+					<i class="fas fa-check-circle fa-read-status <%= issue.read ? 'fa-read' : '' %>"></i>
+				</span>
+			</div>
+		</div>
+		<div class="comics-issue-bottom">
+			<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript"><%= JSON.stringify(comic) %></code></pre>
+		</div>
+	</div>
+	<%# /debug %>
+
+
 	<% comic.issues.forEach( issue => { %>
 		<%- include('issue.ejs', {comic: comic, issue: issue}) %>
 	<% })
