@@ -88,7 +88,7 @@
 						return c.to_read && (parseInt(c.to_read.issue_number) > 1 || c.started);
 					})
 					comics_not_started = comics.filter(c => {
-						return c.to_read && (parseInt(c.to_read.issue_number) <= 1 || !c.started);
+						return c.to_read && parseInt(c.to_read.issue_number) <= 1 && !c.started;
 					})
 					comics_done = comics.filter(c => {
 						return !c.to_read;
