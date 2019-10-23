@@ -15,7 +15,7 @@
 		issue.image_code = 'scale_small';
 		issue.link = comic.link + '/issue/' + issue.id;
 	%>
-	<div class="comics-issue" id="comics-item-<%= comic.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>">
+	<div class="comics-issue" id="comics-item-<%= comic.id %>-<%= issue.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>">
 		<div class="comics-issue-top">
 			<div class="comics-issue-controls">
 				<span class="comics-issue-control comics-issue-closed"><i class="fas fa-angle-down"></i></span>
@@ -27,7 +27,9 @@
 			</div>
 
 			<div class="comics-issue-status">
-				<span class="comics-issue-status-read"><%= issue.read ? 'read' : '-' %></span>
+				<span class="comics-issue-status-read">
+					<i class="fas fa-check-circle fa-read-status <%= issue.read ? 'fa-read' : '' %>"></i>
+				</span>
 			</div>
 		</div>
 		<div class="comics-issue-bottom">

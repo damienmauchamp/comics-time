@@ -1,13 +1,27 @@
 
 // /read
-$(document).on('click', '.comics:not(.complete) .to-read-icon', function(e) {
+$(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa-read-status', function(e) {
     e.preventDefault();
-	var comics = $(this).closest('.comics');
+    var already_read = false;
+
+    //
+    var classes = {
+        comics: options.page === "comics" ? ".comics-issue" : ".comics"
+    };
+    if (options.page === "comics") {
+        already_read = $(this).hasClass('fa-read');
+        $(this).addClass('fa-spin').addClass('fa-circle-notch').addClass('loading');
+        $(this).removeClass('fa-check-circle');
+    }
+
+    //
+	var comics = $(this).closest(classes.comics);
     var section = comics.closest('.to-read').attr('id');
 	var params = {
 		comics: comics.data('comics'),
 		issue: comics.data('issue'),
-		date: new Date()
+		date: new Date(),
+        already_read: already_read
 	}
     if (typeof read === "function") {
         read(params);
@@ -18,65 +32,83 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon', function(e) {
         method: 'post',
         data: params,
         success(res) {
-            // item
-            var item = $('#comics-item-' + res.comics);
 
-            // img
-            item.find('img#img-' + res.comics).attr('src', res.img);
+            // HOMEPAGE
+            if (options.page === "homepage") {
+                // item
+                var item = $('#comics-item-' + res.comics);
 
-            // progress bar
-            item.find('.progress-bar').css('width', res.progress + '%');
+                // img
+                item.find('img#img-' + res.comics).attr('src', res.img);
 
-        	// #
-        	item.find('.issue-number').text(res.issue_number ? ('#' + res.issue_number) : '');
+                // progress bar
+                item.find('.progress-bar').css('width', res.progress + '%');
 
-            // remaining issue(s)
-            item.find('.remainging-issues').text(res.issues_left)
+                // #
+                item.find('.issue-number').text(res.issue_number ? ('#' + res.issue_number) : '');
 
-        	if (res.issues_left && !res.complete) {
-        		item.find('.nb-remainging-issues').show();
-        	} else {
-        		item.find('.nb-remainging-issues').hide();
-        	}
+                // remaining issue(s)
+                item.find('.remainging-issues').text(res.issues_left)
 
-            // new show/hide, date
-            if (res.new && !res.complete) {
-                item.addClass('new');
-            } else {
-                item.removeClass('new');
+                if (res.issues_left && !res.complete) {
+                    item.find('.nb-remainging-issues').show();
+                } else {
+                    item.find('.nb-remainging-issues').hide();
+                }
+
+                // new show/hide, date
+                if (res.new && !res.complete) {
+                    item.addClass('new');
+                } else {
+                    item.removeClass('new');
+                }
+
+                if (res.complete) {
+                    //item.remove();
+                    item.find('.to-read-icon').css('visibility', 'hidden');
+                    item.addClass('complete');
+                    item.removeData('issue');
+
+                    // console.log("moving to", section);
+
+                    var increase_count = $('.to-read#done .nb-items');
+                    var decrease_count = $('.to-read#'+section+' .nb-items');
+                    increase_count.text(parseInt(increase_count.text()) + 1);
+                    decrease_count.text(parseInt(decrease_count.text()) - 1);
+                    moveElement(item, '.to-read#done ul.to-read-list');
+                    return false;
+                } else if (section === "not-started") {
+                    // console.log("moving to", section);
+
+                    var increase_count = $('.to-read#to-read .nb-items');
+                    var decrease_count = $('.to-read#'+section+' .nb-items');
+                    increase_count.text(parseInt(increase_count.text()) + 1);
+                    decrease_count.text(parseInt(decrease_count.text()) - 1);
+                    moveElement(item, '.to-read#to-read ul.to-read-list');
+                } else {
+                    // console.log("not moving");
+                }
+
+                // item attributes
+                item.data({
+                    comics: res.comics,
+                    issue: res.issue,
+                });
             }
 
-            if (res.complete) {
-                //item.remove();
-                item.find('.to-read-icon').css('visibility', 'hidden');
-                item.addClass('complete');
-                item.removeData('issue');
-
-                // console.log("moving to", section);
-
-                var increase_count = $('.to-read#done .nb-items');
-                var decrease_count = $('.to-read#'+section+' .nb-items');
-                increase_count.text(parseInt(increase_count.text()) + 1);
-                decrease_count.text(parseInt(decrease_count.text()) - 1);
-                moveElement(item, '.to-read#done ul.to-read-list');
-                return false;
-            } else if (section === "not-started") {
-                // console.log("moving to", section);
-
-                var increase_count = $('.to-read#to-read .nb-items');
-                var decrease_count = $('.to-read#'+section+' .nb-items');
-                increase_count.text(parseInt(increase_count.text()) + 1);
-                decrease_count.text(parseInt(decrease_count.text()) - 1);
-                moveElement(item, '.to-read#to-read ul.to-read-list');
-            } else {
-                // console.log("not moving");
+            // COMICS
+            else if (options.page === "comics") {
+                if (res) {
+                    var element = $('#comics-item-'+params.comics+'-'+params.issue).find('.fa-read-status');
+                    if (already_read) {
+                        $(element).removeClass('fa-read');
+                    } else {
+                        $(element).addClass('fa-read');
+                    }
+                    $(element).addClass('fa-check-circle');
+                    $(element).removeClass('fa-spin').removeClass('fa-circle-notch').removeClass('loading');
+                }
             }
-
-            // item attributes
-            item.data({
-                comics: res.comics,
-                issue: res.issue,
-            });
         }
     });
 });

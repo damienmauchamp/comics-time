@@ -417,6 +417,7 @@ ol, ul {
 }
 .comics-issue-top {
     padding: 10px 0;
+    position: relative;
 }
 .comics-issue-top div {
 	display: inline;
@@ -427,6 +428,11 @@ ol, ul {
 }
 .comics-issue-top .comics-issue-title {
 	cursor: pointer;
+    margin-left: 10px;
+}
+.comics-issue-top .comics-issue-status {
+    position: absolute;
+    right: 0;
 }
 .comics-issue-controls .comics-issue-control {
 	cursor: pointer;
@@ -444,4 +450,25 @@ ol, ul {
 
 .comics-issue:not(.open) .comics-issue-bottom {
 	display: none;
+}
+
+.fa-read-status {
+    color: #D2D2D2;
+}
+.fa-read-status:hover {
+    color: #C4C4C4;
+}
+.fa-read-status.fa-read {
+    color: #0AD06F;
+}
+.fa-read-status.fa-read:hover {
+    color: #089F55;
+}
+.fa-read-status.loading {
+    color: #C4C4C4;
+    cursor: default;
+}
+.fa-read-status.loading:hover {
+    color: #C4C4C4;
+    cursor: default;
 }
