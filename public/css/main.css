@@ -439,6 +439,9 @@ ol, ul {
 	position: absolute;
 	right: 0;
 }
+.comics-issue-bottom {
+    padding: 0 0 10px 0;
+}
 .comics-issue-controls .comics-issue-control {
 	cursor: pointer;
 }
