@@ -148,11 +148,14 @@ $('#search').select2({
         cache: true
     },
     allowClear: true,
+    closeOnSelect: true,
+    //multiple: true,
     containerCssClass: 'searchbox',
-    //dropdownCssClass: 'aaaa',
+    containment: 'parent',
+    dropdownCssClass: 'searchbox-dropdown',
     //dropdownParent: $('#test'),
     placeholder: 'Search for comics',
-    escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    escapeMarkup: function (markup) { return markup; }, // we do not want to escape markup since we are displaying html in results
     minimumInputLength: 1,
     templateResult: function (item) {
         if(item.loading) {
@@ -190,7 +193,16 @@ $('#search').select2({
             increase_count.text(parseInt(increase_count.text()) + 1);
         }
     })
-});
+})
+/*.off('select2:opening select2:open select2:closing select2:close').on('select2:opening select2:open select2:closing select2:close', function(e) {
+    if (e.type === 'select2:open') {
+        //var top = $(".select2.select2-container.select2-container--default.select2-container--below").offset().top;
+        var top = $(".select2-container.select2-container--default.select2-container--open").css('top')-8;
+        $('.select2-container.select2-container--default.select2-container--open').css('top', top);
+    } else if (e.type === 'select2:closing') {
+        $('.select2-container.select2-container--default.select2-container--open').css('top', '');
+    }
+})*/;
 
 // update
 $('#update').on('click', function() {

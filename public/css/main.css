@@ -140,6 +140,22 @@ ol, ul {
 	left: 0;
 	background-color: var(--menu-bg-color);
 }
+.page-left .extend-left-link {
+	display: none;
+}
+.page-left>.scrollable {
+	overflow-y: auto;
+	height: 100%;
+}
+.page-left #home-link {
+	text-align: center;
+	margin: 12px auto;
+	display: block;
+	height: 42px;
+}
+.page-left #home-text {
+	display: none;
+}
 
 .page-center {
 	display: block;
@@ -318,16 +334,45 @@ ol, ul {
 	border: none;
 }
 .select2-container--default .select2-selection--single {
-	border: 1px solid #353535;
-	color: #fff;
+	/*border: 1px solid #353535;
+	color: #fff;*/
 	/*padding: 4px 6px 4px 26px;*/
-	background-color: #222;
 }
 .select2-container--default .select2-results>.select2-results__options {
-	max-height: calc(100vh - 28px - 33px);
+	/*max-height: calc(100vh - 28px - 33px); --> before changing select2 appearance*/
+	/*max-height: calc(100vh - 42px - 24px - 28px - 8px);*/
+	max-height: calc(100vh - 42px - 24px - 28px - 2px);
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+
+.select2-container--open .searchbox {
+	display: none;
+}
+.select2-drop {
+	display: none !important;
+}
+.select2-container.select2-container--default.select2-container--open {
+	top: 66px !important;
+	/*line-height: 28px;*/
+}
+.select2-search--dropdown {
+	padding: 0;
+}
+.select2-search--dropdown .select2-search__field {
+	height: 28px;
+}
+input.select2-search__field, .select2-container--default .select2-selection--single.searchbox {
+	outline: none !important;
+	border: 1px solid #353535 !important;
+	color: #fff !important;
+	background-color: #222;
+	border-radius: 0;
+}
+span.select2-selection__arrow {
+	display: none;
+}
+
 
 .search-item {
 	overflow: auto;
@@ -364,6 +409,34 @@ ol, ul {
 		-o-transition: max-height .5s ease-in-out;
 		transition: max-height .5s ease-in-out;
 	}
+	.page-left .extend-left-link:hover {
+		text-decoration: none;
+	}
+	.page-left .extend-left-link {
+		display: block;
+		color: #fff;
+		font-size: 28px;
+		position: absolute;
+		top: 10px;
+		right: 16px;
+		line-height: 42px;
+		-webkit-transition: all .5s ease-in-out;
+		-moz-transition: all .5s ease-in-out;
+		-ms-transition: all .5s ease-in-out;
+		-o-transition: all .5s ease-in-out;
+		transition: all .5s ease-in-out;
+	}
+	.page-left #home-link {
+		margin: 10px;
+		display: inline-block;
+		color: #fff;
+		font-family: ProximaNovaSB;
+		font-size: 25px;
+	}
+	.page-left #home-text {
+		display: inline;
+	}
+
 	.page-center {
 		margin: 0!important;
 	}
@@ -440,7 +513,7 @@ ol, ul {
 	right: 0;
 }
 .comics-issue-bottom {
-    padding: 0 0 10px 0;
+	padding: 0 0 10px 0;
 }
 .comics-issue-controls .comics-issue-control {
 	cursor: pointer;
@@ -483,3 +556,12 @@ ol, ul {
 .fa-read-status.disabled {
 	cursor: default;
 }
+
+/*
+height-icon: 42px
+padding-icon: 2*12px
+height-search-bar: 28px
+padding: 2*4px
+fix: 4px;
+calc(100vh - 42px - 24 - 28px - 8px)
+*/
