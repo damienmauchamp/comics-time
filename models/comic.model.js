@@ -43,12 +43,17 @@ function getPreviousIssue(array, id) {
     return getNearestIssue(array, id, 'prev')
 }
 
-function getNextIssue(array, id) {
-    return getNearestIssue(array, id, 'next')
+function getNextIssue(array, id, only_unread = true) {
+    return getNearestIssue(array, id, 'next', only_unread)
 }
 
-function getNearestIssue(array, id, way) {
-    var index = array.indexOf(array.find(r => r.id == id)) + (1 * (way === 'prev' ? -1 : 1));
+function getNearestIssue(array, id, way, only_unread = true) {
+
+    if (way === 'next' && only_unread) {
+        var index = array.indexOf(array.find(r => r.id > id && !r.read))
+    } else {
+        var index = array.indexOf(array.find(r => r.id == id)) + (1 * (way === 'prev' ? -1 : 1));
+    }
     return typeof array[index] !== "undefined" ? array[index] : null
 }
 
@@ -290,7 +295,7 @@ function deleteComics(id) {
     })
 }
 
-function readIssue(params) {
+function readUnreadIssue(params) {
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, params.comics)
         .then(comic => {
@@ -302,9 +307,15 @@ function readIssue(params) {
 
             const issue_index = comic.issues.findIndex(r => r.id == params.issue)
 
-            comics[comics_index].issues[issue_index].read = params.date
-
-            next = getNextIssue(comic.issues, params.issue)
+            if (params.action === 'unread') {
+                comics[comics_index].issues[issue_index].read = false
+                next = comics[comics_index].issues.find(function(i) {
+                    return !i.read;
+                })
+            } else {
+                comics[comics_index].issues[issue_index].read = params.date
+                next = getNextIssue(comic.issues, params.issue)
+            }
 
             if (!next) {
                 result = {
@@ -340,10 +351,28 @@ function readIssue(params) {
             }
 
             helper.writeJSONFile(filename, comics)
-            resolve(result)
+
+            var response = {
+                error: false,
+                message: '',
+                data: result
+            };
+
+            resolve(response)
         }).catch(err => reject(err))
     })
 }
+
+function readIssue(params) {
+    params.action = 'read';
+    readUnreadIssue(params);
+}
+
+function unreadIssue(params) {
+    params.action = 'unread';
+    readUnreadIssue(params);
+}
+
 
 function getCalendar(date_start, date_end) {
     return new Promise((resolve, reject) => {
@@ -373,7 +402,8 @@ module.exports = {
     getNextIssue,
 
     readIssue,
-
+    unreadIssue,
+    readUnreadIssue,
 
     addComics,
 

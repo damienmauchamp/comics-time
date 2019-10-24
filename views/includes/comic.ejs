@@ -16,7 +16,7 @@
 	var issues_left = comic.issues.filter(i => { return !i.read && i.id !== comic.to_read.id && new Date() >= new Date(i.store_date); }).length;
 
 	//new
-    var is_new = Math.floor(Math.abs(new Date(comic.to_read.store_date) - new Date()) / 1000 / 86400) < 7;
+	var is_new = Math.floor(Math.abs(new Date(comic.to_read.store_date) - new Date()) / 1000 / 86400) < 7;
 
 	// progress bar percentage
 	var progress = (comic.nb_issues-issues_left-1)/comic.nb_issues*100;
@@ -77,7 +77,7 @@
 
 			<div class="comics-issue-status">
 				<span class="comics-issue-status-read">
-					<i class="fas fa-check-circle fa-read-status <%= comic.issues.filter(i => !i.read).length ? '' : 'fa-read' %>"></i>
+					<i class="fas fa-check-circle fa-read-status disabled <%= comic.issues.filter(i => !i.read).length ? '' : 'fa-read' %>"></i>
 				</span>
 			</div>
 		</div>

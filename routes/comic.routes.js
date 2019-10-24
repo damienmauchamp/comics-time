@@ -13,239 +13,239 @@ const moment = require('moment')
 const config = require('../config.js');
 
 var options = {
-    page: "default",
-    main: "home",
-    datatype: "html",
-    lang: "en",
+	page: "default",
+	main: "home",
+	datatype: "html",
+	lang: "en",
 
-    // search
-    search: {
-        limit: 20
-    },
-    
-    modules: {},
+	// search
+	search: {
+		limit: 20
+	},
+	
+	modules: {},
 
-    params: config.PARAMS,
+	params: config.PARAMS,
 
-    env: config.ENV,
+	env: config.ENV,
 
 
-    image_code: 'scale_small'
+	image_code: 'scale_small'
 }
 
 //
 // @todo
 router.use('', function (req, res, next) {
-    if (parseUrl.original(req).pathname !== req.baseUrl)
-        return next(); // skip this for strictness
+	if (parseUrl.original(req).pathname !== req.baseUrl)
+		return next(); // skip this for strictness
 });
 
 // GET /
 // @todo
 router.get('/', async (req, res) => {
-    options.page = 'homepage';
-    options.main = 'main';
+	options.page = 'homepage';
+	options.main = 'main';
 
-    await comic.getAllComics()
-    .then(function(comics) {
+	await comic.getAllComics()
+	.then(function(comics) {
 
-        comics = comics.map(c => ({
-            ...c,
+		comics = comics.map(c => ({
+			...c,
 
-            // comics info
-            image: c.image.replace('{{code}}', options.image_code),
-            link: '/comics/' + c.id,
+			// comics info
+			image: c.image.replace('{{code}}', options.image_code),
+			link: '/comics/' + c.id,
 
-            // to read
-            started: (c.issues.filter(i => i.read).length > 0),
-            to_read: c.issues.find(function(i) {
-                return !i.read;
-            }) || false
+			// to read
+			started: (c.issues.filter(i => i.read).length > 0),
+			to_read: c.issues.find(function(i) {
+				return !i.read;
+			}) || false
 
-        }))
+		}))
 
-        res.render('index.ejs', {comics: comics, options: options})
-    })
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+		res.render('index.ejs', {comics: comics, options: options})
+	})
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
 })
 
 //POST /calendar/data ==> GET /calendar/data
 router.post('/calendar/data', async (req, res, next) => {
-    res.redirect(url.format({
-        pathname:'/calendar/data',
-        query: req.body
-     }));
+	res.redirect(url.format({
+		pathname:'/calendar/data',
+		query: req.body
+	 }));
 })
 
 //GET /calendar
 router.get('/calendar/:type*?', async (req, res, next) => {
-    //var path = parseUrl.original(req).pathname.replace(/^\/+|\/+$/g, '');
+	//var path = parseUrl.original(req).pathname.replace(/^\/+|\/+$/g, '');
 
-    var default_days = 7*12, date_start, date_end;
-    const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
+	var default_days = 7*12, date_start, date_end;
+	const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
 
-    if (!req.params.type) { // /calendar
-        var default_date_end = new Date().getTime();
-        date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
+	if (!req.params.type) { // /calendar
+		var default_date_end = new Date().getTime();
+		date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
 
-        var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
-        date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
-    } else if (req.params.type === "data") { // /calendar/data
+		var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
+		date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
+	} else if (req.params.type === "data") { // /calendar/data
 
-        if (typeof req.query.date === "undefined") {
-            res.status(500).json({ message: "Aucune date transmise" })
-            return
-        }
+		if (typeof req.query.date === "undefined") {
+			res.status(500).json({ message: "Aucune date transmise" })
+			return
+		}
 
-        var date = Number(req.query.date)
-        var direction = req.query.direction ? req.query.direction : 1
+		var date = Number(req.query.date)
+		var direction = req.query.direction ? req.query.direction : 1
 
-        if (direction > 0) {
-            date_start = new Date(date).setDate(new Date(date).getDate() + 1);
-            date_end = new Date(date).setDate(new Date(date).getDate() + days);
-        } else if (direction < 0) {
-            date_end = new Date(date).setDate(new Date(date).getDate() - 1);
-            date_start = new Date(date).setDate(new Date(date).getDate() - days);
-        } else {
-            res.status(500).json({ message: "Direction non valide" })
-            return
-        }
-    } else {
-        next()
-    }
+		if (direction > 0) {
+			date_start = new Date(date).setDate(new Date(date).getDate() + 1);
+			date_end = new Date(date).setDate(new Date(date).getDate() + days);
+		} else if (direction < 0) {
+			date_end = new Date(date).setDate(new Date(date).getDate() - 1);
+			date_start = new Date(date).setDate(new Date(date).getDate() - days);
+		} else {
+			res.status(500).json({ message: "Direction non valide" })
+			return
+		}
+	} else {
+		next()
+	}
 
-    options.page = 'calendar';
-    options.main = 'calendar';
-    options.modules['moment'] = moment
-    options.calendar = {
-        min: {
-            date: date_start,
-            more: true
-        },
-        max: {
-            date: date_end,
-            more: true
-        }
-    }
+	options.page = 'calendar';
+	options.main = 'calendar';
+	options.modules['moment'] = moment
+	options.calendar = {
+		min: {
+			date: date_start,
+			more: true
+		},
+		max: {
+			date: date_end,
+			more: true
+		}
+	}
 
-    await comic.getCalendar(date_start, date_end)
-    .then(issues => {
+	await comic.getCalendar(date_start, date_end)
+	.then(issues => {
 
-        // ordering by week
-        var by_day = {}
-        issues.forEach(i => {
-            if (!by_day[i.store_date]) {
-                var store_date = moment(new Date(i.store_date)).locale(options.lang);
-                by_day[i.store_date] = {
-                    format: {
-                        full: store_date.format('YYYY-MM-DD'),
-                        dddd: store_date.format('dddd'),
-                        DD: store_date.format('DD'),
-                        MMMM: store_date.format('MMMM')
-                    },
-                    issues: []
-                };
-            }
-            by_day[i.store_date].issues.push(i)
-        })
+		// ordering by week
+		var by_day = {}
+		issues.forEach(i => {
+			if (!by_day[i.store_date]) {
+				var store_date = moment(new Date(i.store_date)).locale(options.lang);
+				by_day[i.store_date] = {
+					format: {
+						full: store_date.format('YYYY-MM-DD'),
+						dddd: store_date.format('dddd'),
+						DD: store_date.format('DD'),
+						MMMM: store_date.format('MMMM')
+					},
+					issues: []
+				};
+			}
+			by_day[i.store_date].issues.push(i)
+		})
 
-        //options.calendar.(min|max).more = true|false
-        
-        if (req.params.type === "data") {
-            res.status(200).json({calendar: by_day, options: options})
-        } else {
-            res.render('index.ejs', {calendar: by_day, options: options})
-        }
-    }).catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+		//options.calendar.(min|max).more = true|false
+		
+		if (req.params.type === "data") {
+			res.status(200).json({calendar: by_day, options: options})
+		} else {
+			res.render('index.ejs', {calendar: by_day, options: options})
+		}
+	}).catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
 })
 
 //GET /search
 // @todo: pagination ?
 router.get('/search', async (req, res) => {
-    const query = req.query.q;
+	const query = req.query.q;
 
-    const page = req.query.page || 1;
-    const limit = 20;
-    const offset = (page - 1) * limit;
-    
-    var params = {
-        query: query,
+	const page = req.query.page || 1;
+	const limit = 20;
+	const offset = (page - 1) * limit;
+	
+	var params = {
+		query: query,
 
-        options: options,
-        //offset: offset,
-        page: page,
-        limit: limit,
+		options: options,
+		//offset: offset,
+		page: page,
+		limit: limit,
 
-        resources: 'volume'
-    }
-    console.log(page, params)
+		resources: 'volume'
+	}
+	console.log(page, params)
 
-    api.get('search/', params, function(data) {
+	api.get('search/', params, function(data) {
 
-        comic.getAllComics()
-        .then(comics => {
-            var results = [];
-            data.results.forEach(function(e) {
-                results.push({
-                    id: e.id,
-                    name: e.name,
-                    start_year: e.start_year,
-                    count_of_issues: e.count_of_issues,
-                    image: e.image.small_url, //scale_avatar, .replace('original', '{{code}}')
-                    publisher: e.publisher ? e.publisher.name : '',
-                    added: comics.find(c => c.id === e.id)
-                });
-            });
+		comic.getAllComics()
+		.then(comics => {
+			var results = [];
+			data.results.forEach(function(e) {
+				results.push({
+					id: e.id,
+					name: e.name,
+					start_year: e.start_year,
+					count_of_issues: e.count_of_issues,
+					image: e.image.small_url, //scale_avatar, .replace('original', '{{code}}')
+					publisher: e.publisher ? e.publisher.name : '',
+					added: comics.find(c => c.id === e.id)
+				});
+			});
 
-            var results_returned = (parseInt(data.offset) + 1) * parseInt(data.limit);
-            var total_count = parseInt(data.number_of_total_results);
+			var results_returned = (parseInt(data.offset) + 1) * parseInt(data.limit);
+			var total_count = parseInt(data.number_of_total_results);
 
-            res.json({
-                pagination: {
-                    more: results_returned < total_count
-                },
-                incomplete_results: false,
-                total_count: total_count,
-                results: results
-            })
-        })
-        .catch(err => {
-            if (err.status) {
-                res.status(err.status).json({ message: err.message })
-            } else {
-                res.status(500).json({ message: err.message })
-            }
-        })
+			res.json({
+				pagination: {
+					more: results_returned < total_count
+				},
+				incomplete_results: false,
+				total_count: total_count,
+				results: results
+			})
+		})
+		.catch(err => {
+			if (err.status) {
+				res.status(err.status).json({ message: err.message })
+			} else {
+				res.status(500).json({ message: err.message })
+			}
+		})
 
-    });
+	});
 })
 
 //GET /update
 router.get('/update', async(req, res) => {
-    await comic.getAllComics()
-    .then(function(comics) {
-        res.status(200).json(comics.map(c => {
-            return c.id
-        }))
-    }).catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+	await comic.getAllComics()
+	.then(function(comics) {
+		res.status(200).json(comics.map(c => {
+			return c.id
+		}))
+	}).catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
 })
 
 
@@ -254,58 +254,58 @@ router.get('/update', async(req, res) => {
 
 //GET /comics/:id
 router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
-    const id = req.params.id
-    options.page = 'comics';
+	const id = req.params.id
+	options.page = 'comics';
 
-    await comic.getComics(id)
-    .then(function(comics) {
-        res.render('index.ejs', {options: options, comic: comics})
-    })
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).redirect('/');
-            //res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).redirect('/');
-            //res.status(500).json({ message: err.message })
-        }
-    })
+	await comic.getComics(id)
+	.then(function(comics) {
+		res.render('index.ejs', {options: options, comic: comics})
+	})
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).redirect('/');
+			//res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).redirect('/');
+			//res.status(500).json({ message: err.message })
+		}
+	})
 })
 
 //GET /comics/:id/issue/:id_issue
 router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMustBeinteger, async (req, res) => {
-    const id_comic = req.params.id
-    const id_issue = req.params.id_issue
-    options.page = 'issue';
+	const id_comic = req.params.id
+	const id_issue = req.params.id_issue
+	options.page = 'issue';
 
-    comic.getComics(id_comic)
-    .then(function(item) {
-        comic.getIssue(item.issues, id_issue)
-        .then(issue => {
-            issue.previous = comic.getPreviousIssue(item.issues, id_issue)
-            issue.next = comic.getNextIssue(item.issues, id_issue)
-            item.issue = issue
-            res.status(200).json({options: options, comic: item})
-        })
-        .catch(err => {
-            if (err.status) {
-                //res.status(err.status).redirect('/comics/' + id_comics);
-                res.status(err.status).json({ message: err.message })
-            } else {
-                //res.status(500).redirect('/comics/' + id_comics);
-                res.status(500).json({ message: err.message })
-            }
-        })
-    })
-    .catch(err => {
-        if (err.status) {
-            //res.status(err.status).redirect('/comics/' + id_comics);
-            res.status(err.status).json({ message: err.message })
-        } else {
-            //res.status(500).redirect('/comics/' + id_comics);
-            res.status(500).json({ message: err.message })
-        }
-    })
+	comic.getComics(id_comic)
+	.then(function(item) {
+		comic.getIssue(item.issues, id_issue)
+		.then(issue => {
+			issue.previous = comic.getPreviousIssue(item.issues, id_issue)
+			issue.next = comic.getNextIssue(item.issues, id_issue)
+			item.issue = issue
+			res.status(200).json({options: options, comic: item})
+		})
+		.catch(err => {
+			if (err.status) {
+				//res.status(err.status).redirect('/comics/' + id_comics);
+				res.status(err.status).json({ message: err.message })
+			} else {
+				//res.status(500).redirect('/comics/' + id_comics);
+				res.status(500).json({ message: err.message })
+			}
+		})
+	})
+	.catch(err => {
+		if (err.status) {
+			//res.status(err.status).redirect('/comics/' + id_comics);
+			res.status(err.status).json({ message: err.message })
+		} else {
+			//res.status(500).redirect('/comics/' + id_comics);
+			res.status(500).json({ message: err.message })
+		}
+	})
 })
 
 //GET /comics/:id/issues
@@ -314,63 +314,63 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
 //POST /read
 router.post('/read', async (req, res) => {
 
-    comic.readIssue(req.body)
-    .then(function(item) {
-        res.status(200).json(item)
-    })
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+	comic.readUnreadIssue(req.body)
+	.then(function(response) {
+		res.status(200).json(response)
+	})
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
 
-    //console.log(req.body)
+	//console.log(req.body)
 })
 
 //POST /comics/:id
 // Add comics using ComicVine volume ID
 router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
-    // volume 
-    var volume = parseInt(req.params.id)
-    api.get('volume/', volume, async function(comics) {
+	// volume 
+	var volume = parseInt(req.params.id)
+	api.get('volume/', volume, async function(comics) {
 
-        // issues
-        var params = { filter: { volume: volume } }
-        api.get('issues/', params, function(issues) {
-            comic.addComics(comics, issues)
-            .then(comic => {
+		// issues
+		var params = { filter: { volume: volume } }
+		api.get('issues/', params, function(issues) {
+			comic.addComics(comics, issues)
+			.then(comic => {
 
-                comic = {
-                    ...comic,
+				comic = {
+					...comic,
 
-                    // comics info
-                    image: comic.image.replace('{{code}}', options.image_code),
-                    link: '/comics/' + comic.id,
+					// comics info
+					image: comic.image.replace('{{code}}', options.image_code),
+					link: '/comics/' + comic.id,
 
-                    // to read
-                    to_read: comic.issues.find(function(i) {
-                        return !i.read;
-                    })
-                };
+					// to read
+					to_read: comic.issues.find(function(i) {
+						return !i.read;
+					})
+				};
 
 
-                res.send({ data: [
-                    { comic: comic, options: options }
-                ]});
-                //res.send({ data: {comic: comic, options: options}});
-                //console.log(comic);
-                //res.render('includes/comic.ejs', {comic: comic, options: options})
-                /*res.status(201).json({
-                    message: `The comic #${comic.id} has been created`,
-                    content: comic
-                })*/
-            })
-            .catch(err => res.status(500).json({ message: err.message }))
-        })
-    })
+				res.send({ data: [
+					{ comic: comic, options: options }
+				]});
+				//res.send({ data: {comic: comic, options: options}});
+				//console.log(comic);
+				//res.render('includes/comic.ejs', {comic: comic, options: options})
+				/*res.status(201).json({
+					message: `The comic #${comic.id} has been created`,
+					content: comic
+				})*/
+			})
+			.catch(err => res.status(500).json({ message: err.message }))
+		})
+	})
 })
 
 //POST /comics/:id/issue
@@ -382,43 +382,43 @@ router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 //PUT /comics/:id => edit comics' info
 router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
-    const id = req.params.id
+	const id = req.params.id
 
-    await comic.editComics(id, req.body)
-    .then(comic => res.json({
-        message: `The comic #${id} has been updated`,
-        content: comic
-    }))
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        }
-        res.status(500).json({ message: err.message })
-    })
+	await comic.editComics(id, req.body)
+	.then(comic => res.json({
+		message: `The comic #${id} has been updated`,
+		content: comic
+	}))
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		}
+		res.status(500).json({ message: err.message })
+	})
 })
 
 //PUT /comics/:id/issues => fetch and edit comics' issues
 // comics/:id/update ?
 router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
-    const id = req.params.id
+	const id = req.params.id
 
-    // volume 
-    var volume = parseInt(req.params.id)
-    api.get('volume/', volume, async function(comics) {
+	// volume 
+	var volume = parseInt(req.params.id)
+	api.get('volume/', volume, async function(comics) {
 
-        // issues
-        var params = { filter: { volume: volume } }
-        api.get('issues/', params, function(issues) {
-            comic.editComicsIssues(comics, issues)
-            .then(comic => 
-                res.status(200).json({
-                    message: `The comic's issues has been edited`,
-                    content: comic
-                })
-            )
-            .catch(err => res.status(500).json({ message: err.message }))
-        })
-    })
+		// issues
+		var params = { filter: { volume: volume } }
+		api.get('issues/', params, function(issues) {
+			comic.editComicsIssues(comics, issues)
+			.then(comic => 
+				res.status(200).json({
+					message: `The comic's issues has been edited`,
+					content: comic
+				})
+			)
+			.catch(err => res.status(500).json({ message: err.message }))
+		})
+	})
 })
 
 //PUT /comics/:id/issue/:id_issue =>
@@ -426,18 +426,18 @@ router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
 //DELETE /comics/:id
 // Remove comics using ComicVine volume ID
 router.delete('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
-    const id = req.params.id
+	const id = req.params.id
 
-    await comic.deleteComics(id)
-    .then(comic => res.json({
-        message: `The comic #${id} has been deleted`
-    }))
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        }
-        res.status(500).json({ message: err.message })
-    })
+	await comic.deleteComics(id)
+	.then(comic => res.json({
+		message: `The comic #${id} has been deleted`
+	}))
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		}
+		res.status(500).json({ message: err.message })
+	})
 
 })
 
@@ -448,19 +448,19 @@ router.delete('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 
 router.get('/template/:template*', async(req, res) => {
-    options.page = 'homepage';
+	options.page = 'homepage';
 
-    var template = req.params.template
-    if (parseUrl.original(req).pathname.replace('/template/', '').includes('/')) {
-        template = parseUrl.original(req).pathname.replace('/template/', '')
-    }
+	var template = req.params.template
+	if (parseUrl.original(req).pathname.replace('/template/', '').includes('/')) {
+		template = parseUrl.original(req).pathname.replace('/template/', '')
+	}
    // console.log(('views/includes/' + template));
 
-    var path = require('path');
-    res.sendFile(path.resolve('views/includes/' + template));
+	var path = require('path');
+	res.sendFile(path.resolve('views/includes/' + template));
 
-    //console.log(path.resolve('views/includes/' + template))
-    //comic.ejs
+	//console.log(path.resolve('views/includes/' + template))
+	//comic.ejs
 })
 
 
@@ -479,30 +479,30 @@ router.get('/template/:template*', async(req, res) => {
 
 
 /*router.get('/tests', async (req, res) => {
-    await comic.getAllComics()
-    .then(posts => res.json(posts))
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+	await comic.getAllComics()
+	.then(posts => res.json(posts))
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
 })*/
 
 /*router.get('/tests/search', async (req, res) => {
 
-    const tests = post.tests;
+	const tests = post.tests;
 
-    await tests.search()
-    .then(results => res.json(results))
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+	await tests.search()
+	.then(results => res.json(results))
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
 })*/
 
 
@@ -511,17 +511,17 @@ router.get('/template/:template*', async(req, res) => {
 
 /* A post by id 
 router.get('/:id', m.mustBeInteger, async (req, res) => {
-    const id = req.params.id
+	const id = req.params.id
 
-    await post.getPost(id)
-    .then(post => res.json(post))
-    .catch(err => {
-        if (err.status) {
-            res.status(err.status).json({ message: err.message })
-        } else {
-            res.status(500).json({ message: err.message })
-        }
-    })
+	await post.getPost(id)
+	.then(post => res.json(post))
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
 })*/
 
 /** @todo: post -> comic */

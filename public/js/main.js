@@ -2,6 +2,9 @@
 // /read
 $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa-read-status', function(e) {
     e.preventDefault();
+    if ($(this).hasClass('disabled')) {
+        return;
+    }
     var already_read = false;
 
     //
@@ -18,10 +21,11 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 	var comics = $(this).closest(classes.comics);
     var section = comics.closest('.to-read').attr('id');
 	var params = {
+        page: options.page,
 		comics: comics.data('comics'),
 		issue: comics.data('issue'),
 		date: new Date(),
-        already_read: already_read
+        action: already_read ? 'unread' : 'read'
 	}
     if (typeof read === "function") {
         read(params);
@@ -31,10 +35,15 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
         dataType: 'json',
         method: 'post',
         data: params,
-        success(res) {
+        success(response) {
+
+            // response.error
+            // response.message
+            var res = response.data;
 
             // HOMEPAGE
             if (options.page === "homepage") {
+
                 // item
                 var item = $('#comics-item-' + res.comics);
 
@@ -98,7 +107,7 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 
             // COMICS
             else if (options.page === "comics") {
-                if (res) {
+                if (!response.error) {
                     var element = $('#comics-item-'+params.comics+'-'+params.issue).find('.fa-read-status');
                     if (already_read) {
                         $(element).removeClass('fa-read');
