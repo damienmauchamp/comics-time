@@ -12,6 +12,8 @@
 
 	--main-link-color: #3EA6FF;
 	--alt-link-color: #AAA;
+
+	--main-default-width: 160px;
 }
 
 body {
@@ -214,7 +216,7 @@ ol, ul {
 	margin-top: 10px;
 }
 .covers-list > li {
-	padding: 12px 17px;
+	padding: 5px 10px; /* 12px 17px; */
 	/*width: 187px;*/
 	overflow: hidden;
 	vertical-align: top;
@@ -226,8 +228,10 @@ ol, ul {
 .covers-list>li .image-crop {
 	/*width: 155px;
 	height: 222px; x1.29032258*/
-	width: 200px;
-	height: 300px;
+	/*width: 200px;*/
+	width: var(--main-default-width);
+	/*height: 300px;*/
+	height: auto;
 	overflow: hidden;
 	border-radius: 2px;
 	box-shadow: 0 0 2px #777;
@@ -238,6 +242,11 @@ ol, ul {
 	font-size: 16px;
 	padding: 0;
 	background-color: transparent;
+}
+.covers-list>li .nav a:hover {
+    color: #333; /* light */
+    color: #999; /* dark */
+    text-decoration: none;
 }
 .covers-list>li:not(.new) .new-label {
 	display: none;
@@ -311,7 +320,8 @@ ol, ul {
 	/*height: 15px;
 	overflow: hidden;*/
 	/*word-break: break-all;*/
-	width: 200px;
+	/*width: 200px;*/
+	max-width: var(--main-default-width);
 }
 .covers-list>li .cover-details a {
 	-webkit-transition: all .4s ease-in-out;
@@ -504,12 +514,12 @@ span.select2-selection__arrow {
 	}
 
 	.page-center {
-		margin: 0!important;
+		margin: 60px 0 0!important;
 	}
-	.page-center-inner {
+	/*.page-center-inner {
 		position: relative;
 		margin-top: 60px;
-	}
+	}*/
 	#issue-details .issue-infos .basic-infos, #show-details .basic-infos, .covers-list {
 		text-align: center;
 	}
@@ -521,11 +531,14 @@ span.select2-selection__arrow {
 	.covers-list>li .image-crop {
 		/*width: 132px;
 		height: 195px;*/
-		width: 170px;
-		height: 255px;
+		/*width: 170px;
+		height: 255px;*/
+		width: 100% !important;
+		height: auto !important;
 	}
 	.covers-list>li .cover-details h2 {
 		/*width: 170px;*/
+		width: 100%;
 	}
 
 	/* iPhone/tablet v2 */
@@ -536,16 +549,6 @@ span.select2-selection__arrow {
 	.comics {
 		width: calc(100%/3);
 	}
-
-	.image-crop {
-		width: 100% !important;
-		height: auto !important;
-	}
-
-	.covers-list>li .cover-details h2 {
-		width: 100%;
-	}
-
 	/* to remove */
 	#home {
 		margin-top: 60px;
