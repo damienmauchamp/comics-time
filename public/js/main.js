@@ -122,6 +122,11 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
     });
 });
 
+// mobile nav bar
+$('.page-left .extend-left-link').on('click touch', e => {
+    $('.page-left.page-sidebar').toggleClass('extended');
+})
+
 // /search
 $('#search').select2({
     ajax: {
@@ -181,7 +186,8 @@ $('#search').select2({
     }*/
     //templateSelection: formatRepoSelection
 })
-.on("select2:select", function(e, i) { 
+.on("select2:select", function(e, i) {
+
     console.log('ajout', $(this).val());
     $.ajax({
         url: '/comics/' + $(this).val(),
@@ -191,9 +197,17 @@ $('#search').select2({
             template('comic', res.data[0], '.to-read#not-started > ul.to-read-list', 'before');
             var increase_count = $('.to-read#not-started .nb-items');
             increase_count.text(parseInt(increase_count.text()) + 1);
+
+            // reset
+            $('#search').val('').trigger('change');
+        },
+        error(res) {
+            // reset
+            $('#search').val('').trigger('change');
         }
     })
 })
+//$('li.select2-results__option[data-select2-id]').length
 /*.off('select2:opening select2:open select2:closing select2:close').on('select2:opening select2:open select2:closing select2:close', function(e) {
     if (e.type === 'select2:open') {
         //var top = $(".select2.select2-container.select2-container--default.select2-container--below").offset().top;
