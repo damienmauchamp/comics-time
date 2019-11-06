@@ -499,7 +499,7 @@ span.select2-selection__arrow {
 		margin: 10px;
 		display: inline-block;
 		color: #fff;
-		font-family: ProximaNovaSB;
+		/* font-family: ProximaNovaSB; */
 		font-size: 25px;
 	}
 	.page-left #home-text {
