@@ -629,7 +629,7 @@ span.select2-selection__arrow {
 /* SEARCH */
 input.select2-search__field {
     border-radius: 0 !important;
-    /*-webkit-appearance: none !important;*/
+    -webkit-appearance: none !important;
 }
 
 .select2-search--dropdown,
