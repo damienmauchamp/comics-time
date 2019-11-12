@@ -626,6 +626,25 @@ span.select2-selection__arrow {
 	cursor: default;
 }
 
+/* SEARCH */
+input.select2-search__field {
+    border-radius: 0;
+}
+
+.select2-search--dropdown,
+#search-wrap .select2-container.select2-container--default {
+    padding: 0 12px;
+    -webkit-transition: padding .5s ease-out;
+    -moz-transition: padding .5s ease-out;
+    -o-transition: padding .5s ease-out;
+    transition: padding .5s ease-out;
+}
+
+body.searching .select2-search--dropdown,
+body.searching #search-wrap .select2-container.select2-container--default {
+	padding: 0;
+}
+
 /*
 height-icon: 42px
 padding-icon: 2*12px
