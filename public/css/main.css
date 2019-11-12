@@ -645,6 +645,10 @@ body.searching #search-wrap .select2-container.select2-container--default {
 	padding: 0;
 }
 
+body.searching .page-left section {
+    display: none;
+}
+
 /*
 height-icon: 42px
 padding-icon: 2*12px
