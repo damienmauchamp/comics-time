@@ -248,7 +248,7 @@ $('#update').on('click', function() {
 					dataType: 'json',
 					method: 'put',
 					success(response) {
-						console.log(response);
+						//console.log(response);
 					}
 				})
 				updates.push(update_request);
@@ -264,15 +264,25 @@ $('#update').on('click', function() {
 	});
 });
 
-function template(name, data, element, before_after = 'before') {
+function template(name, data, element, before_after = 'before', returning = false) {
 	// Grab the template
 	$.get('template/' + name + '.ejs', function (template) {
 		var func = ejs.compile(template);
 		var html = func(data);
 		if (before_after === 'before') {
-			$(element).prepend(html);
+			if (returning) {
+				return html;
+			} else {
+				$(element).prepend(html);
+			}
+			//console.log('prepend', data.date);
 		} else if (before_after === 'after') {
-			$(element).append(html);
+			if (returning) {
+				return html;
+			} else {
+				$(element).append(html);
+			}
+			//console.log('append', data.date);
 		} else {
 			return false;
 		}
@@ -285,10 +295,10 @@ function moveElement(element, newParent, duration = 0, direction = 'top') {
 	element = $(element);
 	newParent= $(newParent);
 
-	console.log("moving", {
+	/*console.log("moving", {
 		element: element,
 		to: newParent
-	});
+	});*/
 
 	var oldOffset = element.offset();
 	if (['top', 'haut', 'début'].includes(direction)) {
@@ -324,17 +334,17 @@ $(window).on('scroll', function() {
 		pos: $(this).scrollTop(),
 		bottom: ($(window).scrollTop() + $(window).height()) == $(document).height()
 	};
-	console.log(scroll);
+	//console.log(scroll);
 
 	var direction = 0,
 		date = null;
 
 	if (scroll.top) {
 		direction = -1, date = options.calendar.min.date, more = options.calendar.min.more;
-		console.log(options.calendar.min, "prependTo");
+		//console.log(options.calendar.min, "prependTo");
 	} else if (scroll.bottom) {
 		direction = 1, date = options.calendar.max.date, more = options.calendar.max.more;
-		console.log(options.calendar.max, "appendTo");
+		//console.log(options.calendar.max, "appendTo");
 	} else {
 		return false;
 	}
@@ -353,16 +363,30 @@ $(window).on('scroll', function() {
 			more: more
 		},
 		success(res) {
-			console.log(res);
+			//console.log(res);
+			var html = '';
 			if (res.calendar) {
-				Object.entries(res.calendar).forEach(([date, items]) => {
-					console.log(date, items);
-					//{options: options, date: new Date(date), items: items}
-					template('calendar', {options: options, date: new Date(date), items: items}, '.calendar-wrapper', direction > 0 ? 'after' : 'before');
+
+				var issues_cal = [];
+				Object.keys(res.calendar).sort((a, b) => new Date(b) - new Date(a)).forEach( d => {
+					issues_cal[d] = res.calendar[d];
 				});
-				console.log('yes');
+
+
+				Object.entries(issues_cal).forEach(([date, items]) => {
+					//console.log(date, items);
+					//{options: options, date: new Date(date), items: items}
+					template('calendar', {options: options, date: new Date(date), items: items}, '.calendar-wrapper', direction > 0 ? 'after' : 'before', false);
+				});
+				//console.log('yes');
 			} else {
-				console.log('non');
+				//console.log('non');
+			}
+
+			if (direction > 0) {
+				$('.calendar-wrapper').append(html);
+			} else {
+				$('.calendar-wrapper').prepend(html);
 			}
 			//{calendar: by_day, options: options}
 			//template('comic', res.data[0], '.to-read-list', 'before');

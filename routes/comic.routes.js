@@ -139,6 +139,7 @@ router.get('/calendar/:type*?', async (req, res, next) => {
 
 		// ordering by week
 		var by_day = {}
+
 		issues.forEach(i => {
 			if (!by_day[i.store_date]) {
 				var store_date = moment(new Date(i.store_date)).locale(options.lang);

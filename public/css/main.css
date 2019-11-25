@@ -355,6 +355,22 @@ ol, ul {
 	visibility: hidden;
 }
 
+.menu .calendar .fa-calendar {
+	position: relative;
+}
+
+.menu .calendar .calendar-day {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 100%;
+    color: #272727;
+    font-weight: 600;
+    font-size: 10px;
+    font-family: ProximaNova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-align: center;
+}
+
 
 /* SEARCH BOX */
 .select2-search, .select2-search input, .select2-results {

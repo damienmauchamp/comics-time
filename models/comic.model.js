@@ -390,7 +390,7 @@ function getCalendar(date_start, date_end) {
             issues.map(obj => (obj.comics = {id: comic.id, name: comic.name}));
             res = res.concat(issues);
         })
-        res.sort((a, b) => new Date(a.store_date) - new Date(b.store_date));
+        //res.sort((a, b) => new Date(a.store_date) - new Date(b.store_date));
         resolve(res);
     })
 }

@@ -67,8 +67,17 @@
 
 							<li class="calendar">
 								<a href="/calendar" title="Calendar">
-									<i class="icon-tvst-calendar-alt">X</i>
+									<i class="fas fa-calendar icon-tvst-calendar-alt">
+										<span class="calendar-day"><%= new Date().getDate() %></span>
+									</i>
 									<span>Calendar</span>
+								</a>
+							</li>
+
+							<li class="tests">
+								<a href="#update" id="update" title="Update">
+									<i class="icon-tvst-calendar-alt"><i class="fa fa-sync-alt"></i></i>
+									<span>Update</span>
 								</a>
 							</li>
 
@@ -76,13 +85,6 @@
 								<a href="#test1" title="Tests">
 									<i class="icon-tvst-calendar-alt">X</i>
 									<span>Tests 1</span>
-								</a>
-							</li>
-
-							<li class="tests">
-								<a href="#test2" title="Tests">
-									<i class="icon-tvst-calendar-alt">X</i>
-									<span>Tests 2</span>
 								</a>
 							</li>
 						</ul>
