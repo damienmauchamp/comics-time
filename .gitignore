@@ -65,18 +65,18 @@ desktop.ini
 
 .idea/
 
+#data files
+*comics.json
+*comics_dev.json
+data/extras.yml
+public/index*
+
+#custom files
+public/js/addons*
+
 # personal files
 #utils/
 
 # Ignore file changes :
 # git update-index --skip-worktree <file>
 # git update-index --no-skip-worktree <file>
-
-#data files
-data/comics.json
-data/comics_dev.json
-data/extras.yml
-public/index*
-
-#custom files
-public/js/addons*

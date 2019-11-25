@@ -121,13 +121,13 @@
 
 					comics_to_read = comics.filter(c => {
 						return c.to_read && (parseInt(c.to_read.issue_number) > 1 || c.started);
-					})
+					}).sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); })
 					comics_not_started = comics.filter(c => {
 						return c.to_read && parseInt(c.to_read.issue_number) <= 1 && !c.started;
-					})
+					}).sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); })
 					comics_done = comics.filter(c => {
 						return !c.to_read;
-					})
+					}).sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); })
 				%>
 					<section class="to-read" id="to-read">
 						<h1>Read next&nbsp;(<span class="nb-items"><%= comics_to_read.length %></span>)</h1>

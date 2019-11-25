@@ -10,12 +10,12 @@ const api = require('../api.js')
 function getAllComics() {
     return new Promise((resolve, reject) => {
         if (comics.length === 0) {
-            reject({
+            [];/*reject({
                 message: 'no comics available',
                 status: 202
-            })
+            })*/
         }
-        resolve(comics.sort((a, b) => { return a.date.updated < b.date.updated; }))
+        resolve(comics.sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); }))
     })
 }
 
@@ -349,6 +349,8 @@ function readUnreadIssue(params) {
                     complete: false
                 }
             }
+
+            comics[comics_index].date.updated = params.date;
 
             helper.writeJSONFile(filename, comics)
 
