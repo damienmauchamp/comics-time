@@ -68,7 +68,7 @@
 							<li class="calendar">
 								<a href="/calendar" title="Calendar">
 									<i class="fas fa-calendar icon-tvst-calendar-alt">
-										<span class="calendar-day"><%= new Date().getDate() %></span>
+										<span class="calendar-day"><%= ("0" + new Date().getDate()).slice(-2) %></span>
 									</i>
 									<span>Calendar</span>
 								</a>
