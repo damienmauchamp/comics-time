@@ -230,7 +230,7 @@ $('#search').select2({
 // history
 $('#history').on('click', function() {
 	$.ajax({
-		url: '/update',
+		url: '/history',
 		dataType: 'json',
 		method: 'get',
 		success(response) {
