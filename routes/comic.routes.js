@@ -262,13 +262,55 @@ var sortByRead_DESC = function(a, b) {
 var issues = [];
 Object.values(comics).forEach(c => {
 	c.issues.filter(i => i.read).forEach(issue => {
-		issues.push(issue);
+		issues.push({
+			comics: c.name,
+			comics_id: c.id,
+			comics_start_year: c.start_year,
+			...issue,
+		});
     });
 });
 issues.sort(sortByRead_DESC);
-console.log(issues.map(e => e.read));
-
+//console.log(issues.map(e => e.read));
+console.log(issues);
 */
+router.get('/history', async(req, res) => {
+	await comic.getAllComics()
+	.then(function(comics) {
+
+		var sortByRead = function(a, b) {
+			return new Date(a.read) - new Date(b.read); // ASC
+		};
+		var sortByRead_ASC = sortByRead;
+		var sortByRead_DESC = function(a, b) {
+			return new Date(b.read) - new Date(a.read); // ASC
+		};
+
+		var issues = [];
+		Object.values(comics).forEach(c => {
+			c.issues.filter(i => i.read).forEach(issue => {
+				issues.push({
+					comics: c.name,
+					comics_id: c.id,
+					comics_start_year: c.start_year,
+					...issue,
+				});
+		    });
+		});
+		issues.sort(sortByRead_DESC);
+		//console.log(issues.map(e => e.read));
+		//console.log(issues);
+
+		res.status(200).json(issues)
+	}).catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
+})
+
 
 
 //GET /comics

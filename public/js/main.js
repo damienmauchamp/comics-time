@@ -227,10 +227,25 @@ $('#search').select2({
 	}
 })*/;
 
+// history
+$('#history').on('click' function() {
+	$.ajax({
+		url: '/update',
+		dataType: 'json',
+		method: 'get',
+		success(response) {
+			if(!response) {
+				return false;
+			}
+			console.log(response);
+		}
+	});
+});
+
 // update
 $('#update').on('click', function() {
 	//
-	$(this).text('updating...').prop('disabled', true);
+	$(this).text('updating...').prop('disabled', true).addClass('disabled');
 	$.ajax({
 		url: '/update',
 		dataType: 'json',
@@ -255,7 +270,7 @@ $('#update').on('click', function() {
 			});
 
 			$.when.apply(null, updates).done(function(){
-				$('#update').text('updated').prop('disabled', false);
+				$('#update').text('Updated !').prop('disabled', false).removeClass('disabled');
 				console.log('Comics updated');
 			});
 
