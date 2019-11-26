@@ -249,6 +249,27 @@ router.get('/update', async(req, res) => {
 	})
 })
 
+/*
+//GET /history
+var sortByRead = function(a, b) {
+	return new Date(a.read) - new Date(b.read); // ASC
+};
+var sortByRead_ASC = sortByRead;
+var sortByRead_DESC = function(a, b) {
+	return new Date(b.read) - new Date(a.read); // ASC
+};
+
+var issues = [];
+Object.values(comics).forEach(c => {
+	c.issues.filter(i => i.read).forEach(issue => {
+		issues.push(issue);
+    });
+});
+issues.sort(sortByRead_DESC);
+console.log(issues.map(e => e.read));
+
+*/
+
 
 //GET /comics
 // @todo ?
