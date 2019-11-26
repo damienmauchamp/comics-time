@@ -225,10 +225,10 @@ $('#search').select2({
 	} else if (e.type === 'select2:closing') {
 		$('.select2-container.select2-container--default.select2-container--open').css('top', '');
 	}
-})*/;
+});*/
 
 // history
-$('#history').on('click' function() {
+$('#history').on('click', function() {
 	$.ajax({
 		url: '/update',
 		dataType: 'json',
