@@ -27,9 +27,6 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 		date: new Date(),
 		action: already_read ? 'unread' : 'read'
 	}
-	if (typeof read === "function") {
-		read(params);
-	}
 	$.ajax({
 		url: '/read',
 		dataType: 'json',
@@ -117,6 +114,10 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 					$(element).addClass('fa-check-circle');
 					$(element).removeClass('fa-spin').removeClass('fa-circle-notch').removeClass('loading');
 				}
+			}
+			
+			if (typeof read === "function") {
+				read(params);
 			}
 		}
 	});
