@@ -586,7 +586,7 @@ span.select2-selection__arrow {
 	display: inline;
 }
 .comics-issue-top .comics-issue-status span {
-	float: right;
+	/*float: right;*/
 	cursor: pointer;
 }
 .comics-issue-top .comics-issue-title {

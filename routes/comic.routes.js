@@ -323,6 +323,22 @@ router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 	await comic.getComics(id)
 	.then(function(comics) {
+
+		comics = {
+			...comics,
+
+			// comics info
+			image: comics.image.replace('{{code}}', options.image_code),
+			link: '/comics/' + comics.id,
+
+			// to read
+			started: (comics.issues.filter(i => i.read).length > 0),
+			to_read: comics.issues.find(function(i) {
+				return !i.read;
+			}) || false
+
+		};
+
 		res.render('index.ejs', {options: options, comic: comics})
 	})
 	.catch(err => {

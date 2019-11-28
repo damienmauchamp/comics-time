@@ -123,6 +123,26 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 	});
 });
 
+// update volume
+$(document).on('click', '.fa-refresh-comics', function(e) {
+	e.preventDefault();
+	$(this)
+		.prop('disabled', true)
+		.addClass('disabled')
+		.addClass('fa-spin');
+
+	var id = $(this).closest('.comics-issue').data('comics');
+	$.ajax({
+		url: '/comics/' + id + '/issues',
+		dataType: 'json',
+		method: 'put',
+		success(response) {
+			console.log('updated', response);
+			window.location.reload();
+		}
+	})
+});
+
 // mobile nav bar
 $('.page-left .extend-left-link').on('click touch', e => {
 	$('.page-left.page-sidebar').toggleClass('extended');
@@ -246,7 +266,11 @@ $('#history').on('click', function() {
 // update
 $('#update').on('click', function() {
 	//
-	$(this).text('updating...').prop('disabled', true).addClass('disabled');
+	$(this)
+		.prop('disabled', true)
+		.addClass('disabled')
+		.addClass('fa-spin')
+		.find('.menu-title').text('updating...');
 	$.ajax({
 		url: '/update',
 		dataType: 'json',
@@ -271,7 +295,11 @@ $('#update').on('click', function() {
 			});
 
 			$.when.apply(null, updates).done(function(){
-				$('#update').text('Updated !').prop('disabled', false).removeClass('disabled');
+				$('#update')
+					.prop('disabled', false)
+					.removeClass('disabled')
+					.removeClass('fa-spin')
+					.find('.menu-title').text('Updated !');
 				console.log('Comics updated');
 			});
 

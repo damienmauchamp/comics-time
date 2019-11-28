@@ -1,26 +1,40 @@
-<% if (options.page === 'homepage') { 
+<%
+	if (['homepage', 'comics'].includes(options.page)) {
+		var progress;
 
-	// if there's no more issues left
-	if (!comic.to_read) {
-		return;
+		// if there's no more issues left
+		if (comic.to_read) {
+
+			// img
+			comic.to_read.image = comic.to_read.image.replace('{{code}}', options.image_code);
+
+			// last read
+			var last_read_issue = comic.issues.reduce((prev, current) => (new Date(prev.read) > new Date(current.read)) ? prev : current);
+			var last_read = last_read_issue.issue_number;
+
+			// number of issues left to read
+			var issues_left = comic.issues.filter(i => { return !i.read && i.id !== comic.to_read.id && new Date() >= new Date(i.store_date); }).length;
+
+			//new
+			var is_new = Math.floor(Math.abs(new Date(comic.to_read.store_date) - new Date()) / 1000 / 86400) < 7;
+
+			// progress bar percentage
+			progress = (comic.nb_issues-issues_left-1)/comic.nb_issues*100;
+
+		} else if (options.page === 'homepage') {
+			return;
+		} else if (options.page === 'comics') {
+			progress = 100;
+		}
+
+
+
 	}
 
-	// img
-	comic.to_read.image = comic.to_read.image.replace('{{code}}', options.image_code);
+%>
 
-	// last read
-	var last_read_issue = comic.issues.reduce((prev, current) => (new Date(prev.read) > new Date(current.read)) ? prev : current);
-	var last_read = last_read_issue.issue_number;
 
-	// number of issues left to read
-	var issues_left = comic.issues.filter(i => { return !i.read && i.id !== comic.to_read.id && new Date() >= new Date(i.store_date); }).length;
-
-	//new
-	var is_new = Math.floor(Math.abs(new Date(comic.to_read.store_date) - new Date()) / 1000 / 86400) < 7;
-
-	// progress bar percentage
-	var progress = (comic.nb_issues-issues_left-1)/comic.nb_issues*100;
-	%>
+<% if (options.page === 'homepage') { %>
 
 	<!-- ITEM -->
 	<li id="comics-item-<%= comic.id %>" data-comics="<%= comic.id %>" data-issue="<%= comic.to_read.id %>" class="comics <%= is_new ? 'new' : ''%>">
@@ -64,7 +78,7 @@
 <% } else if (options.page === 'comics') { %>
 
 	<%# debug %>
-	<div class="comics-issue">
+	<div class="comics-issue" data-comics="<%= comic.id %>">
 		<div class="comics-issue-top">
 			<div class="comics-issue-controls">
 				<span class="comics-issue-control comics-issue-closed"><i class="fas fa-angle-down"></i></span>
@@ -76,12 +90,31 @@
 			</div>
 
 			<div class="comics-issue-status">
+
+				<%# refresh %>
+				<span class="comics-issue-status-read" title="Update <%= comic.name + ' (' + comic.start_year + ')' %>">
+					<i class="fa fa-sync-alt fa-refresh-comics"></i>
+				</span>
+
+				<%# read %>
 				<span class="comics-issue-status-read">
 					<i class="fas fa-check-circle fa-read-status disabled <%= comic.issues.filter(i => !i.read).length ? '' : 'fa-read' %>"></i>
 				</span>
 			</div>
 		</div>
 		<div class="comics-issue-bottom">
+			
+			<img class="comics-issue-img" src="<%= comic.image %>" />
+			<ul>
+				<li>ID : <%= comic.id %></li>
+				<li>Status : <%= comic.active ? (comic.started ? "Reading" : "Not started") : "Stopped" %></li>
+				<li>Number of issues : <%= comic.nb_issues %></li>
+				<li>Published by : <%= comic.publisher.name %> (<%= comic.publisher.id %>)</li>
+				<li>Added : <%= comic.date.added %></li>
+				<li>Updated : <%= comic.date.updated %></li>
+				<li>Progress : <%= progress %></li>
+				<li>To read : <a href="#comics-item-<%= comic.id + "-" + comic.to_read.id %>">#<%= comic.to_read.issue_number %></a></li>
+			</ul>
 			<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript"><%= JSON.stringify(comic) %></code></pre>
 		</div>
 	</div>
