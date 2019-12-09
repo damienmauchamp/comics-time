@@ -482,11 +482,16 @@ router.put('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
 	const id = req.params.id
 
+	// volumes with more than 100 issues
+	const page = req.query.page || 1;
+	const limit = 100;
+	const offset = (page - 1) * limit;
+
 	// volume 
 	var volume = parseInt(req.params.id)
 	api.get('volume/', volume, async function(comics) {
 
-		// issues
+		// issues, todo: more than 100 => new page 
 		var params = { filter: { volume: volume } }
 		api.get('issues/', params, function(issues) {
 			comic.editComicsIssues(comics, issues)

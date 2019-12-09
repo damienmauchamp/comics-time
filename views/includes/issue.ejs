@@ -16,6 +16,9 @@
 		if (!issue.image) {
 			issue.image = '';
 		}
+		if (!issue.added) {
+			issue.added = null;
+		}
 		issue.link = comic.link + '/issue/' + issue.id;
 	%>
 	<div class="comics-issue" id="comics-item-<%= comic.id %>-<%= issue.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>">
