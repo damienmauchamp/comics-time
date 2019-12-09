@@ -13,6 +13,9 @@
 	<%# COMICS %>
 	<% case "comics":
 		issue.image_code = 'scale_small';
+		if (!issue.image) {
+			issue.image = '';
+		}
 		issue.link = comic.link + '/issue/' + issue.id;
 	%>
 	<div class="comics-issue" id="comics-item-<%= comic.id %>-<%= issue.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>">
