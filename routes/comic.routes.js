@@ -413,13 +413,21 @@ router.post('/read', async (req, res) => {
 // Add comics using ComicVine volume ID
 router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
+	// volumes with more than 100 issues
+	const page = req.query.page || 1;
+	const limit = 100;
+	const offset = (page - 1) * limit;
+
 	// volume 
 	var volume = parseInt(req.params.id)
 	api.get('volume/', volume, async function(comics) {
 
 		// issues
-		var params = { filter: { volume: volume } }
+		var params = { filter: { volume: volume, offset: offset } }
 		api.get('issues/', params, function(issues) {
+
+			console.log(volume.name, '#', issues.map(i => i.issue_number))
+			
 			comic.addComics(comics, issues)
 			.then(comic => {
 
@@ -492,8 +500,11 @@ router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
 	api.get('volume/', volume, async function(comics) {
 
 		// issues, todo: more than 100 => new page 
-		var params = { filter: { volume: volume } }
+		var params = { filter: { volume: volume, offset: offset } }
 		api.get('issues/', params, function(issues) {
+
+			console.log(volume.name, '#', issues.map(i => i.issue_number))
+
 			comic.editComicsIssues(comics, issues)
 			.then(comic => 
 				res.status(200).json({

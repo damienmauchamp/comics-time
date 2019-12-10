@@ -87,11 +87,11 @@ API.prototype.set_options = function(path, id, query_params) {
 	}
 
 // requests
-API.prototype.get = function (path, params, callback) {
-	return this.request('GET', path, params, callback);
+API.prototype.get = function (path, params, callback, data, api) {
+	return this.request('GET', path, params, callback, data);
 }
 
-API.prototype.request = function (method, path, params, callback) {
+API.prototype.request = function (method, path, params, callback, data, api) {
 
 	var id = null
 	//console.log(method, path, params)
@@ -104,19 +104,47 @@ API.prototype.request = function (method, path, params, callback) {
 		params = {}
 	}
 
+	//
+	var api = this;
+
 	// setting options
 	this.set_options(path, id, params);
 
 	console.log(this.options)
+	// volumes with more than 100 issues
+	const offset = params.offset || 0;
 
-	var data = '';
+	var content = '';
 	//console.log(this.options)
 	https.get(this.options, function(res) {
 		res.on('data', function(chunk) {
-			data += chunk;
+			content += chunk;
 		}).on('end', function() {
-			var json = JSON.parse(data);
-			callback(path.replace('/', '') === 'search' ? json : json.results);
+			var json = JSON.parse(content);
+
+			var results = json.results;
+			if (method === 'GET' && path === 'issues/') {
+
+				var number_of_page_results = json.number_of_page_results;
+				var number_of_total_results = json.number_of_total_results;
+				var results_offset = json.offset;
+				var results_limit = json.limit;
+				var checked_results = results_offset + number_of_page_results;
+				var is_last_page = checked_results >= number_of_total_results
+					
+				if (data) {
+					results = data.concat(results);
+				}
+
+				if (!is_last_page) {
+					params.offset = offset + results_limit;
+					api.get(path, params, callback, results, api);
+				} else {
+					callback(results);
+				}
+			} else {
+				callback(path.replace('/', '') === 'search' ? json : json.results);
+			}
 		});
 	}).on("error", (err) => {
 		//console.log("Error: " + err.message);
