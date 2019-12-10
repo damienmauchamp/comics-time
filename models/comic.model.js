@@ -104,6 +104,8 @@ function addComics(item, issues) {
 function setComicsIssues(comicsIssues, issues) {
     comicsIssues.forEach(function(issue, index) {
 
+        console.log(issue.issue_number);
+
         // looking for the issue in the array
         match = issues.find(i => i.id == issue.id)
 

@@ -94,16 +94,16 @@ function getExtras(type, array, existing_extras) {
 
             // comics
             if (typeof extras.comics !== "undefined" && type === 'comics') {
-                console.log('COMICS')
+                //console.log('COMICS')
                 comics_extras = setExtras(extras.comics, array)
-                console.log('--- existing:', existing_extras)
-                console.log('--- extras before:', comics_extras)
+                //console.log('--- existing:', existing_extras)
+                //console.log('--- extras before:', comics_extras)
                 if (Object.keys(existing_extras).length) {
                     comics_extras = mergeExtras(existing_extras, comics_extras)
                     //comics_extras = {...existing_extras, ...comics_extras};
                     //Object.assign(existing_extras, comics_extras)   
                 }
-                console.log('--- extras:', comics_extras)
+                //console.log('--- extras:', comics_extras)
                 return comics_extras;
                 //iterate(extras.comics, '')
 
@@ -114,15 +114,15 @@ function getExtras(type, array, existing_extras) {
 
             // issues
             if (typeof extras.issues !== "undefined" && type === 'issues') {
-                console.log('ISSUES')
+                //console.log('ISSUES')
                 issues_extras = setExtras(extras.issues, array)
-                console.log('extras before:', issues_extras)
+                //console.log('extras before:', issues_extras)
                 if (Object.keys(existing_extras).length) {
                     issues_extras = mergeExtras(existing_extras, issues_extras)
                     //issues_extras = {...existing_extras, ...issues_extras};
                     //Object.assign(existing_extras, issues_extras)
                 }
-                console.log('extras:', issues_extras)
+                //console.log('extras:', issues_extras)
                 return issues_extras;
                 //iterate(extras.issues, '')
                 //console.log('issues extras: ', extras.issues);
@@ -156,7 +156,7 @@ function setExtras(extras, values) {
                 } else {
                     add_field = false
                 }
-                console.log("null value for '" + key + "'" + (values[key] ? ", setting default: " : ""), values[key])
+                //console.log("null value for '" + key + "'" + (values[key] ? ", setting default: " : ""), values[key])
             }
 
             // checking type, else throw error with example
@@ -169,7 +169,7 @@ function setExtras(extras, values) {
                         // ok
                     } else {
                         // not ok
-                        console.warn("warning: '" + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
+                        //console.warn("warning: '" + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
                         
                         var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
                         if (default_value === values[key]) {
@@ -186,7 +186,7 @@ function setExtras(extras, values) {
                         // ok
                     } else {
                         // not ok
-                        console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
+                        //console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
                         
                         var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
                         if (default_value === values[key]) {
@@ -203,7 +203,7 @@ function setExtras(extras, values) {
                         // ok
                     } else {
                         // not ok
-                        console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
+                        //console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
                         
                         var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
                         if (default_value === values[key]) {
@@ -216,7 +216,7 @@ function setExtras(extras, values) {
 
                 default:
                     // not ok
-                    console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
+                    //console.warn("warning: " + key + "'", "expected '" + field.type + "', got '" + (values[key] !== null ? typeof values[key] : null) + "'")
                         
                     var default_value = setExtraDefault(key, values[key], field.nullable, field.default)
                     if (default_value === values[key]) {
@@ -231,9 +231,9 @@ function setExtras(extras, values) {
 
             if (add_field) {
                 results[key] = values[key]
-                console.log('ADDED -->', key, results[key])
+                //console.log('ADDED -->', key, results[key])
             } else {
-                console.error('ERROR -->', key, values[key])
+                //console.error('ERROR -->', key, values[key])
             }
         }
         // default extras
@@ -241,9 +241,9 @@ function setExtras(extras, values) {
             if (!field.nullable || typeof field.nullable === "undefined") {
                 if (typeof field.default !== "undefined") {
                     results[key] = field.default
-                    console.log('ADDED -->', key, results[key])
+                    //console.log('ADDED -->', key, results[key])
                 } else {
-                    console.error("ERROR -->', 'there is no default value for non-nullable '" + key + "' field in your extra file") 
+                    //console.error("ERROR -->', 'there is no default value for non-nullable '" + key + "' field in your extra file") 
                 }
             }
         }
