@@ -143,7 +143,7 @@ function editComics(id, data) {
 
             // name
             if (typeof data.name !== 'undefined' && comics[index].name !== data.name) {
-                console.log('EDIT: name from "' + comics[index].name + '" to "' + data.name + '"')
+                //console.log('EDIT: name from "' + comics[index].name + '" to "' + data.name + '"')
                 comics[index].name = data.name
             } /*else {
                 console.log('----: name ==> "' + comics[index].name + '"')
@@ -151,7 +151,7 @@ function editComics(id, data) {
             
             // nb_issues
             if (typeof data.count_of_issues !== 'undefined' && comics[index].nb_issues !== data.count_of_issues) {
-                console.log('EDIT: nb_issues from "' + comics[index].nb_issues + '" to "' + data.count_of_issues + '"')
+                //console.log('EDIT: nb_issues from "' + comics[index].nb_issues + '" to "' + data.count_of_issues + '"')
                 comics[index].nb_issues = data.count_of_issues
             } /*else {
                 console.log('----: nb_issues ==> "' + comics[index].nb_issues + '"')
@@ -170,7 +170,7 @@ function editComics(id, data) {
 
             // date
             if (typeof data.date !== "undefined" && typeof data.date.added !== "undefined") {
-                console.log('ADDED: date.added = "' + data.date.added + '"')
+                //console.log('ADDED: date.added = "' + data.date.added + '"')
                 comics[index].date.added === data.date.added
             } /*else {
                 console.log('----: date.added ==> "' + comics[index].date.added + '"')
