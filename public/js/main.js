@@ -234,7 +234,7 @@ $('#search').select2({
 	} else if (['select2:closing', 'select2:select'].includes(e.type)) {
 		$('body').removeClass('searching');
 	}
-	console.log(e.type);
+	//console.log(e.type);
 });
 
 //$('li.select2-results__option[data-select2-id]').length
