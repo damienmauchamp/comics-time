@@ -228,10 +228,10 @@ $('#search').select2({
 		}
 	})
 })
-.on('select2:opening select2:open select2:closing select2:close', function(e) {
+.on('select2:opening select2:open select2:closing select2:close select2:select', function(e) {
 	if (e.type === 'select2:opening') {
 		$('body').addClass('searching');
-	} else if (e.type === 'select2:closing') {
+	} else if (['select2:closing', 'select2:select'].includes(e.type)) {
 		$('body').removeClass('searching');
 	}
 	console.log(e.type);
