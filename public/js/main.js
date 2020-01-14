@@ -15,6 +15,12 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 		already_read = $(this).hasClass('fa-read');
 		$(this).addClass('fa-spin').addClass('fa-circle-notch').addClass('loading');
 		$(this).removeClass('fa-check-circle');
+	} else {
+
+		$(this).addClass('fa-spin').addClass('fa-circle-notch').addClass('loading');
+		$(this).removeClass('fa-check-circle');
+		//fa fa-check-circle to-read-icon
+		console.log($(this));
 	}
 
 	//
@@ -27,6 +33,9 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 		date: new Date(),
 		action: already_read ? 'unread' : 'read'
 	}
+
+
+
 	$.ajax({
 		url: '/read',
 		dataType: 'json',
@@ -94,6 +103,9 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 				} else {
 					// console.log("not moving");
 				}
+				
+				$(item).find('.read-btn .to-read-icon').addClass('fa-check-circle');
+				$(item).find('.read-btn .to-read-icon').removeClass('fa-spin').removeClass('fa-circle-notch').removeClass('loading');
 
 				// item attributes
 				item.data({
