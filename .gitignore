@@ -70,6 +70,7 @@ desktop.ini
 *comics_dev.json
 data/extras.yml
 public/index*
+.json
 
 #custom files
 public/js/addons*
