@@ -39,7 +39,7 @@
 			</div>
 		</div>
 		<div class="comics-issue-bottom">
-			<img class="comics-issue-img" src="<%= issue.image.replace('{{code}}', issue.image_code) %>" />
+			<img class="comics-issue-img" src="<%= issue.image.replace('{{code}}', issue.image_code) %>" loading="lazy" />
 			<pre style="white-space:normal;font-size: 12px;"><code class="language-javascript"><%= JSON.stringify(issue) %></code></pre>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 <% } %>
 
 <!--a href="<%= issue.link %>" <%= options.page %>>
-	<img src="<%= issue.image.replace('{{code}}', issue.image_code) %>" />
+	<img src="<%= issue.image.replace('{{code}}', issue.image_code) %>" loading="lazy" />
 </a><br/>
 <ul>
 	<li>#<%= issue.issue_number %></li>

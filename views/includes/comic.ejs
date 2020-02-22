@@ -51,7 +51,7 @@
 		<div class="image-crop">
 			<div class="new-label">New</div>
 			<a href="<%= comic.link %>">
-				<img id="img-<%= comic.id %>" src="<%= comic.to_read.image %>" alt="<%= comic.name %>">
+				<img id="img-<%= comic.id %>" loading="lazy" src="<%= comic.to_read.image %>" alt="<%= comic.name %>">
 			</a>
 			<div class="progress">
 				<div class="progress-bar progress-bar-success uncomplete" role="progressbar" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= progress %>%">
@@ -104,7 +104,7 @@
 		</div>
 		<div class="comics-issue-bottom">
 			
-			<img class="comics-issue-img" src="<%= comic.image %>" />
+			<img class="comics-issue-img" loading="lazy" src="<%= comic.image %>" />
 			<ul>
 				<li>ID : <%= comic.id %></li>
 				<li>Status : <%= comic.active ? (comic.started ? "Reading" : "Not started") : "Stopped" %></li>
@@ -146,7 +146,7 @@
 	<% } %>
 
 	<a href="<%= comic.link %>">
-		<img src="<%= comic.image.replace('{{code}}', comic.image_code) %>" />
+		<img src="<%= comic.image.replace('{{code}}', comic.image_code) %>" loading="lazy" />
 	</a><br/>
 
 	<li>Link: <%= comic.link %></li>
