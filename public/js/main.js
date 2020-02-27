@@ -20,7 +20,7 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 		$(this).addClass('fa-spin').addClass('fa-circle-notch').addClass('loading');
 		$(this).removeClass('fa-check-circle');
 		//fa fa-check-circle to-read-icon
-		console.log($(this));
+		//console.log($(this));
 	}
 
 	//
@@ -34,7 +34,13 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 		action: already_read ? 'unread' : 'read'
 	}
 
-
+	//var img_element = $('#comics-item-' + comics.data('comics') + 'img#img-' + comics.data('comics'));
+	//img_element.closest('.image-crop').addClass('img-loading');
+	var img_element = $('#comics-item-' + comics.data('comics') + ' .image-crop');
+	img_element.addClass('img-loading');
+	var comics_loader = '<div class="loader-container"><i class="fa fa-spin fa-circle-notch fa-icon-loading" aria-hidden="true"></i></div>';
+	img_element.prepend(comics_loader);
+	//console.log('adding loading to img', img_element);
 
 	$.ajax({
 		url: '/read',
@@ -54,7 +60,22 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 				var item = $('#comics-item-' + res.comics);
 
 				// img
-				item.find('img#img-' + res.comics).attr('src', res.img);
+				// displaying a spinning loader while the image is loading
+				//item.find('img#img-' + res.comics).attr('src', res.img);
+				var img_element = item.find('img#img-' + res.comics);
+				/*var img = new Image();
+				img.onload = function() { 
+					img_element.attr('src', res.img);
+					//img_element.closest('.image-crop').removeClass('img-loading');
+					setTimeout(function() {
+						item.find('.image-crop').removeClass('img-loading');
+					}, 500);
+				}
+				img.src = res.img;*/
+				$(img_element).one("load", function() {
+					$(this).closest('.image-crop').removeClass('img-loading');
+					$(this).find('.loader-container').remove();
+				}).attr("src", res.img);
 
 				// progress bar
 				item.find('.progress-bar').css('width', res.progress + '%');
@@ -201,7 +222,7 @@ $('#search').select2({
 		}
 		return  '<div class="search-item">' +
 					'<div class="search-column search--image">' +
-						'<img src="' + item.image + '" />' +
+						'<img loading="lazy" src="' + item.image + '" />' +
 					'</div>' +
 					'<div class="search-column search--info">' +
 						'<div class="search--name">' + item.name + ' (' + item.start_year + ') ' + (item.added ? '✓' : '') + '</div>' +
