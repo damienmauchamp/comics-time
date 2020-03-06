@@ -14,6 +14,13 @@
 	--alt-link-color: #AAA;
 
 	--main-default-width: 160px;
+
+	
+	--switch-inner-width: 22px;
+	--switch-inner-height: var(--switch-inner-width);
+
+	--switch-outer-width: calc(var(--switch-inner-width) + 24px); /* 46px */
+	--switch-outer-height: calc(var(--switch-inner-height) + 4px); /* 26px */
 }
 
 body {
@@ -697,7 +704,6 @@ fix: 4px;
 calc(100vh - 42px - 24 - 28px - 8px)
 */
 
-
 /* CHECKBOX/SWITCH */
 .form-switch {
 	display: inline-block;
@@ -709,8 +715,10 @@ calc(100vh - 42px - 24 - 28px - 8px)
 	position: relative;
 	display: inline-block;
 	margin-right: .5rem;
-	width: 46px;
-	height: 26px;
+	/*width: 46px;*/
+	/*height: 26px;*/
+	width: var(--switch-outer-width);
+	height: var(--switch-outer-height);
 	background-color: #e6e6e6;
 	border-radius: 23px;
 	vertical-align: text-bottom;
@@ -721,8 +729,10 @@ calc(100vh - 42px - 24 - 28px - 8px)
 	content: "";
 	position: absolute;
 	left: 0;
-	width: 42px;
-	height: 22px;
+	/*width: 42px;*/
+	/*height: 22px;*/
+	width: calc(var(--switch-inner-width) + 20px);
+	height: var(--switch-inner-height);
 	background-color: #fff;
 	border-radius: 11px;
 	transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
@@ -733,8 +743,10 @@ calc(100vh - 42px - 24 - 28px - 8px)
 	content: "";
 	position: absolute;
 	left: 0;
-	width: 22px;
-	height: 22px;
+	/*width: 22px;*/
+	/*height: 22px;*/
+	width: var(--switch-inner-width);
+	height: var(--switch-inner-height);
 	background-color: #fff;
 	border-radius: 11px;
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
@@ -743,7 +755,8 @@ calc(100vh - 42px - 24 - 28px - 8px)
 }
 
 .form-switch:active i::after {
-	width: 28px;
+	/*width: 28px;*/
+	width: calc(var(--switch-inner-width) + 6px);
 	transform: translate3d(2px, 2px, 0);
 }
 
@@ -760,9 +773,11 @@ calc(100vh - 42px - 24 - 28px - 8px)
 }
 
 .form-switch input:checked + i::before { 
-    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+    /*transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);*/
+    transform: translate3d(calc(var(--switch-inner-width) - 4px), 2px, 0) scale3d(0, 0, 0);
 }
 
 .form-switch input:checked + i::after {
-   transform: translate3d(22px, 2px, 0); 
+   /*transform: translate3d(22px, 2px, 0); */
+   transform: translate3d(var(--switch-inner-width), 2px, 0); 
 }
