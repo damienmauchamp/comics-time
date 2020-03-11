@@ -100,14 +100,14 @@
 					<i class="fa fa-sync-alt fa-refresh-comics"></i>
 				</span>
 
-				<% if (options.page === 'comics') { %>
+				<%# if (options.page === 'comics') { %>
 
-					<%# read %>
-					<span class="comics-issue-status-read">
-						<i class="fas fa-check-circle fa-read-status disabled <%= comic.issues.filter(i => !i.read).length ? '' : 'fa-read' %>"></i>
-					</span>
+				<%# read %>
+				<span class="comics-issue-status-read">
+					<i class="fas fa-check-circle fa-read-status disabled <%= comic.issues.filter(i => !i.read).length ? '' : 'fa-read' %>"></i>
+				</span>
 
-				<% } %>
+				<%# } %>
 				<!--input type="checkbox" name="checkbox1" id="checkbox3" class="ios-toggle" <%= (comic.active ? 'checked="checked"' : '') %>/-->
 				<!--label for="checkbox3" class="checkbox-label" data-off="longer label off" data-on="longer label on"></label-->
 
