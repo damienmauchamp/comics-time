@@ -759,7 +759,8 @@ calc(100vh - 42px - 24 - 28px - 8px)
   transform: translate3d(2px, 2px, 0);
 }
 
-.form-switch:active input:checked + i::after { transform: translate3d(16px, 2px, 0); }
+/*.form-switch:active input:checked + i::after { transform: translate3d(16px, 2px, 0); }*/
+.form-switch:active input:checked + i::after { transform: translate3d(9px, 2px, 0); }
 
 .form-switch input { display: none; }
 
@@ -768,3 +769,13 @@ calc(100vh - 42px - 24 - 28px - 8px)
 .form-switch input:checked + i::before { transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
 
 .form-switch input:checked + i::after { transform: translate3d(19px, 2px, 0); }
+
+.form-switch.comics-issue-status-read {
+    position: relative;
+    top: 2px;
+    margin-left: 8px;
+}
+
+#home#list .comics-issue-top .comics-issue-title {
+    margin-left: 0;
+}

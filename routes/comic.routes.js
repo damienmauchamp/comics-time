@@ -175,6 +175,7 @@ router.get('/calendar/:type*?', async (req, res, next) => {
 //GET /list
 router.get('/list', async (req, res) => {
 	options.page = 'list';
+	options.main += ' list';
 
 	await comic.getAllComics()
 	.then(function(comics) {

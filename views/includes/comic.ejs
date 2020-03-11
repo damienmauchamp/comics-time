@@ -85,9 +85,13 @@
 				<span class="comics-issue-control comics-issue-opened"><i class="fas fa-angle-up"></i></span>
 			</div>
 
-			<div class="comics-issue-title">
-				<%= comic.name + ' (' + comic.start_year + ')' %>
-			</div>
+			<%# active %>
+			<label class="form-switch comics-issue-status-read">
+				<input type="checkbox" class="toggle-comics" <%= (comic.active ? 'checked' : '') %>>
+				<i></i>
+			</label>
+
+			<div class="comics-issue-title"><%= comic.name + ' (' + comic.start_year + ')' %></div>
 
 			<div class="comics-issue-status">
 
@@ -108,12 +112,6 @@
 				<!--label for="checkbox3" class="checkbox-label" data-off="longer label off" data-on="longer label on"></label-->
 
 			</div>
-
-			<%# active %>
-			<label class="form-switch comics-issue-status-read">
-				<input type="checkbox" class="toggle-comics" <%= (comic.active ? 'checked' : '') %>>
-				<i></i>
-			</label>
 
 		</div>
 		<div class="comics-issue-bottom">
