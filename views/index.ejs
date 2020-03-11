@@ -213,8 +213,6 @@
 					comics.forEach( comic => { %>
 						<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
 					<% }); %>
-
-					<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript"><%= JSON.stringify(comics) %></code></pre>
 					<% break %>
 
 
