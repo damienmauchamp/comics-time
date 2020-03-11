@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
 	options.page = 'homepage';
 	options.main = 'main';
 
-	await comic.getAllComics()
+	await comic.getAllComics(true)
 	.then(function(comics) {
 
 		comics = comics.map(c => ({
@@ -177,7 +177,7 @@ router.get('/list', async (req, res) => {
 	options.page = 'list';
 	options.main += ' list';
 
-	await comic.getAllComics()
+	await comic.getAllComics(false)
 	.then(function(comics) {
 
 		comics = comics.map(c => ({
@@ -229,7 +229,7 @@ router.get('/search', async (req, res) => {
 
 	api.get('search/', params, function(data) {
 
-		comic.getAllComics()
+		comic.getAllComics(false)
 		.then(comics => {
 			var results = [];
 			data.results.forEach(function(e) {
@@ -269,7 +269,7 @@ router.get('/search', async (req, res) => {
 
 //GET /update
 router.get('/update', async(req, res) => {
-	await comic.getAllComics()
+	await comic.getAllComics(true)
 	.then(function(comics) {
 		res.status(200).json(comics.map(c => {
 			return c.id
@@ -309,7 +309,7 @@ issues.sort(sortByRead_DESC);
 console.log(issues);
 */
 router.get('/history', async(req, res) => {
-	await comic.getAllComics()
+	await comic.getAllComics(false)
 	.then(function(comics) {
 
 		var sortByRead = function(a, b) {

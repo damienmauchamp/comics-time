@@ -7,7 +7,7 @@ const api = require('../api.js')
 
 // COMICS
 // getting all comics
-function getAllComics() {
+function getAllComics(enable_only) {
     return new Promise((resolve, reject) => {
         if (comics.length === 0) {
             [];/*reject({
@@ -15,7 +15,11 @@ function getAllComics() {
                 status: 202
             })*/
         }
-        resolve(comics.filter(c => c.active).sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); }))
+        enable_only = enable_only || false;
+        if (enable_only) {
+            comics = comics.filter(c => c.active);
+        }
+        resolve(comics.sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); }))
     })
 }
 
