@@ -75,7 +75,7 @@
 	</li>
 	<!-- // ITEM -->
 
-<% } else if (options.page === 'comics') { %>
+<% } else if (['comics', 'list'].includes(options.page)) { %>
 
 	<%# debug %>
 	<div class="comics-issue" data-comics="<%= comic.id %>">
@@ -96,11 +96,25 @@
 					<i class="fa fa-sync-alt fa-refresh-comics"></i>
 				</span>
 
-				<%# read %>
-				<span class="comics-issue-status-read">
-					<i class="fas fa-check-circle fa-read-status disabled <%= comic.issues.filter(i => !i.read).length ? '' : 'fa-read' %>"></i>
-				</span>
+				<% if (options.page === 'comics') { %>
+
+					<%# read %>
+					<span class="comics-issue-status-read">
+						<i class="fas fa-check-circle fa-read-status disabled <%= comic.issues.filter(i => !i.read).length ? '' : 'fa-read' %>"></i>
+					</span>
+
+				<% } %>
+				<!--input type="checkbox" name="checkbox1" id="checkbox3" class="ios-toggle" <%= (comic.active ? 'checked="checked"' : '') %>/-->
+				<!--label for="checkbox3" class="checkbox-label" data-off="longer label off" data-on="longer label on"></label-->
+
 			</div>
+
+			<%# active %>
+			<label class="form-switch comics-issue-status-read">
+				<input type="checkbox" class="toggle-comics" <%= (comic.active ? 'checked' : '') %>>
+				<i></i>
+			</label>
+
 		</div>
 		<div class="comics-issue-bottom">
 			
@@ -120,12 +134,13 @@
 	</div>
 	<%# /debug %>
 
+	<% if (options.page === 'comics') {
+		comic.issues.forEach( issue => { %>
+			<%- include('issue.ejs', {comic: comic, issue: issue}) %>
+		<% })
+	} %>
 
-	<% comic.issues.forEach( issue => { %>
-		<%- include('issue.ejs', {comic: comic, issue: issue}) %>
-	<% })
-
-} else if (options.page === 'issue') {
+<% } else if (options.page === 'issue') {
 
 	const issue = comic.issues.filter(i => i.issue_number == issue_number, issue_number)
 

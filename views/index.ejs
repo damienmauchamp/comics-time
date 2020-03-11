@@ -89,6 +89,13 @@
 								</a>
 							</li>
 
+							<li class="list">
+								<a href="/list" id="list" title="All comics">
+									<i class="fas fa-list icon-tvst-calendar-alt"></i>
+									<span class="menu-title">All comics</span>
+								</a>
+							</li>
+
 							<li class="history">
 								<a href="#history" id="history" title="history">
 									<i class="fas fa-history icon-tvst-calendar-alt"></i>
@@ -193,6 +200,21 @@
 							<% }); %>
 						</div>
 					</section>
+					<% break %>
+
+				<%# LIST %>
+				<% case "list": 
+					// sorting by name
+					comics.sort((a, b) => {
+						if(a.name < b.name) { return -1; }
+						if(a.name > b.name) { return 1; }
+						return 0;
+					})
+					comics.forEach( comic => { %>
+						<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+					<% }); %>
+
+					<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript"><%= JSON.stringify(comics) %></code></pre>
 					<% break %>
 
 

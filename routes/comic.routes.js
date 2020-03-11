@@ -172,6 +172,39 @@ router.get('/calendar/:type*?', async (req, res, next) => {
 	})
 })
 
+//GET /list
+router.get('/list', async (req, res) => {
+	options.page = 'list';
+
+	await comic.getAllComics()
+	.then(function(comics) {
+
+		comics = comics.map(c => ({
+			...c,
+
+			// comics info
+			image: c.image.replace('{{code}}', options.image_code),
+			link: '/comics/' + c.id,
+
+			// to read
+			started: (c.issues.filter(i => i.read).length > 0),
+			to_read: c.issues.find(function(i) {
+				return !i.read;
+			}) || false
+
+		}))
+		res.render('index.ejs', {comics: comics, options: options})
+	})
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
+})
+// TODO
+
 //GET /search
 // @todo: pagination ?
 router.get('/search', async (req, res) => {

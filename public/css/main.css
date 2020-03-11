@@ -706,78 +706,65 @@ calc(100vh - 42px - 24 - 28px - 8px)
 
 /* CHECKBOX/SWITCH */
 .form-switch {
-	display: inline-block;
-	cursor: pointer;
-	-webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .form-switch i {
-	position: relative;
-	display: inline-block;
-	margin-right: .5rem;
-	/*width: 46px;*/
-	/*height: 26px;*/
-	width: var(--switch-outer-width);
-	height: var(--switch-outer-height);
-	background-color: #e6e6e6;
-	border-radius: 23px;
-	vertical-align: text-bottom;
-	transition: all 0.3s linear;
+  position: relative;
+  display: inline-block;
+  margin-right: .5rem;
+  /*width: 46px;*/
+  /*height: 26px;*/
+	width: 39px;
+	height: 22px;
+  background-color: #e6e6e6;
+  border-radius: 23px;
+  vertical-align: text-bottom;
+  transition: all 0.3s linear;
 }
 
 .form-switch i::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	/*width: 42px;*/
-	/*height: 22px;*/
-	width: calc(var(--switch-inner-width) + 20px);
-	height: var(--switch-inner-height);
-	background-color: #fff;
-	border-radius: 11px;
-	transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
-	transition: all 0.25s linear;
+  content: "";
+  position: absolute;
+  left: 0;
+  /*width: 42px;*/
+  /*height: 22px;*/
+  width: 35px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 11px;
+  transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+  transition: all 0.25s linear;
 }
 
 .form-switch i::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	/*width: 22px;*/
-	/*height: 22px;*/
-	width: var(--switch-inner-width);
-	height: var(--switch-inner-height);
-	background-color: #fff;
-	border-radius: 11px;
-	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
-	transform: translate3d(2px, 2px, 0);
-	transition: all 0.2s ease-in-out;
+  content: "";
+  position: absolute;
+  left: 0;
+  /*width: 22px;*/
+  /*height: 22px;*/
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 11px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+  transform: translate3d(2px, 2px, 0);
+  transition: all 0.2s ease-in-out;
 }
 
 .form-switch:active i::after {
-	/*width: 28px;*/
-	width: calc(var(--switch-inner-width) + 6px);
-	transform: translate3d(2px, 2px, 0);
+  width: 28px;
+  transform: translate3d(2px, 2px, 0);
 }
 
-.form-switch:active input:checked + i::after {
-   transform: translate3d(16px, 2px, 0); 
-}
+.form-switch:active input:checked + i::after { transform: translate3d(16px, 2px, 0); }
 
-.form-switch input { 
-    display: none;
-}
+.form-switch input { display: none; }
 
-.form-switch input:checked + i {
-   background-color: #4BD763; 
-}
+.form-switch input:checked + i { background-color: #4BD763; }
 
-.form-switch input:checked + i::before { 
-    /*transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);*/
-    transform: translate3d(calc(var(--switch-inner-width) - 4px), 2px, 0) scale3d(0, 0, 0);
-}
+.form-switch input:checked + i::before { transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
 
-.form-switch input:checked + i::after {
-   /*transform: translate3d(22px, 2px, 0); */
-   transform: translate3d(var(--switch-inner-width), 2px, 0); 
-}
+.form-switch input:checked + i::after { transform: translate3d(19px, 2px, 0); }
