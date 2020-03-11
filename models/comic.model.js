@@ -15,7 +15,7 @@ function getAllComics() {
                 status: 202
             })*/
         }
-        resolve(comics.sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); }))
+        resolve(comics.filter(c => c.active).sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); }))
     })
 }
 
@@ -104,7 +104,7 @@ function addComics(item, issues) {
 function setComicsIssues(comicsIssues, issues) {
     comicsIssues.forEach(function(issue, index) {
 
-        console.log(issue.issue_number);
+        // console.log(issue.issue_number);
 
         // looking for the issue in the array
         match = issues.find(i => i.id == issue.id)
@@ -242,7 +242,7 @@ function editComicsIssues(item, issues) {
                         extras: helper.getExtras('issues')
                     }
 
-                    console.log("nouvelle issue", newIssue)
+                    //console.log("nouvelle issue", newIssue)
                     comic.issues.push(newIssue)
                 }
             })
@@ -377,6 +377,32 @@ function unreadIssue(params) {
     readUnreadIssue(params);
 }
 
+function enabledDisableComic(comics_id, active) {
+    return new Promise((resolve, reject) => {
+        helper.comicsMustBeInArray(comics, comics_id)
+        .then(comic => {
+
+            const comics_index = comics.findIndex(c => c.id == comic.id)
+
+            comics[comics_index].active = active === 'true';
+
+            helper.writeJSONFile(filename, comics)
+
+            var response = {
+                error: false,
+                message: '',
+                //data: comics[comics_index],
+                comics_id: comics_id,
+                active: comics[comics_index].active
+            };
+
+            //console.log(response);
+
+            resolve(response)
+        }).catch(err => reject(err))
+    })
+}
+
 
 function getCalendar(date_start, date_end) {
     return new Promise((resolve, reject) => {
@@ -408,6 +434,8 @@ module.exports = {
     readIssue,
     unreadIssue,
     readUnreadIssue,
+
+    enabledDisableComic,
 
     addComics,
 

@@ -443,6 +443,22 @@ router.post('/read', async (req, res) => {
 	//console.log(req.body)
 })
 
+//POST /read
+router.post('/active', async (req, res) => {
+
+	comic.enabledDisableComic(req.body.comics, req.body.active)
+	.then(function(response) {
+		res.status(200).json(response)
+	})
+	.catch(err => {
+		if (err.status) {
+			res.status(err.status).json({ message: err.message })
+		} else {
+			res.status(500).json({ message: err.message })
+		}
+	})
+})
+
 //POST /comics/:id
 // Add comics using ComicVine volume ID
 router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {

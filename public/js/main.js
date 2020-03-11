@@ -156,6 +156,25 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 	});
 });
 
+$(document).on('click', '.toggle-comics', function(e) {
+	//
+	var comics = $(this).closest('.comics-issue');
+	var params = {
+		comics: comics.data('comics'),
+		active: $(this).prop('checked')
+	}
+
+	$.ajax({
+		url: '/active',
+		dataType: 'json',
+		method: 'post',
+		data: params,
+		success(response) {
+			console.log(response);
+		}
+	})
+});
+
 // update volume
 $(document).on('click', '.fa-refresh-comics', function(e) {
 	e.preventDefault();
