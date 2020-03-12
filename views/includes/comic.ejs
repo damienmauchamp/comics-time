@@ -118,6 +118,9 @@
 			
 			<img class="comics-issue-img" loading="lazy" src="<%= comic.image %>" />
 			<ul>
+				<% if (options.page === 'list') { %>
+					<li>Link : <a href="./../comics/<%= comic.id %>">Go to comic</a></li>
+				<% } %>
 				<li>ID : <%= comic.id %></li>
 				<li>Status : <%= comic.active ? (comic.started ? "Reading" : "Not started") : "Stopped" %></li>
 				<li>Number of issues : <%= comic.nb_issues %></li>

@@ -27,7 +27,7 @@ body {
 	background: var(--main-bg-color);
 	color: var(--main-color);
 	overflow-x: hidden;
-	font-family: ProximaNova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: ProximaNova, Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -546,6 +546,11 @@ span.select2-selection__arrow {
 		color: #fff;
 		/* font-family: ProximaNovaSB; */
 		font-size: 25px;
+
+		font-family: 'Montserrat';
+		text-decoration: none;
+		text-transform: uppercase;
+		font-weight: 900;
 	}
 	.page-left #home-text {
 		display: inline;
