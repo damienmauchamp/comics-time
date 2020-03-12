@@ -75,6 +75,9 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 				$(img_element).one("load", function() {
 					$(this).closest('.image-crop').removeClass('img-loading');
 					$(this).find('.loader-container').remove();
+				
+					$(item).find('.read-btn .to-read-icon').addClass('fa-check-circle');
+					$(item).find('.read-btn .to-read-icon').removeClass('fa-spin').removeClass('fa-circle-notch').removeClass('loading');
 				}).attr("src", res.img);
 
 				// progress bar
@@ -125,8 +128,8 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 					// console.log("not moving");
 				}
 				
-				$(item).find('.read-btn .to-read-icon').addClass('fa-check-circle');
-				$(item).find('.read-btn .to-read-icon').removeClass('fa-spin').removeClass('fa-circle-notch').removeClass('loading');
+				// $(item).find('.read-btn .to-read-icon').addClass('fa-check-circle');
+				// $(item).find('.read-btn .to-read-icon').removeClass('fa-spin').removeClass('fa-circle-notch').removeClass('loading');
 
 				// item attributes
 				item.data({
