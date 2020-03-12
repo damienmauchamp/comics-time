@@ -170,7 +170,11 @@ $(document).on('click', '.toggle-comics', function(e) {
 		method: 'post',
 		data: params,
 		success(response) {
-			console.log(response);
+			// error
+			if (params.active !== response.active) {
+				$(this).prop('checked', response.active);
+				console.log('Error.');
+			}
 		}
 	})
 });
