@@ -66,6 +66,7 @@ function getNearestIssue(array, id, way, only_unread = true) {
 // add
 function addComics(item, issues) {
     return new Promise((resolve, reject) => {
+        comics = require('../data/comics'+file_end+'.json');
 
         if (comics.find(c => c.id == item.id)) {
             reject({
@@ -138,6 +139,7 @@ function setComicsIssues(comicsIssues, issues) {
 // put
 function editComics(id, data) {
     const regex = /(?:https?:\/\/)?(?:comicvine\.gamespot\.com\/?)?(api\/?)?(image\/?)?((?:\w+)\/)?(?:\d+-\d+\.)?(?:jpg)?/
+    comics = require('../data/comics'+file_end+'.json');
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, id)
         .then(comic => {
@@ -205,6 +207,7 @@ function editComics(id, data) {
 }
 
 function editComicsIssues(item, issues) {
+    comics = require('../data/comics'+file_end+'.json');
     return new Promise((resolve, reject) => {
         comic = comics.find(c => c.id == item.id);
 
@@ -291,6 +294,7 @@ function editComicsIssues(item, issues) {
 
 // delete
 function deleteComics(id) {
+    comics = require('../data/comics'+file_end+'.json');
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, id)
         .then(() => {
@@ -303,6 +307,7 @@ function deleteComics(id) {
 }
 
 function readUnreadIssue(params) {
+    comics = require('../data/comics'+file_end+'.json');
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, params.comics)
         .then(comic => {
@@ -383,6 +388,7 @@ function unreadIssue(params) {
 }
 
 function enabledDisableComic(comics_id, active) {
+    comics = require('../data/comics'+file_end+'.json');
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, comics_id)
         .then(comic => {
