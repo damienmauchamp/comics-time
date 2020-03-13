@@ -9,6 +9,7 @@ const api = require('../api.js')
 // getting all comics
 function getAllComics(enable_only) {
     return new Promise((resolve, reject) => {
+        comics = require('../data/comics'+file_end+'.json');
         if (comics.length === 0) {
             [];/*reject({
                 message: 'no comics available',

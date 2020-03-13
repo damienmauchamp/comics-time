@@ -178,6 +178,10 @@ $(document).on('click', '.toggle-comics', function(e) {
 				$(this).prop('checked', response.active);
 				console.log('Error.');
 			}
+
+			if ($('span.nb-items').length) {
+				$('span.nb-items').text($('.toggle-comics:checked').length);
+			}
 		}
 	})
 });

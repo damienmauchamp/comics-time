@@ -194,6 +194,7 @@ router.get('/list', async (req, res) => {
 			}) || false
 
 		}))
+		// console.log(comics.length);
 		res.render('index.ejs', {comics: comics, options: options})
 	})
 	.catch(err => {
@@ -225,7 +226,7 @@ router.get('/search', async (req, res) => {
 
 		resources: 'volume'
 	}
-	console.log(page, params)
+	// console.log(page, params)
 
 	api.get('search/', params, function(data) {
 
@@ -476,7 +477,7 @@ router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 		var params = { filter: { volume: volume, offset: offset } }
 		api.get('issues/', params, function(issues) {
 
-			console.log(volume.name, '#', issues.map(i => i.issue_number))
+			// console.log(volume.name, '#', issues.map(i => i.issue_number))
 			
 			comic.addComics(comics, issues)
 			.then(comic => {
@@ -553,7 +554,7 @@ router.put('/comics/:id/issues', m.comicsIDMmustBeInteger, async (req, res) => {
 		var params = { filter: { volume: volume, offset: offset } }
 		api.get('issues/', params, function(issues) {
 
-			console.log(volume.name, '#', issues.map(i => i.issue_number))
+			// console.log(volume.name, '#', issues.map(i => i.issue_number))
 
 			comic.editComicsIssues(comics, issues)
 			.then(comic => 

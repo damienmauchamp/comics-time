@@ -187,9 +187,14 @@
 					<% break %>
 
 				<%# COMICS %>
-				<% case "comics":
-					comic.issues.sort((a, b) =>	(parseFloat(a.issue_number.replace('.HU', '.5')) > parseFloat(b.issue_number.replace('.HU', '.5'))) ? 1 : -1); %>
-					<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+				<% case "comics": %>
+
+					<section class="to-read" id="comics-list">
+						<h1><%= comic.name %> (<%= comic.start_year %>)</h1>
+
+						<% comic.issues.sort((a, b) =>	(parseFloat(a.issue_number.replace('.HU', '.5')) > parseFloat(b.issue_number.replace('.HU', '.5'))) ? 1 : -1); %>
+						<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+					</section>
 					<% break %>
 
 				<%# CALENDAR %>
@@ -205,16 +210,22 @@
 					<% break %>
 
 				<%# LIST %>
-				<% case "list": 
-					// sorting by name
-					comics.sort((a, b) => {
-						if(a.name < b.name) { return -1; }
-						if(a.name > b.name) { return 1; }
-						return 0;
-					})
-					comics.forEach( comic => { %>
-						<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
-					<% }); %>
+				<% case "list": %>
+
+					<section class="to-read" id="comics-list">
+						<% comics_enabled = comics.filter(c => c.active) %>
+						<h1>Comics list&nbsp;(<span class="nb-items"><%= comics_enabled.length %></span>/<%= comics.length %>)</h1>
+						<%
+						// sorting by name
+						comics.sort((a, b) => {
+							if(a.name < b.name) { return -1; }
+							if(a.name > b.name) { return 1; }
+							return 0;
+						})
+						comics.forEach( comic => { %>
+							<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+						<% }); %>
+					</section>
 					<% break %>
 
 
