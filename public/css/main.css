@@ -183,8 +183,28 @@ ol, ul {
 
 .page-left section {
 	padding: 12px 0;
-	margin: 12px 20px;
+	margin: 0 20px;
 	border-top: 1px solid #333;
+}
+
+.page-left section#menu {
+    border-top: none;
+}
+
+.header .menu>li a i, .page-left .menu>li a i {
+	display: inline-block;
+	width: 21px;
+	color: var(--alt-link-color);
+	font-size: 18px;
+	position: relative;
+	top: 3px;
+	text-align: center;
+	margin-right: 10px;
+}
+
+.header .menu>li a:hover, .header .menu>li.active a, .page-left .menu>li a:hover, .page-left .menu>li.active a {
+    text-decoration: none;
+    color: #fff;
 }
 
 .page-center {
@@ -386,17 +406,18 @@ ol, ul {
 
 .menu .calendar .fa-calendar {
 	position: relative;
+	/* color: var(--alt-link-color); */
 }
 
 .menu .calendar .calendar-day {
 	position: absolute;
 	left: 0;
-	top: 5px;
+	top: 8px;
 	width: 100%;
 	color: #272727;
 	font-weight: 600;
 	font-size: 10px;
-	font-family: ProximaNova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-align: center;
 }
 
@@ -520,6 +541,11 @@ span.select2-selection__arrow {
 
 	.header .menu>li a, .header .menu>li a i, .page-left .menu>li a, .page-left .menu>li a i {
 		font-size: 21px;
+	}
+ 	
+	.menu .calendar .calendar-day {
+		top: 8px;
+		font-size: 12px;
 	}
 
 	.page-left .wrapper {
