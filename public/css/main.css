@@ -173,6 +173,10 @@ ol, ul {
 	display: block;
 	height: 42px;
 }
+.page-left #home-link .logo {
+	height: 42px;
+	width: 42px;
+}
 .page-left #home-text {
 	display: none;
 }
