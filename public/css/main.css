@@ -518,6 +518,10 @@ span.select2-selection__arrow {
 		transform: rotate(90deg);
 	}
 
+	.header .menu>li a, .header .menu>li a i, .page-left .menu>li a, .page-left .menu>li a i {
+		font-size: 21px;
+	}
+
 	.page-left .wrapper {
 		max-height: 100%;
 		height: 100%;
@@ -776,11 +780,11 @@ calc(100vh - 42px - 24 - 28px - 8px)
 .form-switch input:checked + i::after { transform: translate3d(19px, 2px, 0); }
 
 .form-switch.comics-issue-status-read {
-    position: relative;
-    top: 2px;
-    margin-left: 8px;
+	position: relative;
+	top: 2px;
+	margin-left: 8px;
 }
 
 #home#list .comics-issue-top .comics-issue-title {
-    margin-left: 0;
+	margin-left: 0;
 }
