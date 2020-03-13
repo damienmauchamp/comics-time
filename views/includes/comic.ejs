@@ -127,7 +127,7 @@
 				<li>Published by : <%= comic.publisher.name %> (<%= comic.publisher.id %>)</li>
 				<li>Added : <%= comic.date.added %></li>
 				<li>Updated : <%= comic.date.updated %></li>
-				<li>Progress : <%= progress.toFixed(2) %>%</li>
+				<li>Progress : <%= progress ? progress.toFixed(2) : 0 %>%</li>
 				<% if (options.page === 'comics') { %>
 					<li>To read : <a href="#comics-item-<%= comic.id + "-" + comic.to_read.id %>">#<%= comic.to_read.issue_number %></a></li>
 				<% } %>
