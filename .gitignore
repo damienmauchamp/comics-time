@@ -71,6 +71,7 @@ desktop.ini
 data/extras.yml
 public/index*
 .json
+.psd
 
 #custom files
 public/js/addons*
