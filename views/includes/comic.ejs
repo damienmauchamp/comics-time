@@ -13,7 +13,7 @@
 			var last_read = last_read_issue.issue_number;
 
 			// number of issues left to read
-			var issues_left = comic.issues.filter(i => { return !i.read && i.id !== comic.to_read.id && new Date() >= new Date(i.store_date); }).length || 0;
+			var issues_left = comic.issues.filter(i => { return !i.read && i.id !== comic.to_read.id && new Date() >= new Date(i.store_date); }).length0;
 
 			//new
 			var is_new = Math.floor(Math.abs(new Date(comic.to_read.store_date) - new Date()) / 1000 / 86400) < 7;
@@ -23,7 +23,7 @@
 
 		} else if (options.page === 'homepage') {
 			return;
-		} else if (options.page === 'comics') {
+		} else if (['comics', 'list'].includes(options.page)) {
 			progress = 100;
 		}
 
