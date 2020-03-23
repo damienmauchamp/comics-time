@@ -13,7 +13,7 @@
 			var last_read = last_read_issue.issue_number;
 
 			// number of issues left to read
-			var issues_left = comic.issues.filter(i => { return !i.read && i.id !== comic.to_read.id && new Date() >= new Date(i.store_date); }).length0;
+			var issues_left = comic.issues.filter(i => { return !i.read && i.id !== comic.to_read.id && new Date() >= new Date(i.store_date); }).length;
 
 			//new
 			var is_new = Math.floor(Math.abs(new Date(comic.to_read.store_date) - new Date()) / 1000 / 86400) < 7;
@@ -69,7 +69,8 @@
 				<!--span class="nb-remainging-issues">+ X more</span-->
 			</h2>
 			<!--a class="nb-reviews-link secondary-link" href="#">+ x more</a-->
-			<span class="nb-remainging-issues" title="<%= comic.nb_issues + ' issues' %>"><% if (issues_left) { %>+ <span class="remainging-issues"><%= issues_left %></span> more<% } %></span>
+			<span class="nb-remainging-issues" title="<%= comic.nb_issues + ' issues' %>">
+				<% if (issues_left) { %>+ <span class="remainging-issues"><%= issues_left %></span> more<% } %></span>
 
 		</div>
 	</li>
