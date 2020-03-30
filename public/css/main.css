@@ -23,6 +23,27 @@
 	--switch-outer-height: calc(var(--switch-inner-height) + 4px); /* 26px */
 }
 
+@media (prefers-color-scheme: light) {
+	:root  {
+		--main-bg-color: #FFFFFF;
+		--main-color: #444444;
+	}
+
+	.comics-issue {
+		background: #ECECEC;
+	}
+
+	.fa-read-status {
+		color: var(--main-color);
+	}
+
+	.select2-search,
+	.select2-search input,
+	.select2-results {
+		color: #FFFFFF;
+	}
+}
+
 body {
 	background: var(--main-bg-color);
 	color: var(--main-color);
@@ -447,6 +468,10 @@ ol, ul {
 .select2-container--default .select2-results>.select2-results__options {
 	overflow-y: auto;
 	overflow-x: hidden;
+}
+
+.select2-container--open .select2-dropdown--below {
+	    position: fixed;
 }
 
 @media (max-width: 768px) {
