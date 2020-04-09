@@ -332,8 +332,9 @@ $('#update').on('click', function() {
 	$(this)
 		.prop('disabled', true)
 		.addClass('disabled')
-		.addClass('fa-spin')
 		.find('.menu-title').text('updating...');
+	$(this).find('.fa-sync-alt')
+		.addClass('fa-spin');
 	$.ajax({
 		url: '/update',
 		dataType: 'json',
@@ -361,8 +362,9 @@ $('#update').on('click', function() {
 				$('#update')
 					.prop('disabled', false)
 					.removeClass('disabled')
-					.removeClass('fa-spin')
 					.find('.menu-title').text('Updated !');
+				$('#update').find('.fa-sync-alt')
+					.removeClass('fa-spin');
 				console.log('Comics updated');
 			});
 
