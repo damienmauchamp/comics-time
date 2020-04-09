@@ -51,17 +51,7 @@ router.get('/', async (req, res) => {
 
 		comics = comics.map(c => ({
 			...c,
-
-			// comics info
 			image: c.image.replace('{{code}}', options.image_code),
-			link: '/comics/' + c.id,
-
-			// to read
-			started: (c.issues.filter(i => i.read).length > 0),
-			to_read: c.issues.find(function(i) {
-				return !i.read;
-			}) || false
-
 		}))
 
 		res.render('index.ejs', {comics: comics, options: options})
@@ -179,22 +169,12 @@ router.get('/list', async (req, res) => {
 
 	await comic.getAllComics(false)
 	.then(function(comics) {
-
+		
 		comics = comics.map(c => ({
 			...c,
-
-			// comics info
 			image: c.image.replace('{{code}}', options.image_code),
-			link: '/comics/' + c.id,
-
-			// to read
-			started: (c.issues.filter(i => i.read).length > 0),
-			to_read: c.issues.find(function(i) {
-				return !i.read;
-			}) || false
-
 		}))
-		// console.log(comics.length);
+
 		res.render('index.ejs', {comics: comics, options: options})
 	})
 	.catch(err => {
@@ -270,11 +250,9 @@ router.get('/search', async (req, res) => {
 
 //GET /update
 router.get('/update', async(req, res) => {
-	await comic.getAllComics(true)
+	await comic.getAllComics(true, true)
 	.then(function(comics) {
-		res.status(200).json(comics.map(c => {
-			return c.id
-		}))
+		res.status(200).json(comics.map(c => c.id))
 	}).catch(err => {
 		if (err.status) {
 			res.status(err.status).json({ message: err.message })

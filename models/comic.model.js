@@ -7,7 +7,7 @@ const api = require('../api.js')
 
 // COMICS
 // getting all comics
-function getAllComics(enable_only) {
+function getAllComics(enabled_only, started_only) {
     return new Promise((resolve, reject) => {
         comics = require('../data/comics'+file_end+'.json');
         if (comics.length === 0) {
@@ -16,9 +16,25 @@ function getAllComics(enable_only) {
                 status: 202
             })*/
         }
-        enable_only = enable_only || false;
-        if (enable_only) {
+
+        comics = comics.map(c => ({
+            ...c,
+            
+            link: '/comics/' + c.id,
+
+            started: (c.issues.filter(i => i.read).length > 0),
+            to_read: c.issues.find(function(i) {
+                return !i.read;
+            }) || false
+        }));
+
+        enabled_only = enabled_only || false;
+        started_only = started_only || false;
+        if (enabled_only) {
             comics = comics.filter(c => c.active);
+        }
+        if (started_only) {
+            comics = comics.filter(c => c.to_read && (parseInt(c.to_read.issue_number) > 1 || c.started));
         }
         resolve(comics.sort((a, b) => { return new Date(b.date.updated) - new Date(a.date.updated); }))
     })
