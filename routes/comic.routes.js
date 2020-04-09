@@ -169,7 +169,7 @@ router.get('/list', async (req, res) => {
 
 	await comic.getAllComics(false)
 	.then(function(comics) {
-		
+
 		comics = comics.map(c => ({
 			...c,
 			image: c.image.replace('{{code}}', options.image_code),
@@ -281,13 +281,19 @@ Object.values(comics).forEach(c => {
 			comics_start_year: c.start_year,
 			...issue,
 		});
-    });
+	});
 });
 issues.sort(sortByRead_DESC);
 //console.log(issues.map(e => e.read));
 console.log(issues);
 */
 router.get('/history', async(req, res) => {
+	const date = req.query.date ? new Date(req.query.date) : new Date();
+	const update = req.query.update || false;
+
+	options.page = 'history';
+	options.main += ' history';
+
 	await comic.getAllComics(false)
 	.then(function(comics) {
 
@@ -299,22 +305,57 @@ router.get('/history', async(req, res) => {
 			return new Date(b.read) - new Date(a.read); // ASC
 		};
 
+		var getXFirst = function(array, limit) {
+			return array.filter((item, index, array) => {
+				return index < limit ? item : false;
+			});
+		}
+		var getXLast = function(array, limit) {
+			return array.filter((item, index, array) => {
+				var max_index = array.length - 1;
+				var filtered_index = max_index - limit;
+				return index > filtered_index ? item : false;
+			});
+		}
+
+		var limit = 20;
+
 		var issues = [];
 		Object.values(comics).forEach(c => {
-			c.issues.filter(i => i.read).forEach(issue => {
+			c.issues.filter(i => i.read && new Date(i.read) <= date).forEach(issue => {
+				var read_date = moment(new Date(issue.read)).locale(options.lang);
 				issues.push({
 					comics: c.name,
 					comics_id: c.id,
 					comics_start_year: c.start_year,
+					comics_link: '/comics/' + c.id,
 					...issue,
+					read_format: read_date.format('YYYY-MM-DD HH:mm:ss'),
 				});
-		    });
+			});
 		});
-		issues.sort(sortByRead_DESC);
+		issues.sort(sortByRead_ASC);
 		//console.log(issues.map(e => e.read));
-		//console.log(issues);
+		// console.log(issues);
+		issues = getXLast(issues, limit);
+		var end_date = issues[0].read;
 
-		res.status(200).json(issues)
+		if (update) {
+			res.status(200).json({
+				issues: issues,
+				date: date,
+				end_date: end_date,
+				// options: options includes/history.ejs
+			})
+		} else {
+			res.render('index.ejs', {
+				issues: issues,
+				date: date,
+				end_date: end_date,
+				options: options
+			})
+		}
+
 	}).catch(err => {
 		if (err.status) {
 			res.status(err.status).json({ message: err.message })

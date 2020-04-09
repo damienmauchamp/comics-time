@@ -228,7 +228,7 @@ ol, ul {
 }
 
 .page-left section#menu {
-    border-top: none;
+	border-top: none;
 }
 
 .header .menu>li a i, .page-left .menu>li a i {
@@ -243,8 +243,8 @@ ol, ul {
 }
 
 .header .menu>li a:hover, .header .menu>li.active a, .page-left .menu>li a:hover, .page-left .menu>li.active a {
-    text-decoration: none;
-    color: #fff;
+	text-decoration: none;
+	color: #fff;
 }
 
 .page-center {
@@ -486,7 +486,7 @@ ol, ul {
 }
 
 .select2-container--open .select2-dropdown--below {
-	    position: fixed;
+		position: fixed;
 }
 
 @media (max-width: 768px) {
@@ -857,4 +857,12 @@ calc(100vh - 42px - 24 - 28px - 8px)
 
 #home#list .comics-issue-top .comics-issue-title {
 	margin-left: 0;
+}
+
+a#history-older {
+	margin: 2px 12px;
+	display: block;
+	text-align: right;
+	font-size: 15px;
+	float: right;
 }

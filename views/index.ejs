@@ -1,5 +1,5 @@
 <%
-	const logo = '/images/logo_tmp.png';
+	const logo = '/images/logo_64.png';
 %>
 
 <!DOCTYPE html>
@@ -99,7 +99,7 @@
 							</li>
 
 							<li class="history">
-								<a href="#history" id="history" title="history">
+								<a href="/history" id="history" title="history">
 									<i class="fas fa-history icon-tvst-calendar-alt"></i>
 									<span class="menu-title">History</span>
 								</a>
@@ -228,6 +228,40 @@
 					</section>
 					<% break %>
 
+				<%# HISTORY %>
+				<% case "history": %>
+
+					<section class="to-read" id="comics-history">
+
+						<a href="#" id="history-older" title="Older">
+							<span class="menu-title">↑ older</span>
+						</a>
+						
+						<h1>History</h1>
+
+						<div id="issues_list">
+							<% issues.forEach(i => { %>
+								<%- include('includes/issue.ejs', {
+									issue: i,
+									comic: {
+										link: i.comics_link,
+										id: i.comics_id,
+										name: i.comics,
+										start_year: i.comics_start_year,
+									},
+									options: {
+										page: 'history'
+									}
+								}) %>
+							<% }) %>
+							<script>
+								var history_displayed_issues = <%- JSON.stringify(issues.map(i => i.id )) %>;
+							</script>
+						</div>
+
+						<input type="hidden" id="history-end-date" name="history-end-date" value="<%= end_date %>" />
+					</section>
+					<% break %>
 
 				<div id="test"></div>
 

@@ -11,7 +11,8 @@
 	%>
 
 	<%# COMICS %>
-	<% case "comics":
+	<% 	case "comics":
+		case "history":
 		issue.image_code = 'scale_small';
 		if (!issue.image) {
 			issue.image = '';
@@ -21,7 +22,8 @@
 		}
 		issue.link = comic.link + '/issue/' + issue.id;
 	%>
-	<div class="comics-issue" id="comics-item-<%= comic.id %>-<%= issue.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>">
+	<div class="comics-issue" id="comics-item-<%= comic.id %>-<%= issue.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>"
+		 data-date="<%= issue.read_format %>" title="<%= options.page === 'history' ? 'Read : ' + issue.read_format : '' %>">
 		<div class="comics-issue-top">
 			<div class="comics-issue-controls">
 				<span class="comics-issue-control comics-issue-closed"><i class="fas fa-angle-down"></i></span>
@@ -29,7 +31,10 @@
 			</div>
 
 			<div class="comics-issue-title">
-				<%= "#" + issue.issue_number %> <%= issue.name ? " - " + issue.name : '' %>
+
+				<%= (options.page === 'history' ? (comic.name + ' ' + (comic.start_year ? ('(' + comic.start_year + ') ') : '')) : '')
+					+ "#" + issue.issue_number %> <%- (options.page === 'history' ? "<br/>" : '')
+					+ (issue.name ? (options.page !== 'history' ? ' - ' : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;') + issue.name : '') %>
 			</div>
 
 			<div class="comics-issue-status">

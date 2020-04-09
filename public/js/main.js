@@ -176,7 +176,7 @@ $(document).on('click', '.toggle-comics', function(e) {
 			// error
 			if (params.active !== response.active) {
 				$(this).prop('checked', response.active);
-				console.log('Error.');
+				console.error('Error.');
 			}
 
 			if ($('span.nb-items').length) {
@@ -312,16 +312,57 @@ $('#search').select2({
 });*/
 
 // history
-$('#history').on('click', function() {
+$('#history-older').on('click', function() {
+	var params = {
+		date: new Date($('#history-end-date').val()) || ''
+	};
+
+	if (true) {
+		params.update = true;
+	}
+
 	$.ajax({
 		url: '/history',
 		dataType: 'json',
 		method: 'get',
+		data: params,
 		success(response) {
 			if(!response) {
 				return false;
 			}
-			console.log(response);
+			$('#history-end-date').val(response.end_date);
+			var issues = response.issues.filter(i => !history_displayed_issues.includes(i.id));
+
+			if (!issues.length) {
+				$('#history-older').hide();
+			}
+
+			var html = '';
+			$.get('template/issue.ejs', function (template) {
+				issues.forEach(i => {
+					history_displayed_issues.push(i.id);
+					// html += '<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript">' + JSON.stringify(i) + '</code></pre>';
+
+					var func = ejs.compile(template);
+					var issue_html = func({
+						issue: i,
+						comic: {
+							link: i.comics_link,
+							id: i.comics_id,
+							name: i.comics,
+							start_year: i.comics_start_year,
+						},
+						options: {
+							page: 'history'
+						}
+					});
+
+					html += issue_html;
+				});
+				$('#issues_list').prepend(html);
+				Prism.highlightAll();
+			});
+
 		}
 	});
 });
@@ -380,6 +421,7 @@ function template(name, data, element, before_after = 'before', returning = fals
 		var html = func(data);
 		if (before_after === 'before') {
 			if (returning) {
+				// console.log(html);
 				return html;
 			} else {
 				$(element).prepend(html);
@@ -387,6 +429,7 @@ function template(name, data, element, before_after = 'before', returning = fals
 			//console.log('prepend', data.date);
 		} else if (before_after === 'after') {
 			if (returning) {
+				console.log(html);
 				return html;
 			} else {
 				$(element).append(html);
