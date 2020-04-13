@@ -215,17 +215,18 @@
 					<section class="to-read" id="comics-calendar">
 
 						<div class="ordering">
-							<a href="#" class="calendar-direction" id="calendar-older" 
-								data-direction="top" 
-								data-min-date="<%= min_date%>"
-								title="Older">
-								<span class="menu-title">↑ older</span>
-							</a>
 							<a href="#" class="calendar-direction" id="calendar-newer" 
 								data-direction="bottom" 
 								data-max-date="<%= max_date%>"
 								title="Newer">
 								<span class="menu-title">↓ newer</span>
+							</a>
+							
+							<a href="#" class="calendar-direction" id="calendar-older" 
+								data-direction="top" 
+								data-min-date="<%= min_date%>"
+								title="Older">
+								<span class="menu-title">↑ older</span>
 							</a>
 						</div>
 						
@@ -238,8 +239,8 @@
 							<% }); %>
 
 							<script>
-								console.log('min_date:', '<%= min_date %>');
-								console.log('max_date:', '<%= max_date %>');
+								// console.log('min_date:', '<%= min_date %>');
+								// console.log('max_date:', '<%= max_date %>');
 								// console.log(Object.keys(<%- JSON.stringify((calendar)) %>)[0]);
 								// console.log(<%- JSON.stringify((calendar)) %>);
 								// var calendar_displayed_issues = <%- JSON.stringify(Object.entries(calendar).map(i => i.id )) %>;
