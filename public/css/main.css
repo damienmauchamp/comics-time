@@ -859,10 +859,191 @@ calc(100vh - 42px - 24 - 28px - 8px)
 	margin-left: 0;
 }
 
-a#history-older {
+a#history-older, a.calendar-direction {
 	margin: 2px 12px;
 	display: block;
 	text-align: right;
 	font-size: 15px;
 	float: right;
+}
+.ordering {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+a.calendar-direction span.menu-title {
+	pointer-events: none;
+}
+
+/* CALENDAR */
+.calendar-wrapper {
+	width: 100%;
+}
+#calendar .day {
+	border-bottom: 2px solid #ececec;
+	padding-bottom: 8px;
+	margin-bottom: 12px;
+}
+
+#calendar .day.past .day-header {
+	padding-top: 40px;
+}
+
+#calendar .day .day-header {
+	/*font-family: DinotCB;*/
+	/*color: #444;*/
+	text-align: center;
+	vertical-align: top;
+	background-color: transparent;
+	border: none;
+	padding-top: 20px;
+	width: 185px;
+	float: left;
+}
+
+#calendar .day .day-header .day-info .day-label {
+	font-size: 27px;
+	text-transform: lowercase;
+	line-height: 24px;
+}
+
+#calendar .day .day-header .day-info .day-number {
+	font-size: 100px;
+	color: #c6c6c6;
+	line-height: 80px;
+}
+
+#calendar .day .day-header .day-info .month-label {
+	font-size: 23px;
+	color: #c6c6c6;
+	text-transform: uppercase;
+}
+
+#calendar .day .day-header .relative-date {
+	font-size: 18px;
+	border-top: 1px solid #ececec;
+	padding-top: 2px;
+	width: 150px;
+	margin: 2px auto 0;
+	color: #777;
+}
+
+#calendar .calendar-releases-list {
+	margin-left: 185px;
+}
+.calendar-releases-list {
+	font-size: 0;
+	letter-spacing: -1px;
+}
+.calendar-releases-list>li {
+	width: 220px;
+	padding: 0;
+	margin: 12px;
+	vertical-align: top;
+	overflow: hidden;
+}
+
+.calendar-releases-list>li .nav, .posters-list>li .nav {
+	text-align: right;
+	margin-bottom: 2px;
+}
+
+.calendar-releases-list>li .nav a.read, .calendar-releases-list>li .nav a.read:hover, .posters-list>li .nav a.followed i, .posters-list>li .nav a.followed:hover i, .posters-list>li .nav a.read, .posters-list>li .nav a.read:hover {
+	color: #80cf50;
+}
+.calendar-releases-list>li .nav a, .posters-list>li .nav a {
+	color: #666;
+	font-size: 16px;
+	padding: 0;
+	background-color: transparent;
+}
+.calendar-releases-list>li .release-container {
+	width: 220px;
+	/*height: 235px;*/
+	background-color: #fbfbfb;
+	border: 1px solid #ddd;
+	padding: 0;
+	overflow: hidden;
+	position: relative;
+}
+.calendar-releases-list>li.read .release-container {
+	opacity: .65;
+}
+/*.read-btn.read, .read-btn:hover {
+	background-color: #57ad68;
+	color: #fff;
+}
+.read-btn {
+	background: #f9f9f9;
+	color: #777;
+}*/
+.calendar-releases-list>li .image-crop {
+	width: 100%;
+	/*height: 122px;*/
+	overflow: hidden;
+	position: relative;
+}
+#calendar .day.past .calendar-releases-list>li .image-crop img {
+	opacity: .82;
+}
+.calendar-releases-list>li .image-crop img {
+	width: 100%;
+}
+.calendar-releases-list>li .release-details {
+	text-align: center;
+	letter-spacing: 0;
+	font-size: 16px;
+}
+.calendar-releases-list>li .release-details h2 {
+	color: #444;
+	font-size: 16px;
+	/*font-family: ProximaNovaB;*/
+	margin: 10px auto 0;
+}
+.calendar-releases-list>li .release-details h2 a {
+	color: #444;
+}
+.calendar-releases-list>li .release-details .secondary-link {
+	font-size: 12px;
+	color: #777;
+	/*font-family: ProximaNova;*/
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 90%;
+	display: block;
+	margin: auto;
+}
+.calendar-releases-list>li .release-details .more-infos {
+	height: 20px;
+	width: 193px;
+	margin: 5px auto 0;
+	overflow: hidden;
+}
+.calendar-releases-list>li .release-details p {
+	width: 193px;
+	margin: 5px auto 0;
+	border-top: 1px solid #ececec;
+	color: #777;
+	font-size: 13px;
+	/*font-family: ProximaNova;*/
+	padding: 5px 0;
+}
+
+#calendar .calendar-wrapper .day:nth-last-child(2) {
+    border-bottom: none !important;
+}
+
+
+
+@media (max-width: 768px) {
+	#calendar .calendar-releases-list>li, #calendar .calendar-releases-list>li .release-container {
+		width: 250px;
+	}
+}
+@media (max-width: 1280px) {
+	#calendar .calendar-releases-list>li, #calendar .calendar-releases-list>li .release-container {
+		width: 260px;
+	}
 }

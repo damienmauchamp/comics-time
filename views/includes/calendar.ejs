@@ -1,25 +1,78 @@
 <%# {options: options, day: day, issues: issues} %>
 <%
-	console.log(date);
+	console.log(' => calendar.ejs : ', date, "\n");
 	//var day_date = options.modules.moment(new Date(date)).locale(options.lang);
 %>
 <div class="day">
 	<div class="day-header" data-date="<%= items.format.full %>">
-		<div class="day-info">
+		<div class="day-info" style="font-size:11px;">
+			<div class="year-label"><%= items.format.YYYY %></div>
 			<div class="day-label"><%= items.format.dddd %></div>
 			<div class="day-number"><%= items.format.DD %></div>
 			<div class="month-label"><%= items.format.MMMM %></div>
 		</div>
-		<div class="relative-date">
-			<%# a-X day(s)-month(s)-year(s) ago/yesterday/today/tomorrow/in a/X day(s)-month(s)-year %>
-			<ul class="fanarts-list list-unstyled list-inline">
-				<% Object.entries(items.issues).forEach(([i, issue]) => { %>
-					<li style="display:list-item;font-style:italic">
-						- <%= issue.comics.name %> #<%= issue.issue_number %>
-					</li>
-					<%# include('calendar/day_item.ejs', {options: options, date: date, issue: issue}) #%>
-				<% }); %>
+		<div class="relative-date"></div>
+		<%# a-X day(s)-month(s)-year(s) ago/yesterday/today/tomorrow/in a/X day(s)-month(s)-year %>
+	</div>
+	<ul class="calendar-releases-list list-unstyled list-inline">
+		<% Object.entries(items.issues).forEach(([i, issue]) => {
+			//console.log(issue) %>
+
+
+			<%#- include('./calendar/day_item.ejs', {options: options, date: date, issue: issue}) #%>
+<%
+	// console.log({options, date, issue})
+		issue.image_code = 'scale_small';
+%>
+
+
+<li class=" <%= issue.read ? 'read' : '' %> initialized" id="comics-item-<%= issue.comics.name %>-<%= issue.id %>"
+	data-comics="<%= issue.comics.name %>" data-issue="<%= issue.id %>">
+	<div class="nav">
+		<a href="#" class="read-btn popover-link" title="Mark as read" data-original-title="">
+			<i class="fa fa-check-circle to-read-icon" aria-hidden="true"></i>
+			<i class="fa fa-check-circle read-icon" style="display: none" aria-hidden="true"></i>
+		</a>
+	</div>
+	<div class="release-container">
+		<div class="image-crop">
+			<a href="#">
+				<img src="<%= issue.image.replace('{{code}}', issue.image_code) %>" alt="Batwoman">
+			</a>
+		</div>
+
+		<div class="side subs">
+			<div class="heading">
+				Select language
+				<div class="close">
+					<!-- <a href="#">×<i class="icon-remove"></i></a> -->
+				</div>
+			</div>
+			<ul class="list-unstyled subs-list scrolling-element">
 			</ul>
 		</div>
+
+		<div class="episode-details release-details">
+			<h2><a href="#"><%= issue.comics.name + ' #' + issue.issue_number %></a></h2>
+			<a class="secondary-link" href="#" <%= !issue.name ? 'style=text-decoration:none;' : '' %>><%= issue.name %>&nbsp;</a>
+			<div class="more-infos"></div>
+			<p><%= issue.read ? ('Read: ' + issue.read) : ''  %>&nbsp;</p>
+		</div>
 	</div>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<% }); %>
+	</ul>
 </div>

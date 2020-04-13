@@ -476,34 +476,10 @@ function moveElement(element, newParent, duration = 0, direction = 'top') {
 }
 
 // calendar
-// infinite scroll setup
-$(window).on('scroll', function() {
-	if (options.page !== 'calendar') {
-		return false;
-	}
-	var scroll = {
-		top: $(window).scrollTop() === 0,
-		pos: $(this).scrollTop(),
-		bottom: ($(window).scrollTop() + $(window).height()) == $(document).height()
-	};
-	//console.log(scroll);
-
-	var direction = 0,
-		date = null;
-
-	if (scroll.top) {
-		direction = -1, date = options.calendar.min.date, more = options.calendar.min.more;
-		//console.log(options.calendar.min, "prependTo");
-	} else if (scroll.bottom) {
-		direction = 1, date = options.calendar.max.date, more = options.calendar.max.more;
-		//console.log(options.calendar.max, "appendTo");
-	} else {
-		return false;
-	}
-
-	if(!more) {
-		return false;
-	}
+function getCalendar(date, direction, more) {
+	console.log(new Date(date), direction, more);
+	// older : -1
+	// newer : 1
 
 	$.ajax({
 		url: '/calendar/data',
@@ -525,26 +501,137 @@ $(window).on('scroll', function() {
 				});
 
 
-				Object.entries(issues_cal).forEach(([date, items]) => {
-					//console.log(date, items);
-					//{options: options, date: new Date(date), items: items}
-					template('calendar', {options: options, date: new Date(date), items: items}, '.calendar-wrapper', direction > 0 ? 'after' : 'before', false);
+				$.get('template/calendar.ejs', function (template) {
+					// var min_date = Object.entries(issues_cal).reverse()[0];
+					// var max_date = null;
+					var calendar_days = Object.keys(issues_cal).reverse();
+					var min_date = calendar_days[0];
+					var max_date = calendar_days[calendar_days.length - 1];
+
+					Object.entries(issues_cal).reverse().forEach(([i_date, items]) => {
+						console.log(i_date, items);
+						//{options: options, date: new Date(date), items: items}
+						// template('calendar', {options: options, date: new Date(date), items: items}, '.calendar-wrapper', direction > 0 ? 'after' : 'before', false);
+						// template('calendar', {options: options, date: new Date(date), items: items}, '.calendar-wrapper', direction > 0 ? 'after' : 'before', false);
+
+						var func = ejs.compile(template);
+						html += func({
+							options: options,
+							date: new Date(i_date),
+							items: items
+						});
+						// console.log(html);
+						// max_date = i_date;
+
+					});
+
+					console.log('min date', min_date);
+					console.log('max date', max_date);
+
+
+					// console.log(html);
+					if (direction > 0) {
+						$('.calendar-direction#calendar-newer').data('maxDate', max_date);
+						options.calendar.max.date = max_date;
+						$('#issues_list').append(html);
+					} else {
+						$('.calendar-direction#calendar-older').data('minDate', min_date);
+						options.calendar.min.date = min_date;
+						$('#issues_list').prepend(html);
+					}
+					// issues.forEach(i => {
+					// 	history_displayed_issues.push(i.id);
+					// 	// html += '<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript">' + JSON.stringify(i) + '</code></pre>';
+
+					// 	var func = ejs.compile(template);
+					// 	var issue_html = func({
+					// 		issue: i,
+					// 		comic: {
+					// 			link: i.comics_link,
+					// 			id: i.comics_id,
+					// 			name: i.comics,
+					// 			start_year: i.comics_start_year,
+					// 		},
+					// 		options: {
+					// 			page: 'history'
+					// 		}
+					// 	});
+
+					// 	html += issue_html;
+					// });
+					// $('#issues_list').prepend(html);
+					// Prism.highlightAll();
 				});
-				//console.log('yes');
-			} else {
-				//console.log('non');
 			}
 
-			if (direction > 0) {
-				$('.calendar-wrapper').append(html);
-			} else {
-				$('.calendar-wrapper').prepend(html);
-			}
 			//{calendar: by_day, options: options}
 			//template('comic', res.data[0], '.to-read-list', 'before');
 		}
 	})
 
-	//options.calendar.max
+}
+
+$(document).on('click', 'a.calendar-direction', function(e) {
+
+	var direction = 0,
+		date = null;
+
+	if ( $(e.target).data('direction') === 'top' /*scroll.top*/) {
+		var direction = -1;
+		var date = $(e.target).data('minDate'); // options.calendar.min.date;
+		console.log(new Date(options.calendar.min.date));
+		var more = options.calendar.min.more;
+		//console.log(options.calendar.min, "prependTo");
+	} else if ( $(e.target).data('direction') === 'bottom' /*scroll.bottom*/) {
+		var direction = 1
+		var date = $(e.target).data('maxDate'); // options.calendar.max.date
+		console.log(new Date(options.calendar.max.date));
+		var more = options.calendar.max.more;
+		//console.log(options.calendar.max, "appendTo");
+	} else {
+		return false;
+	}
+
+	getCalendar(date, direction, more);
+
 });
+
+
+// infinite scroll setup
+// $(window).on('scroll', function() {
+// 	return;
+// 	if (options.page !== 'calendar') {
+// 		return false;
+// 	}
+// 	// var scroll = {
+// 	// 	top: $(window).scrollTop() === 0,
+// 	// 	pos: $(this).scrollTop(),
+// 	// 	bottom: ($(window).scrollTop() + $(window).height()) == $(document).height()
+// 	// };
+// 	//console.log(scroll);
+
+// 	var direction = 0,
+// 		date = null;
+
+// 	if ( $(e.target).data('') /*scroll.top*/) {
+// 		direction = -1, date = options.calendar.min.date, more = options.calendar.min.more;
+// 		//console.log(options.calendar.min, "prependTo");
+// 	} else if ( $(e.target).data('') /*scroll.bottom*/) {
+// 		direction = 1, date = options.calendar.max.date, more = options.calendar.max.more;
+// 		//console.log(options.calendar.max, "appendTo");
+// 	} else {
+// 		return false;
+// 	}
+
+// 	if(!more) {
+// 		return false;
+// 	}
+
+// 	// date = $('#calendar-min-date').val();
+// 	// date = $('#calendar-max-date').val();
+
+// 	getCalendar(date, direction, more);
+
+// 	//options.calendar.max
+// });
 

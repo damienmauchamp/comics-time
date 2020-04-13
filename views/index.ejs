@@ -206,13 +206,47 @@
 
 				<%# CALENDAR %>
 				<% case "calendar": 
-				//console.log(calendar)%>
-					<section>
-						<div class="calendar-wrapper">
-							<% Object.entries(calendar).forEach(([date, items]) => { %>
-								<%- include('includes/calendar.ejs', {options: options, date: new Date(date), items: items}) %>
-							<% }); %>
+
+					// var calendar_days = Object.keys(calendar).reverse();
+					var min_date = options.calendar.params.min;//calendar_days[calendar_days.length - 1];
+					var max_date = options.calendar.params.max;//calendar_days[0];
+				%>
+
+					<section class="to-read" id="comics-calendar">
+
+						<div class="ordering">
+							<a href="#" class="calendar-direction" id="calendar-older" 
+								data-direction="top" 
+								data-min-date="<%= min_date%>"
+								title="Older">
+								<span class="menu-title">↑ older</span>
+							</a>
+							<a href="#" class="calendar-direction" id="calendar-newer" 
+								data-direction="bottom" 
+								data-max-date="<%= max_date%>"
+								title="Newer">
+								<span class="menu-title">↓ newer</span>
+							</a>
 						</div>
+						
+						<h1>Calendar</h1>
+
+						<div class="calendar-wrapper" id="issues_list">
+
+							<% Object.entries(calendar).sort().forEach(([date, items]) => {
+								<%- include('includes/calendar.ejs', {options: options, date: new Date(date), items: items}); %>
+							<% }); %>
+
+							<script>
+								console.log('min_date:', '<%= min_date %>');
+								console.log('max_date:', '<%= max_date %>');
+								// console.log(Object.keys(<%- JSON.stringify((calendar)) %>)[0]);
+								// console.log(<%- JSON.stringify((calendar)) %>);
+								// var calendar_displayed_issues = <%- JSON.stringify(Object.entries(calendar).map(i => i.id )) %>;
+							</script>
+						</div>
+
+						<input type="hidden" id="calendar-end-date" name="calendar-end-date" value="<%= Object.keys(calendar)[0] %>" />
 					</section>
 					<% break %>
 
@@ -240,9 +274,11 @@
 
 					<section class="to-read" id="comics-history">
 
-						<a href="#" id="history-older" title="Older">
-							<span class="menu-title">↑ older</span>
-						</a>
+						<div class="ordering">
+							<a href="#" id="history-older" title="Older">
+								<span class="menu-title">↑ older</span>
+							</a>
+						</div>
 						
 						<h1>History</h1>
 
