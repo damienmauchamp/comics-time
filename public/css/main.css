@@ -1092,7 +1092,10 @@ a.calendar-direction span.menu-title {
 	}
 }
 
-@media (max-width: 4800px) {
+@media (max-width: 480px) {
+	
+    /*margin-left: 0;
+    margin-right: 0;*/
 	#calendar .day .day-header {
 		float:none;
 		margin: auto;
