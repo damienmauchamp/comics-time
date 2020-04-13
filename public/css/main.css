@@ -1090,8 +1090,10 @@ a.calendar-direction span.menu-title {
 	#calendar .calendar-releases-list>li, #calendar .calendar-releases-list>li .release-container {
 		width: 185px;
 	}
-	
-/*	#calendar .day .day-header {
+}
+
+@media (max-width: 4800px) {
+	#calendar .day .day-header {
 		float:none;
 		margin: auto;
 	}
@@ -1099,5 +1101,5 @@ a.calendar-direction span.menu-title {
 	#calendar .calendar-releases-list {
 		margin-left: auto;
 		text-align: center;
-	}*/
+	}
 }
