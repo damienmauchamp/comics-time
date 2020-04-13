@@ -720,6 +720,18 @@ span.select2-selection__arrow {
 	}
 }
 
+@media (max-width: 540px) {
+	#calendar .day .day-header {
+	    float:none;
+	    margin: auto;
+	}
+
+	#calendar .calendar-releases-list {
+	    margin-left: auto;
+	    text-align: center;
+	}
+}
+
 
 /* Comics page */
 .comics-issue {
