@@ -233,7 +233,7 @@
 
 						<div class="calendar-wrapper" id="issues_list">
 
-							<% Object.entries(calendar).sort().forEach(([date, items]) => {
+							<% Object.entries(calendar).sort().forEach(([date, items]) => { %>
 								<%- include('includes/calendar.ejs', {options: options, date: new Date(date), items: items}); %>
 							<% }); %>
 

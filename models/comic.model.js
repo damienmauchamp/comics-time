@@ -4,6 +4,7 @@ let comics = require('../data/comics'+file_end+'.json')
 const filename = './data/comics'+file_end+'.json'
 const helper = require('../helpers/helper.js')
 const api = require('../api.js')
+const moment = require('moment')
 
 // COMICS
 // getting all comics
@@ -436,16 +437,13 @@ function getCalendar(date_start, date_end) {
 
         const start = new Date(date_start);//.setHours(0,0,0,0);
         const end = new Date(date_end);//.setHours(23,59,59,99);
-        // console.log(start);
-        // console.log(end);
-
         var res = [];
         comics.forEach(function(comic) {
             var issues = comic.issues.filter(i => start <= new Date(i.store_date) && new Date(i.store_date) <= end );
             issues.map(obj => (obj.comics = {id: comic.id, name: comic.name}));
+            issues.map(obj => (obj.read_date = obj.read ? moment(new Date(obj.read)).format('YYYY-MM-DD HH:mm:ss') : false));
             res = res.concat(issues);
         })
-        //res.sort((a, b) => new Date(a.store_date) - new Date(b.store_date));
         resolve(res);
     })
 }

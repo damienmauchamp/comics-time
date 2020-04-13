@@ -487,8 +487,8 @@ function getCalendar(date, direction, more) {
 		method: 'post',
 		data: {
 			direction: direction,
-			date: date,
-			more: more
+			date: date
+			// more: more
 		},
 		success(res) {
 			//console.log(res);
@@ -532,11 +532,11 @@ function getCalendar(date, direction, more) {
 					// console.log(html);
 					if (direction > 0) {
 						$('.calendar-direction#calendar-newer').data('maxDate', max_date);
-						options.calendar.max.date = max_date;
+						// options.calendar.max.date = max_date;
 						$('#issues_list').append(html);
 					} else {
 						$('.calendar-direction#calendar-older').data('minDate', min_date);
-						options.calendar.min.date = min_date;
+						// options.calendar.min.date = min_date;
 						$('#issues_list').prepend(html);
 					}
 					// issues.forEach(i => {
@@ -576,24 +576,23 @@ $(document).on('click', 'a.calendar-direction', function(e) {
 	var direction = 0,
 		date = null;
 
-	if ( $(e.target).data('direction') === 'top' /*scroll.top*/) {
+	if ($(e.target).data('direction') === 'top' /*scroll.top*/) {
 		var direction = -1;
 		var date = $(e.target).data('minDate'); // options.calendar.min.date;
-		console.log(new Date(options.calendar.min.date));
-		var more = options.calendar.min.more;
+		console.log('OLDER, min_date', date, options.calendar.params.min);
+		// var more = options.calendar.min.more;
 		//console.log(options.calendar.min, "prependTo");
 	} else if ( $(e.target).data('direction') === 'bottom' /*scroll.bottom*/) {
 		var direction = 1
 		var date = $(e.target).data('maxDate'); // options.calendar.max.date
-		console.log(new Date(options.calendar.max.date));
-		var more = options.calendar.max.more;
+		console.log('NEWER, max_date', date, options.calendar.params.max);
+		// var more = options.calendar.max.more;
 		//console.log(options.calendar.max, "appendTo");
 	} else {
 		return false;
 	}
 
-	getCalendar(date, direction, more);
-
+	getCalendar(date, direction, true);
 });
 
 

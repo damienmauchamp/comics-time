@@ -24,7 +24,7 @@
 	// console.log({options, date, issue})
 		issue.image_code = 'scale_small';
 %>
-
+ 
 
 <li class=" <%= issue.read ? 'read' : '' %> initialized" id="comics-item-<%= issue.comics.name %>-<%= issue.id %>"
 	data-comics="<%= issue.comics.name %>" data-issue="<%= issue.id %>">
@@ -56,7 +56,7 @@
 			<h2><a href="#"><%= issue.comics.name + ' #' + issue.issue_number %></a></h2>
 			<a class="secondary-link" href="#" <%= !issue.name ? 'style=text-decoration:none;' : '' %>><%= issue.name %>&nbsp;</a>
 			<div class="more-infos"></div>
-			<p><%= issue.read ? ('Read: ' + issue.read) : ''  %>&nbsp;</p>
+			<p><%= issue.read ? ('Read: ' + issue.read_date) : ''  %>&nbsp;</p>
 		</div>
 	</div>
 </li>

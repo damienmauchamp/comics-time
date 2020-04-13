@@ -17,19 +17,13 @@ var options = {
 	main: "home",
 	datatype: "html",
 	lang: "en",
-
 	// search
 	search: {
 		limit: 20
 	},
-	
 	modules: {},
-
 	params: config.PARAMS,
-
 	env: config.ENV,
-
-
 	image_code: 'scale_small'
 }
 
@@ -97,154 +91,37 @@ router.get('/calendar/:type*?', async (req, res, next) => {
 
 	/**
 	 * /calendar page
-	 * min_date: now - X days (first monday)
-	 * max_date: now
 	 */
+	options.calendar.params.min = moment().subtract(options.calendar.const.weeks * 7, "days").startOf('isoWeek').format("YYYY-MM-DD")
+	options.calendar.params.max = options.calendar.const.now.format('YYYY-MM-DD');
 	if (!req.params.type) {
-		options.calendar.params.min = moment().subtract(options.calendar.const.weeks * 7, "days").startOf('isoWeek').format("YYYY-MM-DD")
-		options.calendar.params.max = options.calendar.const.now.format('YYYY-MM-DD');
 	} 
 	/**
 	 * /calendar/data AJAX
-	 * 
-	 * 
 	 */
 	else if (req.params.type === "data") {
 
-		// var date = Number(req.query.date)
-		var direction = req.query.direction ? req.query.direction : 1
-
-		if (direction > 0) {
-			date_start = new Date(date).setDate(new Date(date).getDate() + 1);
-			date_end = new Date(date).setDate(new Date(date).getDate() + days);
-		} else if (direction < 0) {
-			date_end = new Date(date).setDate(new Date(date).getDate() - 1);
-			date_start = new Date(date).setDate(new Date(date).getDate() - days);
+		// OLDER
+		if (req.query.direction < 0) {
+			options.calendar.params.max = moment(req.query.date).subtract(1, "days").format('YYYY-MM-DD');
+			options.calendar.params.min = moment(options.calendar.params.max).subtract(options.calendar.const.weeks * 7, "days").startOf('isoWeek').format("YYYY-MM-DD");
+		}
+		// NEWER
+		else if (req.query.direction > 0) {
+			options.calendar.params.min = moment(req.query.date).add(1, "days").format('YYYY-MM-DD');
+			options.calendar.params.max = moment(options.calendar.params.min).add(options.calendar.const.weeks * 7, "days").endOf('isoWeek').format("YYYY-MM-DD");
+			// options.calendar.params.max = moment(req.query.date).subtract(1, "days").format('YYYY-MM-DD');
+			// options.calendar.params.min = moment(options.calendar.params.max).subtract(options.calendar.const.weeks * 7, "days").startOf('isoWeek').format("YYYY-MM-DD")
 		} else {
 			res.status(500).json({ message: "Direction non valide" })
 			return
 		}
-
 	}
 	else {
 		next()
 	}
-	// var store_date = moment(new Date(i.store_date)).locale(options.lang);
-	// full: store_date.format('YYYY-MM-DD'),
-
-	// options.page = 'calendar';
-	// options.main = 'calendar';
-	// options.modules['moment'] = moment
-	// options.calendar = {
-	// 	min: {
-	// 		date: date_start,
-	// 		more: true
-	// 	},
-	// 	max: {
-	// 		date: date_end,
-	// 		more: true
-	// 	}
-	// }
-
-	//
-	// console.log(options);
-	console.log('min:', options.calendar.params.min);
-	console.log('max:', options.calendar.params.max);
 
 	await comic.getCalendar(options.calendar.params.min, options.calendar.params.max)
-	.then(issues => {
-
-		// ordering by week
-		var by_day = {}
-
-		issues.forEach(i => {
-			if (!by_day[i.store_date]) {
-				var store_date = moment(new Date(i.store_date)).locale(options.lang);
-				by_day[i.store_date] = {
-					format: {
-						full: store_date.format('YYYY-MM-DD'),
-						YYYY: store_date.format('YYYY'),
-						dddd: store_date.format('dddd'),
-						DD: store_date.format('DD'),
-						MMMM: store_date.format('MMMM')
-					},
-					issues: []
-				};
-			}
-			by_day[i.store_date].issues.push(i)
-		})
-
-		//options.calendar.(min|max).more = true|false
-		
-		if (req.params.type === "data") {
-			res.status(200).json({calendar: by_day, options: options})
-		} else {
-			res.render('index.ejs', {calendar: by_day, options: options})
-		}
-	}).catch(err => {
-		if (err.status) {
-			res.status(err.status).json({ message: err.message })
-		} else {
-			res.status(500).json({ message: err.message })
-		}
-	})
-})
-
-//GET /calendar
-router.get('/calendar2/:type*?', async (req, res, next) => {
-	//var path = parseUrl.original(req).pathname.replace(/^\/+|\/+$/g, '');
-
-	var default_days = 7*4, date_start, date_end;
-	const days = !isNaN(req.query.days) && req.query.days <= default_days ? req.query.days : default_days;
-
-	if (!req.params.type) { // /calendar
-		var default_date_end = new Date().getTime();
-		date_end = !isNaN(Date.parse(req.query.date_end)) ? req.query.date_end : default_date_end;
-
-		var default_date_start = new Date(date_end).setDate(new Date(date_end).getDate() - days);
-		date_start = !isNaN(Date.parse(req.query.date_start)) ? req.query.date_start : default_date_start;
-	} else if (req.params.type === "data") { // /calendar/data
-
-		if (typeof req.query.date === "undefined") {
-			res.status(500).json({ message: "Aucune date transmise" })
-			return
-		}
-
-		var date = Number(req.query.date)
-		var direction = req.query.direction ? req.query.direction : 1
-
-		if (direction > 0) {
-			date_start = new Date(date).setDate(new Date(date).getDate() + 1);
-			date_end = new Date(date).setDate(new Date(date).getDate() + days);
-		} else if (direction < 0) {
-			date_end = new Date(date).setDate(new Date(date).getDate() - 1);
-			date_start = new Date(date).setDate(new Date(date).getDate() - days);
-		} else {
-			res.status(500).json({ message: "Direction non valide" })
-			return
-		}
-	} else {
-		next()
-	}
-
-	console.log('========> date_start', new Date(date_start));
-	console.log('========> date_end', new Date(date_end));
-
-	options.page = 'calendar';
-	options.main = 'calendar';
-	options.modules['moment'] = moment
-	options.calendar = {
-		min: {
-			date: date_start,
-			more: true
-		},
-		max: {
-			date: date_end,
-			more: true
-		}
-	}
-
-	await comic.getCalendar(date_start, date_end)
 	.then(issues => {
 
 		// ordering by week
