@@ -12,7 +12,6 @@
 
 */
 
-
 *, :after, :before {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -20,10 +19,10 @@
 }	
 
 :root {
-	--main-bg-color: #121212;
-	--menu-bg-color: #272727;
+	/*--main-bg-color: #121212;*/
+	/*--menu-bg-color: #272727;*/
 
-	--main-color: #FFF;
+	/*--main-color: #FFF;*/
 
 	--main-link-color: #3EA6FF;
 	--alt-link-color: #AAA;
@@ -38,26 +37,68 @@
 	--switch-outer-height: calc(var(--switch-inner-height) + 4px); /* 26px */
 }
 
+
+
+:root {
+	--main-bg-color: #121212;
+	--main-menu-bg-color: #272727;
+	--main-color: #FFFFFF;
+	--main-listed-issue-bg: #000000;
+
+    --dark-bg-color: #121212;
+	--dark-menu-bg-color: #272727;
+	--dark-color: #FFFFFF;
+	--dark-listed-issue-bg: #000000;
+
+	--light-bg-color: #FFFFFF;
+	--light-menu-bg-color: #272727;
+	--light-color: #444444;
+	--light-listed-issue-bg: #ECECEC;
+}
+
+:root, :root .dark {
+    --main-bg-color: var(--dark-bg-color);
+    --main-menu-bg-color: var(--dark-menu-bg-color);
+    --main-color: var(--dark-color);
+    --main-listed-issue-bg: var(--dark-listed-issue-bg);
+}
+
+:root .light {
+	--main-bg-color: var(--light-bg-color);
+	--main-menu-bg-color: var(--light-menu-bg-color);
+	--main-color: var(--light-color);
+	--main-listed-issue-bg: var(--light-listed-issue-bg);
+}
+.light .select2-search,
+.light .select2-search input,
+.light .select2-results {
+	color: #FFFFFF !important;
+}
+.light .fa-read-status {
+	color: var(--main-color);
+}
+
 @media (prefers-color-scheme: light) {
-	:root  {
-		--main-bg-color: #FFFFFF;
-		--main-color: #444444;
+	:root:not(.dark) {
+		--main-bg-color: var(--light-bg-color);
+		--main-menu-bg-color: var(--light-menu-bg-color);
+		--main-color: var(--light-color);
+		--main-listed-issue-bg: var(--light-listed-issue-bg);
 	}
-
-	.comics-issue {
-		background: #ECECEC !important;
-	}
-
-	.fa-read-status {
-		color: var(--main-color) !important;
-	}
-
 	.select2-search,
 	.select2-search input,
 	.select2-results {
 		color: #FFFFFF !important;
 	}
+
+	.fa-read-status {
+		color: var(--main-color);
+	}
+/*	:root:not(.night):not(.dark) .variant-dark {
+	}*/
 }
+
+
 
 body {
 	background: var(--main-bg-color);
@@ -194,7 +235,7 @@ ol, ul {
 
 .page-left {
 	left: 0;
-	background-color: var(--menu-bg-color);
+	background-color: var(--main-menu-bg-color);
 }
 .page-left .extend-left-link {
 	display: none;
@@ -464,7 +505,7 @@ ol, ul {
 
 /* SEARCH BOX */
 .select2-search, .select2-search input, .select2-results {
-	background: var(--menu-bg-color);
+	background: var(--main-menu-bg-color);
 	color: var(--main-color);
 }
 .select2-dropdown {
@@ -684,7 +725,7 @@ span.select2-selection__arrow {
 .comics-issue {
 	padding: 0 10px;
 	margin: 10px;
-	background: black;
+	background: var(--main-listed-issue-bg);
 }
 .comics-issue-top {
 	padding: 10px 0;
@@ -1032,10 +1073,8 @@ a.calendar-direction span.menu-title {
 }
 
 #calendar .calendar-wrapper .day:nth-last-child(2) {
-    border-bottom: none !important;
+	border-bottom: none !important;
 }
-
-
 
 @media (max-width: 768px) {
 	#calendar .calendar-releases-list>li, #calendar .calendar-releases-list>li .release-container {
