@@ -45,7 +45,7 @@
 	--main-color: #FFFFFF;
 	--main-listed-issue-bg: #000000;
 
-    --dark-bg-color: #121212;
+	--dark-bg-color: #121212;
 	--dark-menu-bg-color: #272727;
 	--dark-color: #FFFFFF;
 	--dark-listed-issue-bg: #000000;
@@ -57,10 +57,10 @@
 }
 
 :root, :root .dark {
-    --main-bg-color: var(--dark-bg-color);
-    --main-menu-bg-color: var(--dark-menu-bg-color);
-    --main-color: var(--dark-color);
-    --main-listed-issue-bg: var(--dark-listed-issue-bg);
+	--main-bg-color: var(--dark-bg-color);
+	--main-menu-bg-color: var(--dark-menu-bg-color);
+	--main-color: var(--dark-color);
+	--main-listed-issue-bg: var(--dark-listed-issue-bg);
 }
 
 :root .light {
@@ -720,19 +720,6 @@ span.select2-selection__arrow {
 	}
 }
 
-@media (max-width: 540px) {
-	#calendar .day .day-header {
-	    float:none;
-	    margin: auto;
-	}
-
-	#calendar .calendar-releases-list {
-	    margin-left: auto;
-	    text-align: center;
-	}
-}
-
-
 /* Comics page */
 .comics-issue {
 	padding: 0 10px;
@@ -1097,4 +1084,20 @@ a.calendar-direction span.menu-title {
 	#calendar .calendar-releases-list>li, #calendar .calendar-releases-list>li .release-container {
 		width: 260px;
 	}
+}
+
+@media (max-width: 540px) {
+	#calendar .calendar-releases-list>li, #calendar .calendar-releases-list>li .release-container {
+		width: 185px;
+	}
+	
+/*	#calendar .day .day-header {
+		float:none;
+		margin: auto;
+	}
+
+	#calendar .calendar-releases-list {
+		margin-left: auto;
+		text-align: center;
+	}*/
 }
