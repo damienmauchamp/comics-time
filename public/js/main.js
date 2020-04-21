@@ -179,8 +179,8 @@ $(document).on('click', '.toggle-comics', function(e) {
 				console.error('Error.');
 			}
 
-			if ($('span.nb-items').length) {
-				$('span.nb-items').text($('.toggle-comics:checked').length);
+			if ($('span.nb-items#list-nb-items').length) {
+				$('span.nb-items#list-nb-items').text($('.toggle-comics:checked').length);
 			}
 		}
 	})

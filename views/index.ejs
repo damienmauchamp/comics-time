@@ -258,11 +258,36 @@
 					<% break %>
 
 				<%# LIST %>
-				<% case "list": %>
+				<% case "list":
+					// comic.issues.filter(i => !i.read).length
+
+					// getting done and still actived comics
+					comics_done_actived = comics.filter(c => c.active && !c.issues.filter(i => !i.read).length);
+					comics_done_actived_ids = comics_done_actived.map(c => c.id);
+					//console.log();
+				%>
 
 					<section class="to-read" id="comics-list">
 						<% comics_enabled = comics.filter(c => c.active) %>
-						<h1>Comics list&nbsp;(<span class="nb-items"><%= comics_enabled.length %></span>/<%= comics.length %>)</h1>
+						<h1>All comics&nbsp;(<span class="nb-items" id="list-nb-items"><%= comics_enabled.length %></span>/<%= comics.length %>)</h1>
+
+
+						<% if (comics_done_actived.length) { %>
+							<h2>Finished Comics &nbsp;(<span class="nb-items-finished"><%= comics_done_actived.length %>)</h2>
+							<%
+							// sorting by name
+							comics_done_actived.sort((a, b) => {
+								if(a.name < b.name) { return -1; }
+								if(a.name > b.name) { return 1; }
+								return 0;
+							})
+							comics_done_actived.forEach( comic => {%>
+								<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
+							<% }); %>
+							<hr/>
+						<% } %>
+
+
 						<%
 						// sorting by name
 						comics.sort((a, b) => {
@@ -270,7 +295,11 @@
 							if(a.name > b.name) { return 1; }
 							return 0;
 						})
-						comics.forEach( comic => { %>
+						comics.forEach( comic => { 
+							if (comics_done_actived_ids.includes(comic.id)) {
+								console.log(comic.id)
+								return;
+							} %>
 							<%- include('includes/comic.ejs', {options: options, comic: comic}) %>
 						<% }); %>
 					</section>

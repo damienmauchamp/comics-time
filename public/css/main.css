@@ -151,6 +151,10 @@ ol, ul {
 	margin-bottom: 10px;
 }
 
+hr {
+	border-color: #666;
+}
+
 .header .menu, .page-left .menu {
 	font-size: 0;
 	margin: 0 0 10px;
@@ -301,12 +305,25 @@ ol, ul {
 	padding: 20px 12px 0;
 }
 
-.page-center section h1 {
+.page-center section h1,
+.page-center section h2 {
 	/*font-family: ProximaNova;*/
 	color: #666;
-	margin: 0 0 0 12px;
 	line-height: 24px;
+}
+
+.page-center section h1 {
+	margin: 0 0 0 12px;
 	font-size: 19px;
+}
+
+.page-center section h2 {
+	margin: 5px 0px 0 12px;
+	font-size: 16px;
+}
+
+.page-center section hr {
+	margin: 10px;
 }
 
 .page-center-inner {
@@ -1126,12 +1143,12 @@ a.calendar-direction span.menu-title {
 }
 
 .page-left .nav-bottom i.settings-cog {
-    color: var(--alt-link-color);
+	color: var(--alt-link-color);
 }
 
 @media (max-width: 768px) {
 	.page-left .nav-bottom {
-	    font-size: 21px;
+		font-size: 21px;
 	}	
 
 	.page-left:not(.extended) .nav-bottom {
