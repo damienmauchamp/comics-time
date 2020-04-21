@@ -245,6 +245,8 @@ ol, ul {
 	height: 100%;
 }
 .page-left #home-link {
+	z-index: 1;
+	position: relative;
 	text-align: center;
 	margin: 12px auto;
 	display: block;
@@ -1093,8 +1095,8 @@ a.calendar-direction span.menu-title {
 }
 
 @media (max-width: 480px) {
-    /*margin-left: 0;
-    margin-right: 0;*/
+	/*margin-left: 0;
+	margin-right: 0;*/
 	#calendar .day .day-header {
 		float:none;
 		margin: auto;
@@ -1106,9 +1108,34 @@ a.calendar-direction span.menu-title {
 	}
 
 	#calendar .calendar-releases-list>li, #calendar .calendar-releases-list>li .release-container {
-	    width: 185px;
-	    margin-left: 0;
-	    margin-right: 0;
-	    width: 100%;
+		width: 185px;
+		margin-left: 0;
+		margin-right: 0;
+		width: 100%;
 	}
+}
+
+/* SETTINGS */
+
+.page-left .nav-bottom {
+	position: absolute;
+	bottom: 0;
+	margin: 20px;
+	transition: opacity .5s, visibility .5s;
+	z-index: 0;
+}
+
+.page-left .nav-bottom i.settings-cog {
+    color: var(--alt-link-color);
+}
+
+@media (max-width: 768px) {
+	.page-left .nav-bottom {
+	    font-size: 21px;
+	}	
+
+	.page-left:not(.extended) .nav-bottom {
+		opacity: 0;
+		visibility: hidden;
+	}	
 }
