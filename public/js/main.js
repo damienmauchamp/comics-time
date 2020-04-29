@@ -182,6 +182,10 @@ $(document).on('click', '.toggle-comics', function(e) {
 			if ($('span.nb-items#list-nb-items').length) {
 				$('span.nb-items#list-nb-items').text($('.toggle-comics:checked').length);
 			}
+			
+			if (typeof disable === "function") {
+				disable(params);
+			}
 		}
 	})
 });
