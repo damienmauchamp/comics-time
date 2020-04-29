@@ -156,7 +156,7 @@
 	<%
 		const isHomepage = typeof options.page === 'undefined' || options.page === 'homepage';
 		comic.link = isHomepage ? ('comics/' + comic.id) : (options.page === 'issue' ? '../' : './' + comic.id);
-		comic.image_code = isHomepage ? 'scale_avatar' : (options.page === 'comics' ? 'scale_small' : 'scale_avatar');
+		comic.image_code = isHomepage ? 'scale_avatar' : (options.page === 'comics' ? 'scale_medium' : 'scale_avatar');
 		comic.full_name = comic.name + ' (' + comic.start_year + ')';
 	%>
 
