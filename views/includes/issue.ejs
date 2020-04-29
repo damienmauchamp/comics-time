@@ -13,14 +13,14 @@
 	<%# COMICS %>
 	<% 	case "comics":
 		case "history":
-		issue.image_code = 'scale_small';
-		if (!issue.image) {
-			issue.image = '';
-		}
-		if (!issue.added) {
-			issue.added = null;
-		}
-		issue.link = comic.link + '/issue/' + issue.id;
+			issue.image_code = 'scale_medium';
+			if (!issue.image) {
+				issue.image = '';
+			}
+			if (!issue.added) {
+				issue.added = null;
+			}
+			issue.link = comic.link + '/issue/' + issue.id;
 	%>
 	<div class="comics-issue" id="comics-item-<%= comic.id %>-<%= issue.id %>" data-comics="<%= comic.id %>" data-issue="<%= issue.id %>"
 		 data-date="<%= issue.read_format %>" title="<%= options.page === 'history' ? 'Read : ' + issue.read_format : '' %>">
