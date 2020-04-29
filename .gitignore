@@ -76,6 +76,9 @@ public/index*
 #custom files
 public/js/addons*
 
+# tests
+tests
+
 # personal files
 #utils/
 

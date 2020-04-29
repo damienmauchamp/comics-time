@@ -19,11 +19,11 @@ const API = function(config) {
 API.prototype.get_prefixe = function (path) {
 	switch(path.replace('/', '')) {
 		case 'issue':
-		return 4000;
+			return 4000;
 		case 'volume':
-		return 4050;
+			return 4050;
 		default:
-		return '';
+			return '';
 	}
 	return;
 }

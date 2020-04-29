@@ -164,6 +164,7 @@ router.get('/calendar/:type*?', async (req, res, next) => {
 router.get('/list', async (req, res) => {
 	options.page = 'list';
 	options.main += ' list';
+	options.image_code = 'scale_medium';
 
 	await comic.getAllComics(false)
 	.then(function(comics) {
@@ -372,6 +373,7 @@ router.get('/history', async(req, res) => {
 router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 	const id = req.params.id
 	options.page = 'comics';
+	options.image_code = 'scale_medium';
 
 	await comic.getComics(id)
 	.then(function(comics) {
@@ -485,6 +487,7 @@ router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 	const page = req.query.page || 1;
 	const limit = 100;
 	const offset = (page - 1) * limit;
+	options.image_code = 'scale_medium';
 
 	// volume 
 	var volume = parseInt(req.params.id)
