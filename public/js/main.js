@@ -205,6 +205,11 @@ $(document).on('click', '.fa-refresh-comics', function(e) {
 		method: 'put',
 		success(response) {
 			console.log('updated', response);
+			
+			if (typeof sync === "function") {
+				sync(params);
+			}
+
 			window.location.reload();
 		}
 	})
