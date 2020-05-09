@@ -1,6 +1,7 @@
 // Import config
 const config = require('./config.js');
 
+// SSL if the certificate and the key are found
 const ssl = config.PRIVATE_KEY && config.CERTIFICATE;
 
 if (ssl) {
@@ -9,7 +10,6 @@ if (ssl) {
 	var https = require('https');
 	var privateKey  = fs.readFileSync(config.PRIVATE_KEY, 'utf8');
 	var certificate = fs.readFileSync(config.CERTIFICATE, 'utf8');
-
 	var credentials = {key: privateKey, cert: certificate};
 }
 
