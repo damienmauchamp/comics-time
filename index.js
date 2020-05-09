@@ -1,3 +1,18 @@
+// Import config
+const config = require('./config.js');
+
+const ssl = config.PRIVATE_KEY && config.CERTIFICATE;
+
+if (ssl) {
+	var fs = require('fs');
+	var http = require('http');
+	var https = require('https');
+	var privateKey  = fs.readFileSync(config.PRIVATE_KEY, 'utf8');
+	var certificate = fs.readFileSync(config.CERTIFICATE, 'utf8');
+
+	var credentials = {key: privateKey, cert: certificate};
+}
+
 // Import packages
 const express = require('express')
 const morgan = require('morgan')
@@ -21,4 +36,19 @@ app.use(favicon(__dirname + '/public/favicon.ico'))
 app.use(express.static(__dirname + '/public'));
 
 // Starting server
-app.listen('1337')
+if (ssl) {
+	var httpServer = http.createServer(app);
+	var httpsServer = https.createServer(credentials, app);
+
+	httpServer.listen(config.HTTP_PORT);
+	httpsServer.listen(config.HTTPS_PORT);
+
+	console.log('Starting server')
+	console.log(`HTTP on port ${config.HTTP_PORT}`)
+	console.log(`HTTPS on port ${config.HTTPS_PORT}`)
+} else {
+	app.listen(config.HTTP_PORT)
+	console.log(`Starting server on port ${config.HTTP_PORT}`)
+}
+
+//

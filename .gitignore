@@ -76,6 +76,9 @@ public/index*
 #custom files
 public/js/addons*
 
+# certs
+ssl-cert
+
 # tests
 tests
 
