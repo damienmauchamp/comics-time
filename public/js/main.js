@@ -115,7 +115,8 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 					increase_count.text(parseInt(increase_count.text()) + 1);
 					decrease_count.text(parseInt(decrease_count.text()) - 1);
 					moveElement(item, '.to-read#done ul.to-read-list');
-					return false;
+					
+					// return false;
 				} else if (section === "not-started") {
 					// console.log("moving to", section);
 
