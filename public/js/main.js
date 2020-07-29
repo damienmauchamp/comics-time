@@ -194,8 +194,9 @@ $(document).on('click', '.toggle-comics', function(e) {
 // update volume
 $(document).on('click', '.fa-refresh-comics', function(e) {
 	e.preventDefault();
-	$(this)
-		.prop('disabled', true)
+
+	var $icon = $(this)
+	$icon.prop('disabled', true)
 		.addClass('disabled')
 		.addClass('fa-spin');
 
@@ -211,10 +212,16 @@ $(document).on('click', '.fa-refresh-comics', function(e) {
 				sync({
 					comics: id,
 					active: $('.toggle-comics').prop('checked')
-				});
+				}, true);
 			}
 
-			window.location.reload();
+			$icon.prop('disabled', false)
+				.removeClass('disabled')
+				.removeClass('fa-spin');
+
+			setTimeout(function() {
+				window.location.reload();
+			}, 5000);
 		}
 	})
 });
