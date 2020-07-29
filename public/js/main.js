@@ -208,7 +208,10 @@ $(document).on('click', '.fa-refresh-comics', function(e) {
 			console.log('updated', response);
 			
 			if (typeof sync === "function") {
-				sync(params);
+				sync({
+					comics: id,
+					active: $('.toggle-comics').prop('checked')
+				});
 			}
 
 			window.location.reload();
