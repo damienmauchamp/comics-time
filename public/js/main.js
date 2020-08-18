@@ -591,6 +591,20 @@ function getCalendar(date, direction, more) {
 
 }
 
+// scroll to first unread on comics
+function scrollToUnread() {
+	var $first = $(".comics-unread").first();
+	if (!$first.length) {
+		return false;
+	}
+
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $first.offset().top - $first.height() - 38
+    }, 2000);
+
+	$(".comics-unread").first().height()
+}
+
 $(document).on('click', 'a.calendar-direction', function(e) {
 
 	var direction = 0,
@@ -615,6 +629,12 @@ $(document).on('click', 'a.calendar-direction', function(e) {
 	getCalendar(date, direction, true);
 });
 
+$(function() {
+	// Scrolling to the first unread issue
+	if (options.page === "comics") {
+		scrollToUnread() 
+	}
+})
 
 // infinite scroll setup
 // $(window).on('scroll', function() {
