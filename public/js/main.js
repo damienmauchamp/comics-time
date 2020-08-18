@@ -599,7 +599,7 @@ function scrollToUnread() {
 	}
 
     $([document.documentElement, document.body]).animate({
-        scrollTop: $first.offset().top - $first.height() - 38
+        scrollTop: $first.offset().top - $first.height() - 28
     }, 2000);
 
 	$(".comics-unread").first().height()
@@ -632,7 +632,7 @@ $(document).on('click', 'a.calendar-direction', function(e) {
 $(function() {
 	// Scrolling to the first unread issue
 	if (options.page === "comics") {
-		scrollToUnread() 
+		scrollToUnread();
 	}
 })
 
