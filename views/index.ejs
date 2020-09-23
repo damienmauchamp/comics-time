@@ -1,5 +1,13 @@
 <%
-	const logo = '/images/logo_64.png';
+	const logo_32 = '/images/logo_32.png';
+	const logo_48 = '/images/logo_48.png';
+	const logo_64 = '/images/logo_64.png';
+	const logo_96 = '/images/logo_96.png';
+	const logo_128 = '/images/logo_128.png';
+	const logo_144 = '/images/logo_144.png';
+	const logo_192 = '/images/logo_192.png';
+	const logo_1024 = '/images/logo_1024.png';
+	const logo = logo_64;
 %>
 
 <!DOCTYPE html>
@@ -9,15 +17,18 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta charset="utf-8">
 	<%#meta name="viewport" content="width=1040"%>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<%#meta name="MobileOptimized" content="1040"%>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta http-equiv="content-language" content="en">
 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" >
-	<link rel="icon" href="<%= logo %>" sizes="32x32" >
-	<link rel="icon" href="<%= logo %>" sizes="48x48" >
-	<link rel="icon" href="<%= logo %>" sizes="96x96" >
-	<link rel="icon" href="<%= logo %>" sizes="144x144" >
+	<link rel="icon apple-touch-icon" href="<%= logo_32 %>" sizes="32x32" >
+	<link rel="icon apple-touch-icon" href="<%= logo_48 %>" sizes="48x48" >
+	<link rel="icon apple-touch-icon" href="<%= logo_64 %>" sizes="64x64" >
+	<link rel="icon apple-touch-icon" href="<%= logo_96 %>" sizes="96x96" >
+	<link rel="icon apple-touch-icon" href="<%= logo_128 %>" sizes="128x128">
+	<link rel="icon apple-touch-icon" href="<%= logo_144 %>" sizes="144x144">
+	<link rel="icon apple-touch-icon" href="<%= logo_192 %>" sizes="192x192">
 
 	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -70,7 +81,7 @@
 			<div class="scrollable scrolling-element">
 				<div class="wrapper">
 					<a id="home-link" href="/"> <%# height: 66px; %>
-						<img class="logo" src="/images/logo_64.png" alt="COMICS TIME"> <span id="home-text">Comics Time</span>
+						<img class="logo" src="<%= logo %>" alt="COMICS TIME"> <span id="home-text">Comics Time</span>
 					</a>
 
 					<div class="" id="search-wrap">
