@@ -435,6 +435,11 @@ $('#update').on('click', function() {
 					.find('.menu-title').text('Updated !');
 				$('#update').find('.fa-sync-alt')
 					.removeClass('fa-spin');
+
+					//sync
+					if (typeof sync === "function") {
+						sync();
+					}
 				console.log('Comics updated');
 			});
 
