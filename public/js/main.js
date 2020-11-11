@@ -290,6 +290,7 @@ $('#search').select2({
 	}*/
 	//templateSelection: formatRepoSelection
 })
+// POST /comics/:id (adding a comics)
 .on("select2:select", function(e, i) {
 
 	console.log('ajout', $(this).val());
@@ -304,6 +305,14 @@ $('#search').select2({
 
 			// reset
 			$('#search').val('').trigger('change');
+
+			// Syncing
+			if (typeof add === "function") {
+				add({
+					comics: id,
+					active: true
+				}, true);
+			}
 		},
 		error(res) {
 			// reset
