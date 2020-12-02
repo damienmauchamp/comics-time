@@ -1158,8 +1158,12 @@ a.calendar-direction span.menu-title {
 }
 
 /* DEV */
-body.env__dev .page-center section:first-child h1 {
+/*body.env__dev .page-center section:first-child h1 {*/
+body.env__dev .page-center section#comics-history:first-child h1 {
 	padding-right: 50px;
+}
+body.env__dev .page-center section#comics-calendar:first-child h1 {
+	padding-right: 126px;
 }
 body.env__dev .page-center section:first-child h1:after {
 	content: "\f109";
