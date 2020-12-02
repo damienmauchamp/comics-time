@@ -10,6 +10,7 @@ module.exports = {
 	HTTPS_PORT: process.env.HTTPS_PORT || '9443',
 	PRIVATE_KEY: process.env.PRIVATE_KEY || '',
 	CERTIFICATE: process.env.CERTIFICATE || '',
+	ADDONS_JS: process.env.ADDONS_JS || 'addons',
 
 	// You can add any params
 	PARAMS: {

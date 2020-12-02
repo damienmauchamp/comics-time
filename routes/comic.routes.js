@@ -24,7 +24,8 @@ var options = {
 	modules: {},
 	params: config.PARAMS,
 	env: config.ENV,
-	image_code: 'scale_small'
+	image_code: 'scale_small',
+	addons_js: config.ADDONS_JS
 }
 
 //
