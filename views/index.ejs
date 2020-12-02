@@ -58,7 +58,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300" rel="stylesheet">
 
 
-	<title>Comics Time</title>
+	<title><%= options.env !== 'prod' ? ('[' + options.env + '] ') : '' %>Comics Time</title>
 	<%# jQuery %>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<%# select2 %>
