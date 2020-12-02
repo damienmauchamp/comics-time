@@ -1156,3 +1156,15 @@ a.calendar-direction span.menu-title {
 		visibility: hidden;
 	}	
 }
+
+/* DEV */
+body.env__dev .page-center section:first-child h1 {
+	padding-right: 50px;
+}
+body.env__dev .page-center section:first-child h1:after {
+	content: "\f109";
+	float: right;
+	font-family: 'FontAwesome';
+	color: #FBD406;
+	font-size: 10px;
+}

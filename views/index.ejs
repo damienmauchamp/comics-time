@@ -91,7 +91,7 @@
 	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js" integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/fr.js" integrity="sha256-D0tqyrTQHDExvGYoi+kyInjV47fm30M5qq4whUrMuuE=" crossorigin="anonymous"></script-->
 </head>
-<body id="container" class="">
+<body id="container" class="<%= options.env !== 'prod' ? ('env__' + options.env) : '' %>">
 	<div id="main">
 
 
