@@ -12,6 +12,12 @@ const moment = require('moment')
 
 const config = require('../config.js');
 
+
+
+	// config.hostname = process.env.BASEURL;
+	// console.log(process.env)
+	// console.log(process.env.BASEURL)
+
 var options = {
 	page: "default",
 	main: "home",
@@ -25,7 +31,8 @@ var options = {
 	params: config.PARAMS,
 	env: config.ENV,
 	image_code: 'scale_small',
-	addons_js: config.ADDONS_JS
+	addons_js: config.ADDONS_JS,
+	pathname: config.URL_PATHNAME
 }
 
 //

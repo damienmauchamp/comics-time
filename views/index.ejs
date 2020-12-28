@@ -22,11 +22,11 @@
 	<%# meta:viewport %>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<%# link:icons %>
-	<link rel="apple-touch-icon" sizes="192x192" href="<%= logo_192 %>">
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-	<link rel="icon" type="image/png" sizes="32x32" href="<%= logo_32 %>">
-	<!-- <link rel="mask-icon" href="<%= mask_icon %>" color="#121212"> -->
-	<!-- <link rel="manifest" href="/assets/manifest.webmanifest"> -->
+	<link rel="apple-touch-icon" sizes="192x192" href="<%= options.pathname + logo_192 %>">
+	<link rel="shortcut icon" type="image/x-icon" href="<%= options.pathname %>/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="<%= options.pathname + logo_32 %>">
+	<!-- <link rel="mask-icon" href="<%= options.pathname + mask_icon %>" color="#121212"> -->
+	<!-- <link rel="manifest" href="<%= options.pathname %>/assets/manifest.webmanifest"> -->
 	<meta name="theme-color" content="#121212">
 
 
@@ -36,21 +36,21 @@
 	<%#meta name="viewport" content="width=1040"%>
 	<%#meta name="MobileOptimized" content="1040"%>
 
-	<!-- <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" > -->
-	<!-- <link rel="icon" href="<%= logo_32 %>" sizes="32x32"> -->
-	<!-- <link rel="apple-touch-icon" href="<%= logo_32 %>" sizes="32x32"> -->
-	<!-- <link rel="icon" href="<%= logo_48 %>" sizes="48x48"> -->
-	<!-- <link rel="apple-touch-icon" href="<%= logo_48 %>" sizes="48x48"> -->
-	<!-- <link rel="icon" href="<%= logo_64 %>" sizes="64x64"> -->
-	<!-- <link rel="apple-touch-icon" href="<%= logo_64 %>" sizes="64x64"> -->
-	<!-- <link rel="icon" href="<%= logo_96 %>" sizes="96x96"> -->
-	<!-- <link rel="apple-touch-icon" href="<%= logo_96 %>" sizes="96x96"> -->
-	<!-- <link rel="icon" href="<%= logo_128 %>" sizes="128x128"> -->
-	<!-- <link rel="apple-touch-icon" href="<%= logo_128 %>" sizes="128x128"> -->
-	<!-- <link rel="icon" href="<%= logo_144 %>" sizes="144x144"> -->
-	<!-- <link rel="apple-touch-icon" href="<%= logo_144 %>" sizes="144x144"> -->
-	<!-- <link rel="icon" href="<%= logo_192 %>" sizes="192x192"> -->
-	<!-- <link rel="apple-touch-icon" href="<%= logo_192 %>" sizes="192x192"> -->
+	<!-- <link rel="shortcut icon" href="<%= options.pathname %>/favicon.ico" type="image/x-icon" > -->
+	<!-- <link rel="icon" href="<%= options.pathname + logo_32 %>" sizes="32x32"> -->
+	<!-- <link rel="apple-touch-icon" href="<%= options.pathname + logo_32 %>" sizes="32x32"> -->
+	<!-- <link rel="icon" href="<%= options.pathname + logo_48 %>" sizes="48x48"> -->
+	<!-- <link rel="apple-touch-icon" href="<%= options.pathname + logo_48 %>" sizes="48x48"> -->
+	<!-- <link rel="icon" href="<%= options.pathname + logo_64 %>" sizes="64x64"> -->
+	<!-- <link rel="apple-touch-icon" href="<%= options.pathname + logo_64 %>" sizes="64x64"> -->
+	<!-- <link rel="icon" href="<%= options.pathname + logo_96 %>" sizes="96x96"> -->
+	<!-- <link rel="apple-touch-icon" href="<%= options.pathname + logo_96 %>" sizes="96x96"> -->
+	<!-- <link rel="icon" href="<%= options.pathname + logo_128 %>" sizes="128x128"> -->
+	<!-- <link rel="apple-touch-icon" href="<%= options.pathname + logo_128 %>" sizes="128x128"> -->
+	<!-- <link rel="icon" href="<%= options.pathname + logo_144 %>" sizes="144x144"> -->
+	<!-- <link rel="apple-touch-icon" href="<%= options.pathname + logo_144 %>" sizes="144x144"> -->
+	<!-- <link rel="icon" href="<%= options.pathname + logo_192 %>" sizes="192x192"> -->
+	<!-- <link rel="apple-touch-icon" href="<%= options.pathname + logo_192 %>" sizes="192x192"> -->
 
 	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -69,11 +69,11 @@
 	<script src="/js/ejs.js"></script>
 	<%# custom %>
 	
-	<link rel="stylesheet" type="text/css" href="/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="<%= options.pathname %>/css/main.css" />
 
 	<%# dev only %>
 	
-	<link href="/css/prism.css" rel="stylesheet" />
+	<link href="<%= options.pathname %>/css/prism.css" rel="stylesheet" />
 	<style>
 		code[class*="language-"], pre[class*="language-"] {
 			font-size: 12px;
@@ -102,7 +102,7 @@
 
 			<div class="scrollable scrolling-element">
 				<div class="wrapper">
-					<a id="home-link" href="/"> <%# height: 66px; %>
+					<a id="home-link" href="<%= options.pathname %>/"> <%# height: 66px; %>
 						<img class="logo" src="<%= logo %>" alt="COMICS TIME"> <span id="home-text">Comics Time</span>
 					</a>
 
@@ -116,7 +116,7 @@
 						<ul class="menu list-unstyled">
 
 							<li class="calendar">
-								<a href="/calendar" title="Calendar">
+								<a href="<%= options.pathname %>/calendar" title="Calendar">
 									<i class="fas fa-calendar icon-tvst-calendar-alt">
 										<span class="calendar-day"><%= ("0" + new Date().getDate()).slice(-2) %></span>
 									</i>
@@ -125,14 +125,14 @@
 							</li>
 
 							<li class="list">
-								<a href="/list" id="list" title="All comics">
+								<a href="<%= options.pathname %>/list" id="list" title="All comics">
 									<i class="fas fa-list icon-tvst-calendar-alt"></i>
 									<span class="menu-title">All comics</span>
 								</a>
 							</li>
 
 							<li class="history">
-								<a href="/history" id="history" title="history">
+								<a href="<%= options.pathname %>/history" id="history" title="history">
 									<i class="fas fa-history icon-tvst-calendar-alt"></i>
 									<span class="menu-title">History</span>
 								</a>
@@ -146,7 +146,7 @@
 							</li>
 
 							<li class="backup">
-								<a href="/backup" id="backup" title="backup" download="comics_<%= new Date().getFullYear() + '' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '' + ("0" + new Date().getDate()).slice(-2) %>.json">
+								<a href="<%= options.pathname %>/backup" id="backup" title="backup" download="comics_<%= new Date().getFullYear() + '' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '' + ("0" + new Date().getDate()).slice(-2) %>.json">
 									<i class="fa fa-download icon-tvst-calendar-alt"></i>
 									<span class="menu-title">Backup</span>
 								</a>

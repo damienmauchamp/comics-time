@@ -11,6 +11,7 @@ module.exports = {
 	PRIVATE_KEY: process.env.PRIVATE_KEY || '',
 	CERTIFICATE: process.env.CERTIFICATE || '',
 	ADDONS_JS: process.env.ADDONS_JS || 'addons',
+	URL_PATHNAME: process.env.URL_PATHNAME || '',
 
 	// You can add any params
 	PARAMS: {
