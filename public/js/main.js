@@ -368,7 +368,7 @@ $('#history-older').on('click', function() {
 			}
 
 			var html = '';
-			$.get(options.pathname + 'template/issue.ejs', function (template) {
+			$.get(options.pathname + '/template/issue.ejs', function (template) {
 				issues.forEach(i => {
 					history_displayed_issues.push(i.id);
 					// html += '<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript">' + JSON.stringify(i) + '</code></pre>';
@@ -451,7 +451,7 @@ $('#update').on('click', function() {
 
 function template(name, data, element, before_after = 'before', returning = false) {
 	// Grab the template
-	$.get(options.pathname + 'template/' + name + '.ejs', function (template) {
+	$.get(options.pathname + '/template/' + name + '.ejs', function (template) {
 		var func = ejs.compile(template);
 		var html = func(data);
 		if (before_after === 'before') {
@@ -536,7 +536,7 @@ function getCalendar(date, direction, more) {
 				});
 
 
-				$.get(options.pathname + 'template/calendar.ejs', function (template) {
+				$.get(options.pathname + '/template/calendar.ejs', function (template) {
 					// var min_date = Object.entries(issues_cal).reverse()[0];
 					// var max_date = null;
 					var calendar_days = Object.keys(issues_cal).reverse();
