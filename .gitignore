@@ -73,6 +73,10 @@ public/index*
 .json
 *.psd
 
+# conf
+conf*
+.conf
+
 #custom files
 public/js/addons*
 
