@@ -66,7 +66,7 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.full.js"></script>
 	<%# EJS %>
-	<script src="/js/ejs.js"></script>
+	<script src="<%= options.pathname %>/js/ejs.js"></script>
 	<%# custom %>
 	
 	<link rel="stylesheet" type="text/css" href="<%= options.pathname %>/css/main.css" />
@@ -103,7 +103,7 @@
 			<div class="scrollable scrolling-element">
 				<div class="wrapper">
 					<a id="home-link" href="<%= options.pathname %>/"> <%# height: 66px; %>
-						<img class="logo" src="<%= logo %>" alt="COMICS TIME"> <span id="home-text">Comics Time</span>
+						<img class="logo" src="<%= options.pathname + logo %>" alt="COMICS TIME"> <span id="home-text">Comics Time</span>
 					</a>
 
 					<div class="" id="search-wrap">
@@ -402,11 +402,11 @@
 	}
 		%>
 	</script>
-	<script src="/js/main.js"></script>
+	<script src="<%= options.pathname %>/js/main.js"></script>
 	<%# addons %>
-	<script src="/js/<%= options.addons_js %>.js"></script>
+	<script src="<%= options.pathname %>/js/<%= options.addons_js %>.js"></script>
 	<%# dev only %>
-	<script src="/js/prism.js"></script>
+	<script src="<%= options.pathname %>/js/prism.js"></script>
 
 	<style>
 		/*
