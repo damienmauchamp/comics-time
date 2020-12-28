@@ -294,8 +294,9 @@ $('#search').select2({
 .on("select2:select", function(e, i) {
 
 	console.log('ajout', $(this).val());
+	var id = $(this).val();
 	$.ajax({
-		url: '/comics/' + $(this).val(),
+		url: '/comics/' + id,
 		dataType: 'json',
 		method: 'post',
 		success(res) {

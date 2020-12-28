@@ -50,7 +50,7 @@
 
 		<div class="image-crop">
 			<div class="new-label">New</div>
-			<a href="<%= comic.link %>">
+			<a href=".<%= comic.link %>">
 				<img id="img-<%= comic.id %>" loading="lazy" src="<%= comic.to_read.image %>" alt="<%= comic.name %>">
 			</a>
 			<div class="progress">
@@ -65,7 +65,7 @@
 		</div>
 
 		<div class="issue-details cover-details">
-			<h2><a href="<%= comic.link %>"><%= comic.name %> <span class="issue-number">#<%= comic.to_read.issue_number %></span></a>
+			<h2><a href=".<%= comic.link %>"><%= comic.name %> <span class="issue-number">#<%= comic.to_read.issue_number %></span></a>
 				<!--span class="nb-remainging-issues">+ X more</span-->
 			</h2>
 			<!--a class="nb-reviews-link secondary-link" href="#">+ x more</a-->
@@ -164,13 +164,13 @@
 		<a href="..">Retour</a><br/>
 	<% } %>
 
-	<a href="<%= comic.link %>">
+	<a href=".<%= comic.link %>">
 		<img src="<%= comic.image.replace('{{code}}', comic.image_code) %>" loading="lazy" />
 	</a><br/>
 
 	<li>Link: <%= comic.link %></li>
 
-	<li><a href="<%= comic.link %>"><%= comic.full_name %></a></li>
+	<li><a href=".<%= comic.link %>"><%= comic.full_name %></a></li>
 	<li>Name: <%= comic.name %></li>
 	<li>Number of issues: <%= comic.nb_issues %></li>
 	<li>Publisher: <%= comic.publisher.name %></li>
@@ -178,6 +178,6 @@
 	<li>Added: <%= comic.date.added %></li>
 	<li>Updated: <%= comic.date.updated %></li>
 
-	<li><a href="<%= comic.link %>">See all issues</a></li>
+	<li><a href=".<%= comic.link %>">See all issues</a></li>
 
 <% } %>
