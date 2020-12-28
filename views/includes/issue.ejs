@@ -51,12 +51,12 @@
 	<% break %>
 <% } %>
 
-<!--a href=".<%= issue.link %>" <%= options.page %>>
+<!--a href="<%= options.pathname + issue.link %>" <%= options.page %>>
 	<img src="<%= issue.image.replace('{{code}}', issue.image_code) %>" loading="lazy" />
 </a><br/>
 <ul>
 	<li>#<%= issue.issue_number %></li>
-	<li><a href=".<%= issue.link %>"><%= comic.name + " #" + issue.issue_number %></a></li>
+	<li><a href="<%= options.pathname + issue.link %>"><%= comic.name + " #" + issue.issue_number %></a></li>
 	<li><%= issue.id %></li>
 	<li>Name: <%= issue.name %></li>
 	<li>Store date: <%= issue.store_date %></li>
