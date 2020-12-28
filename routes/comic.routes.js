@@ -38,6 +38,8 @@ var options = {
 //
 // @todo
 router.use('', function (req, res, next) {
+	console.log(parseUrl.original(req).pathname);
+	console.log(req.baseUrl);
 	if (parseUrl.original(req).pathname !== req.baseUrl)
 		return next(); // skip this for strictness
 });
