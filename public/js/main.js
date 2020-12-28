@@ -43,7 +43,7 @@ $(document).on('click', '.comics:not(.complete) .to-read-icon, .comics-issue .fa
 	//console.log('adding loading to img', img_element);
 
 	$.ajax({
-		url: '/read',
+		url: options.pathname + '/read',
 		dataType: 'json',
 		method: 'post',
 		data: params,
@@ -169,7 +169,7 @@ $(document).on('click', '.toggle-comics', function(e) {
 	}
 
 	$.ajax({
-		url: '/active',
+		url: options.pathname + '/active',
 		dataType: 'json',
 		method: 'post',
 		data: params,
@@ -202,7 +202,7 @@ $(document).on('click', '.fa-refresh-comics', function(e) {
 
 	var id = $(this).closest('.comics-issue').data('comics');
 	$.ajax({
-		url: '/comics/' + id + '/issues',
+		url: options.pathname + '/comics/' + id + '/issues',
 		dataType: 'json',
 		method: 'put',
 		success(response) {
@@ -234,7 +234,7 @@ $('.page-left .extend-left-link').on('click touch', e => {
 // /search
 $('#search').select2({
 	ajax: {
-		url: '/search',
+		url: options.pathname + '/search',
 		dataType: 'json',
 		method: 'get',
 		delay: 1000,
@@ -296,7 +296,7 @@ $('#search').select2({
 	console.log('ajout', $(this).val());
 	var id = $(this).val();
 	$.ajax({
-		url: '/comics/' + id,
+		url: options.pathname + '/comics/' + id,
 		dataType: 'json',
 		method: 'post',
 		success(res) {
@@ -352,7 +352,7 @@ $('#history-older').on('click', function() {
 	}
 
 	$.ajax({
-		url: '/history',
+		url: options.pathname + '/history',
 		dataType: 'json',
 		method: 'get',
 		data: params,
@@ -368,7 +368,7 @@ $('#history-older').on('click', function() {
 			}
 
 			var html = '';
-			$.get('template/issue.ejs', function (template) {
+			$.get(options.pathname + 'template/issue.ejs', function (template) {
 				issues.forEach(i => {
 					history_displayed_issues.push(i.id);
 					// html += '<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript">' + JSON.stringify(i) + '</code></pre>';
@@ -407,7 +407,7 @@ $('#update').on('click', function() {
 	$(this).find('.fa-sync-alt')
 		.addClass('fa-spin');
 	$.ajax({
-		url: '/update',
+		url: options.pathname + '/update',
 		dataType: 'json',
 		method: 'get',
 		success(response) {
@@ -419,7 +419,7 @@ $('#update').on('click', function() {
 			var updates = [];
 			response.forEach(function(v) {
 				var update_request = $.ajax({
-					url: '/comics/' + v + '/issues',
+					url: options.pathname + '/comics/' + v + '/issues',
 					dataType: 'json',
 					method: 'put',
 					success(response) {
@@ -451,7 +451,7 @@ $('#update').on('click', function() {
 
 function template(name, data, element, before_after = 'before', returning = false) {
 	// Grab the template
-	$.get('template/' + name + '.ejs', function (template) {
+	$.get(options.pathname + 'template/' + name + '.ejs', function (template) {
 		var func = ejs.compile(template);
 		var html = func(data);
 		if (before_after === 'before') {
@@ -517,7 +517,7 @@ function getCalendar(date, direction, more) {
 	// newer : 1
 
 	$.ajax({
-		url: '/calendar/data',
+		url: options.pathname + '/calendar/data',
 		dataType: 'json',
 		method: 'post',
 		data: {
@@ -536,7 +536,7 @@ function getCalendar(date, direction, more) {
 				});
 
 
-				$.get('template/calendar.ejs', function (template) {
+				$.get(options.pathname + 'template/calendar.ejs', function (template) {
 					// var min_date = Object.entries(issues_cal).reverse()[0];
 					// var max_date = null;
 					var calendar_days = Object.keys(issues_cal).reverse();
