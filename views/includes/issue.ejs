@@ -46,9 +46,6 @@
 		<div class="comics-issue-bottom">
 			<img class="comics-issue-img" src="<%= issue.image.replace('{{code}}', issue.image_code) %>" loading="lazy" />
 			<pre style="font-size: 12px;"><code class="language-javascript"><%= JSON.stringify(issue, null, "\t") %></code></pre>
-			<script>
-				var tissue = <%- JSON.stringify(issue, null, "\t") %>;
-			</script>
 		</div>
 	</div>
 	<% break %>
