@@ -135,7 +135,7 @@
 			</ul>
 			<pre style="white-space:normal;font-size: 12px;padding-top:30px;"><code class="language-javascript"><%= JSON.stringify(comic, null, "\t") %></code></pre>
 			<script>
-				var t = JSON.stringify(comic, null, "\t");
+				var tcomic = <%- JSON.stringify(comic, null, "\t") %>;
 			</script>
 		</div>
 	</div>
