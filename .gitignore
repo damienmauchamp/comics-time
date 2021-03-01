@@ -88,6 +88,7 @@ tests
 
 # personal files
 #utils/
+package-lock.json
 
 # Ignore file changes :
 # git update-index --skip-worktree <file>
