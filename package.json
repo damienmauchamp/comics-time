@@ -23,17 +23,17 @@
   "homepage": "https://github.com/damienmauchamp/comics-time#readme",
   "dependencies": {
     "dotenv": "^8.1.0",
-    "ejs": "^2.7.1",
+    "ejs": "^2.7.4",
     "express": "^4.17.1",
-    "js-yaml": "^3.13.1",
-    "moment": "^2.24.0",
+    "js-yaml": "^3.14.1",
+    "moment": "^2.29.1",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "ini": ">=1.3.6",
     "kind-of": ">=6.0.3",
     "minimist": ">=1.2.3",
-    "morgan": "^1.9.1",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.7"
   }
 }
