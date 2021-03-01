@@ -45,7 +45,7 @@
 		</div>
 		<div class="comics-issue-bottom">
 			<img class="comics-issue-img" src="<%= issue.image.replace('{{code}}', issue.image_code) %>" loading="lazy" />
-			<pre style="white-space:normal;font-size: 12px;"><code class="language-javascript"><%= JSON.stringify(issue) %></code></pre>
+			<pre style="white-space:normal;font-size: 12px;"><code class="language-javascript"><%= JSON.stringify(issue, null, 2) %></code></pre>
 		</div>
 	</div>
 	<% break %>
