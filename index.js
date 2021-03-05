@@ -26,7 +26,12 @@ app.use(morgan('tiny'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// view engine setup
+app.engine('html', require('ejs').renderFile);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');    
 
+// Routes
 app.use(require('./routes/index.routes'))
 
 // files
