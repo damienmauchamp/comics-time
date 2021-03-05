@@ -18,6 +18,8 @@ const config = require('../config.js');
 	// console.log(process.env)
 	// console.log(process.env.BASEURL)
 
+// console.log('url', url);
+// console.log('config', config);
 var options = {
 	page: "default",
 	main: "home",
@@ -34,12 +36,19 @@ var options = {
 	addons_js: config.ADDONS_JS,
 	pathname: config.URL_PATHNAME
 }
+// console.log('options', options);
 
 //
 // @todo
 router.use('', function (req, res, next) {
 	// console.log(parseUrl.original(req).pathname);
 	// console.log(req.baseUrl);
+
+	if (req.get('Host').match(/\:\d+/)) {
+		// Removing pathname if host ends with a port :XXXX
+		options.pathname = '';
+	}
+
 	if (parseUrl.original(req).pathname !== req.baseUrl)
 		return next(); // skip this for strictness
 });
