@@ -18,8 +18,8 @@ const config = require('../config.js');
 	// console.log(process.env)
 	// console.log(process.env.BASEURL)
 
-console.log('url', url);
-console.log('config', config);
+// console.log('url', url);
+// console.log('config', config);
 var options = {
 	page: "default",
 	main: "home",
@@ -36,33 +36,31 @@ var options = {
 	addons_js: config.ADDONS_JS,
 	pathname: config.URL_PATHNAME
 }
-console.log('options', options);
+// console.log('options', options);
 
 //
 // @todo
 router.use('', function (req, res, next) {
-	console.log('href ---> ', parseUrl.original(req).href);
-	console.log('host ---> ', parseUrl.original(req).host);
-	console.log('hostname ---> ', parseUrl.original(req).hostname);
-	console.log('origin ---> ', parseUrl.original(req).origin);
-	console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
-	console.log('HOST', req.get('Host'));
-	console.log('req.x-forwarded-host', req.headers["x-forwarded-host"]);
-	console.log('req.headers.host', req.headers.host);
+	// console.log('href ---> ', parseUrl.original(req).href);
+	// console.log('host ---> ', parseUrl.original(req).host);
+	// console.log('hostname ---> ', parseUrl.original(req).hostname);
+	// console.log('origin ---> ', parseUrl.original(req).origin);
+	// console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
+	// console.log('HOST', req.get('Host'));
+	// console.log('req.x-forwarded-host', req.headers["x-forwarded-host"]);
+	// console.log('req.headers.host', req.headers.host);
 
-	console.log('url', url.Url);
-	console.log('url.href', url.Url.href);
-	console.log('url.host', url.Url.host);
-	console.log('url.hostname', url.Url.hostname);
-	console.log('url.origin', url.Url.origin);
-	console.log('parseUrl.original(req)', parseUrl.original(req).baseUrl);
-
-
+	// console.log('url', url.Url);
+	// console.log('url.href', url.Url.href);
+	// console.log('url.host', url.Url.host);
+	// console.log('url.hostname', url.Url.hostname);
+	// console.log('url.origin', url.Url.origin);
+	// console.log('parseUrl.original(req)', parseUrl.original(req).baseUrl);
 	
-	if (req.get('Host').match(/\:\d+/)) {
-		// Removing pathname if host ends with a port :XXXX
-		options.pathname = '';
-	}
+	// if (req.get('Host').match(/\:\d+/)) {
+	// 	// Removing pathname if host ends with a port :XXXX
+	// 	options.pathname = '';
+	// }
 
 	if (parseUrl.original(req).pathname !== req.baseUrl)
 		return next(); // skip this for strictness
