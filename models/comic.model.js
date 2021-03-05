@@ -1,16 +1,20 @@
 const config = require('../config.js');
-const file_end = config.ENV === "dev" ? "_dev" : "";
-let comics = require('../data/comics'+file_end+'.json')
-const filename = './data/comics'+file_end+'.json'
 const helper = require('../helpers/helper.js')
 const api = require('../api.js')
 const moment = require('moment')
+
+//
+const path = require('path');
+const file_end = config.ENV === "dev" ? "_dev" : "";
+const comics_path = path.join(__dirname, '../data/comics'+file_end+'.json')
+const filename = comics_path
+let comics = require(filename)
 
 // COMICS
 // getting all comics
 function getAllComics(enabled_only, started_only) {
     return new Promise((resolve, reject) => {
-        comics = require('../data/comics'+file_end+'.json');
+        comics = require(filename);
         if (comics.length === 0) {
             [];/*reject({
                 message: 'no comics available',
@@ -83,7 +87,7 @@ function getNearestIssue(array, id, way, only_unread = true) {
 // add
 function addComics(item, issues) {
     return new Promise((resolve, reject) => {
-        comics = require('../data/comics'+file_end+'.json');
+        comics = require(filename);
 
         if (comics.find(c => c.id == item.id)) {
             reject({
@@ -156,7 +160,7 @@ function setComicsIssues(comicsIssues, issues) {
 // put
 function editComics(id, data) {
     const regex = /(?:https?:\/\/)?(?:comicvine\.gamespot\.com\/?)?(api\/?)?(image\/?)?((?:\w+)\/)?(?:\d+-\d+\.)?(?:jpg)?/
-    comics = require('../data/comics'+file_end+'.json');
+    comics = require(filename);
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, id)
         .then(comic => {
@@ -224,7 +228,7 @@ function editComics(id, data) {
 }
 
 function editComicsIssues(item, issues) {
-    comics = require('../data/comics'+file_end+'.json');
+    comics = require(filename);
     return new Promise((resolve, reject) => {
         comic = comics.find(c => c.id == item.id);
 
@@ -311,7 +315,7 @@ function editComicsIssues(item, issues) {
 
 // delete
 function deleteComics(id) {
-    comics = require('../data/comics'+file_end+'.json');
+    comics = require(filename);
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, id)
         .then(() => {
@@ -324,7 +328,8 @@ function deleteComics(id) {
 }
 
 function readUnreadIssue(params) {
-    comics = require('../data/comics'+file_end+'.json');
+
+    comics = require(filename);
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, params.comics)
         .then(comic => {
@@ -405,7 +410,7 @@ function unreadIssue(params) {
 }
 
 function enabledDisableComic(comics_id, active) {
-    comics = require('../data/comics'+file_end+'.json');
+    comics = require(filename);
     return new Promise((resolve, reject) => {
         helper.comicsMustBeInArray(comics, comics_id)
         .then(comic => {
