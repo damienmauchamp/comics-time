@@ -41,9 +41,24 @@ console.log('options', options);
 //
 // @todo
 router.use('', function (req, res, next) {
-	// console.log(parseUrl.original(req).pathname);
-	// console.log(req.baseUrl);
+	console.log('href ---> ', parseUrl.original(req).href);
+	console.log('host ---> ', parseUrl.original(req).host);
+	console.log('hostname ---> ', parseUrl.original(req).hostname);
+	console.log('origin ---> ', parseUrl.original(req).origin);
+	console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
+	console.log('HOST', req.get('Host'));
+	console.log('req.x-forwarded-host', req.headers["x-forwarded-host"]);
+	console.log('req.headers.host', req.headers.host);
 
+	console.log('url', url.Url);
+	console.log('url.href', url.Url.href);
+	console.log('url.host', url.Url.host);
+	console.log('url.hostname', url.Url.hostname);
+	console.log('url.origin', url.Url.origin);
+	console.log('parseUrl.original(req)', parseUrl.original(req).baseUrl);
+
+
+	
 	if (req.get('Host').match(/\:\d+/)) {
 		// Removing pathname if host ends with a port :XXXX
 		options.pathname = '';
