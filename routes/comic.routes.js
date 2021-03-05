@@ -18,8 +18,8 @@ const config = require('../config.js');
 	// console.log(process.env)
 	// console.log(process.env.BASEURL)
 
-// console.log('url', url);
-// console.log('config', config);
+console.log('url', url);
+console.log('config', config);
 var options = {
 	page: "default",
 	main: "home",
@@ -36,7 +36,7 @@ var options = {
 	addons_js: config.ADDONS_JS,
 	pathname: config.URL_PATHNAME
 }
-// console.log('options', options);
+console.log('options', options);
 
 //
 // @todo
