@@ -27,10 +27,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // view engine setup
-const path = require('path');
-app.engine('html', require('ejs').renderFile);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+// const path = require('path');
+// app.engine('html', require('ejs').renderFile);
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'html');
+app.set('views', './views');
+app.set('view engine', 'ejs');
 
 // Routes
 app.use(require('./routes/index.routes'))
