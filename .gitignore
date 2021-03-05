@@ -72,6 +72,7 @@ data/extras.yml
 public/index*
 .json
 *.psd
+data/comics.json
 
 # conf
 conf*
