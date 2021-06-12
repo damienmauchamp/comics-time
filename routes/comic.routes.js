@@ -664,7 +664,8 @@ router.get('/template/:template*', async(req, res) => {
 
 router.get('/backup', async(req, res) => {
 	var path = require('path');
-	res.sendFile(path.resolve('data/comics.json'));
+	// res.sendFile(path.resolve('data/comics.json'));
+	res.sendFile(path.resolve(__dirname, '../data/comics.json'));
 })
 
 
