@@ -297,7 +297,7 @@ const findFirstNotRead = (data) => data.find(i => !i.read);
 const findNextToRead = (data) => {
     let lastReadIndex = data.map(issue => issue.read && issue.read !== false).lastIndexOf(true),
         nextToReadIndex = lastReadIndex + 1;
-    return data[nextToReadIndex] ?? false;
+    return data[nextToReadIndex] || false;
 };
 
 module.exports = {
