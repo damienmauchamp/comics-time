@@ -28,9 +28,10 @@ function getAllComics(enabled_only, started_only) {
             link: '/comics/' + c.id,
 
             started: (c.issues.filter(i => i.read).length > 0),
-            to_read: c.issues.find(function(i) {
-                return !i.read;
-            }) || false
+            to_read: helper.findNextToRead(c.issues) || false
+            // to_read: c.issues.find(function(i) {
+            //     return !i.read;
+            // }) || false
         }));
 
         enabled_only = enabled_only || false;

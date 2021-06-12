@@ -5,6 +5,7 @@ var parseUrl = require('parseurl');
 const comic = require('../models/comic.model')
 const m = require('../helpers/middlewares')
 const api = require('../api.js')
+const helper = require('../helpers/helper.js')
 
 const url = require('url');  
 
@@ -419,9 +420,10 @@ router.get('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 
 			// to read
 			started: (comics.issues.filter(i => i.read).length > 0),
-			to_read: comics.issues.find(function(i) {
-				return !i.read;
-			}) || false
+			to_read: helper.findNextToRead(comics.issues)
+			// to_read: comics.issues.find(function(i) {
+			// 	return !i.read;
+			// }) || false
 
 		};
 
@@ -542,9 +544,10 @@ router.post('/comics/:id', m.comicsIDMmustBeInteger, async (req, res) => {
 					link: '/comics/' + comic.id,
 
 					// to read
-					to_read: comic.issues.find(function(i) {
-						return !i.read;
-					})
+					to_read: helper.findNextToRead(comic.issues)
+					// to_read: comic.issues.find(function(i) {
+					// 	return !i.read;
+					// })
 				};
 
 

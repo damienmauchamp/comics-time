@@ -279,6 +279,27 @@ function mergeExtras(obj1, obj2) {
     return final;
 }
 
+//
+/**
+ * Find the first unread issue
+ * 
+ * @param { read: boolean; } data 
+ * @returns 
+ */
+const findFirstNotRead = (data) => data.find(i => !i.read);
+
+/**
+ * Find the next unread issue
+ * 
+ * @param { read: boolean; } data 
+ * @returns 
+ */
+const findNextToRead = (data) => {
+    let lastReadIndex = data.map(issue => issue.read && issue.read !== false).lastIndexOf(true),
+        nextToReadIndex = lastReadIndex + 1;
+    return data[nextToReadIndex] ?? false;
+};
+
 module.exports = {
     // array checks
     comicsMustBeInArray,
@@ -296,5 +317,8 @@ module.exports = {
     mergeExtras,
 
     notInArray,
-    writeJSONFile
+    writeJSONFile,
+
+    //
+    findNextToRead,
 }
