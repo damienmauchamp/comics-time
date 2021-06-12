@@ -66,13 +66,10 @@ desktop.ini
 .idea/
 
 #data files
-*comics.json
-*comics_dev.json
-data/extras.yml
-public/index*
-.json
-*.psd
-data/comics.json
+*.yml
+public/*.html
+**.json
+**.psd
 
 # conf
 conf*
