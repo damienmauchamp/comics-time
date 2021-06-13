@@ -483,7 +483,7 @@ router.get('/comics/:id/issue/:id_issue', m.comicsIDMmustBeInteger, m.issueIDMus
 router.post('/read', async (req, res) => {
 
 	comic.readUnreadIssue(req.body)
-	.then(function(response) {
+	.then((response) => {
 		res.status(200).json(response)
 	})
 	.catch(err => {

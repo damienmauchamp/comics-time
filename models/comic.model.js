@@ -77,9 +77,11 @@ function getNextIssue(array, id, only_unread = true) {
 function getNearestIssue(array, id, way, only_unread = true) {
 
     if (way === 'next' && only_unread) {
-        var index = array.indexOf(array.find(r => r.id > id && !r.read))
+        var index = helper.findNextToRead(array.slice(), true) || array.indexOf(array.find(r => r.id > id && !r.read));
     } else {
-        var index = array.indexOf(array.find(r => r.id == id)) + (1 * (way === 'prev' ? -1 : 1));
+        // var index = array.indexOf(array.find(r => r.id == id)) + (1 * (way === 'prev' ? -1 : 1));
+        var index = (helper.findNextToRead(array.slice(), true) || array.indexOf(array.find(r => r.id == id))) + (1 * (way === 'prev' ? -1 : 1));
+        // var index = (helper.findNextToRead(array.slice(), true)) + (1 * (way === 'prev' ? -1 : 1));
     }
     return typeof array[index] !== "undefined" ? array[index] : null
 }
@@ -344,9 +346,7 @@ function readUnreadIssue(params) {
 
             if (params.action === 'unread') {
                 comics[comics_index].issues[issue_index].read = false
-                next = comics[comics_index].issues.find(function(i) {
-                    return !i.read;
-                })
+                next = helper.findNextToRead(comics[comics_index].issues)
             } else {
                 comics[comics_index].issues[issue_index].read = params.date
                 next = getNextIssue(comic.issues, params.issue)

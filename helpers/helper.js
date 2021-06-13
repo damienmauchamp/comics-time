@@ -294,10 +294,10 @@ const findFirstNotRead = (data) => data.find(i => !i.read);
  * @param { read: boolean; } data 
  * @returns 
  */
-const findNextToRead = (data) => {
+const findNextToRead = (data, returnIndex) => {
     let lastReadIndex = data.map(issue => issue.read && issue.read !== false).lastIndexOf(true),
         nextToReadIndex = lastReadIndex + 1;
-    return data[nextToReadIndex] || false;
+    return (returnIndex|| false) ? (data[nextToReadIndex] !== undefined ? nextToReadIndex : false ) : data[nextToReadIndex] || false;
 };
 
 module.exports = {
