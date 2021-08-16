@@ -88,7 +88,7 @@ function getExtras(type, array, existing_extras) {
     //console.log("existing_extras", existing_extras)
     // Get document, or throw exception on error
     try {
-        var doc = yaml.safeLoad(fs.readFileSync(extras_file, 'utf8'));
+        var doc = {};//yaml.safeLoad(fs.readFileSync(extras_file, 'utf8'));
         if (typeof doc.extras !== "undefined") {
             var extras = doc.extras;
 

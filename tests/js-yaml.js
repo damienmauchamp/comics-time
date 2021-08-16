@@ -39,7 +39,7 @@ function getExtras(type, test_extras) {
 	var type_is_null = typeof type === "undefined" || type === ''
 	// Get document, or throw exception on error
 	try {
-		var doc = yaml.safeLoad(fs.readFileSync(filename, 'utf8'));
+		var doc = {};//yaml.safeLoad(fs.readFileSync(filename, 'utf8'));
 		if (typeof doc.extras !== "undefined") {
 			var extras = doc.extras;
 
