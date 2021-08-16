@@ -1,6 +1,6 @@
 const fs = require('fs')
 const yaml = require('js-yaml')
-const extras_file = './data/extras_example.yml'
+const extras_file = require('../data/extras_example.yml')
 
 // return a promise. Using when we need to check if a row exist via the id
 function comicsMustBeInArray(array, id) {
