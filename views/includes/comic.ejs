@@ -133,7 +133,12 @@
 					<li>To read : <a href="#comics-item-<%= comic.id + "-" + comic.to_read.id %>">#<%= comic.to_read.issue_number %></a></li>
 				<% } %>
 			</ul>
-			<pre style="font-size: 12px;"><code class="language-javascript"><%= JSON.stringify(comic, null, "\t") %></code></pre>
+			<% if (['comics'].includes(options.page)) { 
+				let comic_json = { ...comic };
+				delete comic_json.issues;
+			%>
+			<pre style="font-size: 12px;"><code class="language-javascript"><%= JSON.stringify(comic_json, null, "\t") %></code></pre>
+			<% } %>
 		</div>
 	</div>
 	<%# /debug %>
