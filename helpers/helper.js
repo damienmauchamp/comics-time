@@ -303,7 +303,9 @@ const findFirstNotReadIndex = (data) => data.findIndex(i => !i.read) || false;
  * @returns 
  */
 const findNextToRead = (data, returnIndex) => {
-    let lastReadIndex = data.map(issue => issue.read && issue.read !== false).lastIndexOf(true),
+    let maxReadTimestamp = Math.max.apply(null, comic.issues.map(issue => new Date(issue.read))),
+        lastReadIndex = data.map(issue => new Date(issue.read).getTime()).indexOf(max),
+    // let lastReadIndex = data.map(issue => issue.read && issue.read !== false).lastIndexOf(true),
         nextToReadIndex = lastReadIndex + 1;
     // return (returnIndex|| false) ? (data[nextToReadIndex] !== undefined ? nextToReadIndex : false ) : data[nextToReadIndex] || false;
     return (returnIndex || false) ? (data[nextToReadIndex] !== undefined ? nextToReadIndex : findFirstNotReadIndex(data) ) : data[nextToReadIndex] || findFirstNotRead(data);
