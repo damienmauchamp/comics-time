@@ -286,15 +286,7 @@ function mergeExtras(obj1, obj2) {
  * @param { read: boolean; } data 
  * @returns 
  */
-const findFirstNotRead = (data) => data.find(i => !i.read) || false;
-
-/**
- * Find the first unread issue's index
- * 
- * @param { read: boolean; } data 
- * @returns 
- */
-const findFirstNotReadIndex = (data) => data.findIndex(i => !i.read) || false;
+const findFirstNotRead = (data) => data.find(i => !i.read);
 
 /**
  * Find the next unread issue
@@ -307,8 +299,7 @@ const findNextToRead = (data, returnIndex) => {
         lastReadIndex = data.map(issue => new Date(issue.read).getTime()).indexOf(max),
     // let lastReadIndex = data.map(issue => issue.read && issue.read !== false).lastIndexOf(true),
         nextToReadIndex = lastReadIndex + 1;
-    // return (returnIndex|| false) ? (data[nextToReadIndex] !== undefined ? nextToReadIndex : false ) : data[nextToReadIndex] || false;
-    return (returnIndex || false) ? (data[nextToReadIndex] !== undefined ? nextToReadIndex : findFirstNotReadIndex(data) ) : data[nextToReadIndex] || findFirstNotRead(data);
+    return (returnIndex|| false) ? (data[nextToReadIndex] !== undefined ? nextToReadIndex : false ) : data[nextToReadIndex] || false;
 };
 
 module.exports = {
