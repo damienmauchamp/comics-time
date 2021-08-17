@@ -303,7 +303,7 @@ const findFirstNotReadIndex = (data) => data.findIndex(i => !i.read) || false;
  * @returns 
  */
 const findNextToRead = (data, returnIndex) => {
-    let maxReadTimestamp = Math.max.apply(null, data.map(issue => new Date(issue.read).getTime())),
+    let maxReadTimestamp = Math.max.apply(null, data.filter(issue => issue.read).map(issue => new Date(issue.read).getTime())),
         lastReadIndex = data.map(issue => new Date(issue.read).getTime()).indexOf(maxReadTimestamp),
     // let lastReadIndex = data.map(issue => issue.read && issue.read !== false).lastIndexOf(true),
         nextToReadIndex = lastReadIndex + 1;
