@@ -765,13 +765,23 @@ span.select2-selection__arrow {
 	right: 0;
 }
 .comics-issue-bottom {
-	padding: 0 0 10px 0;
+    padding: 0 0 10px 0;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 .comics-issue-controls .comics-issue-control {
 	cursor: pointer;
 }
-.comics-issue-img {
-	width: 100%
+.comics-issue-bottom img.comics-issue-img {
+    width: 100%;
+    max-width: 400px;
+}
+.comics-issue code[class*="language-"], 
+.comics-issue pre[class*="language-"] {
+    width: 100%;
 }
 
 .comics-issue:not(.open) .comics-issue-opened {
