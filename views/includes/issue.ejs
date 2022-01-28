@@ -4,6 +4,12 @@
 	/*
 	issue.image_code = page_issue ? 'scale_small' : 'scale_avatar';
 	*/
+        
+        if (issue.image) {
+            try {
+                issue.image = issue.image. replace(/https:\/\/comicvine1/, 'http:\/\/comicvine1');
+            } catch (e) { }
+        }
 %>
 
 <% switch(options.page) {
