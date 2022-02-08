@@ -17,6 +17,12 @@
 	<ul class="calendar-releases-list list-unstyled list-inline">
 		<% Object.entries(items.issues).forEach(([i, issue]) => {
 			issue.image_code = options.image_code;
+
+			if (issue.image) {
+				try {
+					issue.image = issue.image.replace(/https:\/\/comicvine1/, 'http:\/\/comicvine1');
+				} catch (e) { }
+			}
 		%>
 		<%#- include('./calendar/day_item.ejs', {options: options, date: date, issue: issue}) #%>
 			<li class=" <%= issue.read ? 'read' : '' %> initialized" id="comics-item-<%= issue.comics.name %>-<%= issue.id %>"

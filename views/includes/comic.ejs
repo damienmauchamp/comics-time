@@ -5,11 +5,11 @@
 		// if there's no more issues left
 		if (comic.to_read) {
 
-                    if (comic.to_read.image) {
-                        try {
-                            comic.to_read.image = comic.to_read.image.replace(/https:\/\/comicvine1/, 'http:\/\/comicvine1');
-                        } catch (e) { }
-                    }
+			if (comic.to_read.image) {
+				try {
+					comic.to_read.image = comic.to_read.image.replace(/https:\/\/comicvine1/, 'http:\/\/comicvine1');
+				} catch (e) { }
+			}
 
 			// img
 			comic.to_read.image = comic.to_read.image.replace('{{code}}', options.image_code);
@@ -82,7 +82,14 @@
 	</li>
 	<!-- // ITEM -->
 
-<% } else if (['comics', 'list'].includes(options.page)) { %>
+<% } else if (['comics', 'list'].includes(options.page)) { 
+
+	if (comic.image) {
+		try {
+			comic.image = comic.image.replace(/https:\/\/comicvine1/, 'http:\/\/comicvine1');
+		} catch (e) { }
+	}
+	%>
 
 	<%# debug %>
 	<div class="comics-issue" data-comics="<%= comic.id %>">
