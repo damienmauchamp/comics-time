@@ -1,6 +1,8 @@
 # Comics Time
 
-Self-hosted comics library. Search, add, remove comics series, mark each issues as read.
+🇫🇷 Self-hosted Node.js / Express comics library. Search, add, remove comics series, mark each issues as read.
+
+🇬🇧 Bibliothèque pour comics en Node.js / Express. Permet de rechercher, ajouter ou supprimer des comics à lire avec+ marquage de chaque numéro comme lu.
 
 ## Light/default theme
 
